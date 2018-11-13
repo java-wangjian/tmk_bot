@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.zxxkj.dao.GatewayMapper">
+ 	
+ 	<!-- 添加网关数据 -->
+ 	<insert id="addGateway" parameterType="com.zxxkj.model.Gateway" >
+ 		<selectKey keyProperty="id" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO gateway_agent_table(gatewayNumbers,auth,pwd,url,addTime,adminId,type,port_no,gateway_sn) values (#{gatewayNumbers},#{auth},#{pwd},#{url},now(),#{adminId},#{type},#{port_no},#{gateway_sn})
+ 	</insert>
+ 	
+ 	<insert id="bathAddGateways" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into gateway_agent_table (gatewayNumbers,auth,pwd,url,addTime,adminId)
+		values
+		<!--item就是List里每一项的对象名，要用","分割每一条数据，最后要";"结尾 -->
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.gatewayNumbers},#{item.auth},#{item.pwd},#{item.url},now(),#{item.adminId})
+		</foreach>
+	</insert>
+ 	
+ 	<!-- 根据网关编号(gatewayNumbers)查询该网关编号是否已经存在 -->
+ 	<select id="findGatewayByGatewayNumbers" resultType="com.zxxkj.model.Gateway">
+ 		select id,url,addTime,auth,pwd from gateway_agent_table where gatewayNumbers=#{gatewayNumbers} and adminId=#{adminId}
+ 	</select>
+
+    <!-- 根据用户id查询用户的网关编号 -->
+    <resultMap type="com.zxxkj.model.Gateway" id="gatewayList">
+        <result column="gatewayNumbers" property="gatewayNumbers"/>
+        <result column="url" property="url"/>
+        <result column="id" property="id"/>
+        <result column="auth" property="auth"/>
+        <result column="pwd" property="pwd"/>
+        <result column="balance_money" property="balanceMoney"/>
+        <result column="leftover" property="leftover"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="type" property="type"/>
+    </resultMap>
+    <select id="findGatewayListByUserId" parameterType="java.lang.Integer" resultMap="gatewayList">
+	SELECT      gateways.gatewayNumbers,
+				gateways.url,
+				gateways.id,
+	            gateways.auth,
+				gateways.pwd,
+				gateways.type,
+				gateways.port_no,
+				gateways.gateway_sn,
+                usb.balance_money,
+                usb.leftover,
+                usb.unit_price from (SELECT gateway_agent.gatewayNumbers gatewayNumbers ,
+					 gateway_agent.url url,
+				   gateway_agent.id id,
+			     gateway_agent.auth auth,
+		       gateway_agent.pwd pwd,
+           gateway_agent.type,
+           gateway_agent.port_no,
+           gateway_agent.gateway_sn
+	    	FROM gateway_agent_table gateway_agent
+		LEFT JOIN port_table port ON gateway_agent.id=port.gatewayId
+		WHERE port.userId=#{userId} GROUP BY gatewayNumbers) gateways
+		LEFT JOIN user_sip_balance_table usb ON gateways.id=usb.sip_id AND usb.user_id=#{userId}
+	</select>
+
+    <!-- 查询该代理商所有网关 -->
+    <resultMap type="java.lang.String" id="gatewayNumbersList">
+        <result column="gatewayNumbers" property="gatewayNumbers"/>
+    </resultMap>
+    <select id="findAllGatewayBy" resultMap="gatewayNumbersList">
+		select gatewayNumbers from gateway_agent_table 
+	</select>
+	
+	<!-- 根据网关编号修改url -->
+	<update id="updateGatewayByGatewayNumbers" parameterType="java.lang.String">
+		update gateway_agent_table set url=#{url},auth=#{auth},pwd=#{pwd} where gatewayNumbers=#{gateway}
+	</update>
+	
+	<!-- 根据网关id查询网关信息 -->
+	<select id="findGatewayInfoByGatewayId" parameterType="java.lang.Integer" resultType="com.zxxkj.model.Gateway">
+		select url,auth,pwd,type,port_no,gatewayNumbers,gateway_sn from gateway_agent_table where id=#{gatewayId}
+	</select>
+	
+	<!-- 根据网关url查询网关信息 -->
+	<select id="findGatewayInfoByURL" parameterType="java.lang.String" resultType="com.zxxkj.model.Gateway">
+		select auth,pwd from gateway_agent_table where url=#{url}
+	</select>
+	
+	<!-- 根据adminId删除网关 -->
+	<delete id="deleteGatewayByAdminId" parameterType="java.lang.Integer">
+		delete from gateway_agent_table where adminId=#{adminId}
+	</delete>
+	
+	<!-- 根据网关id修改网关url，账户，密码 -->
+	<update id="updateGatewayByGatewayId">
+		update gateway_agent_table set url=#{url},auth=#{auth},pwd=#{pwd} where id=#{gatewayId}
+	</update>
+	
+	<!-- 查询该代理商的所有网关 -->
+	<select id="findGatewayByAdminId" parameterType="java.lang.Integer" resultMap="gatewayList">
+		select gatewayNumbers,id from gateway_agent_table where adminId=#{adminId}
+	</select>
+
+    <resultMap id="sipDataMap" type="hashmap">
+        <result column="sip_id" property="sip_id"/>
+        <result column="sip_name" property="sip_name"/>
+    </resultMap>
+    <select id="selectUserSipData" resultMap="sipDataMap">
+        SELECT
+            gateway.id sip_id,
+            gateway.gatewayNumbers sip_name
+        FROM
+            port_table `port`
+        LEFT JOIN gateway_agent_table gateway ON `port`.gatewayId = gateway.id
+        WHERE
+            gateway.type = 2
+        AND `port`.userId = #{user_id}
+    </select>
+
+    <!-- 根据网关id修改网关编号，端口号，类型 -->
+	<update id="updateGatewayNumAndPortAndTypeByGatewayId">
+		update gateway_agent_table set gatewayNumbers=#{gatewayNumbers},port_no=#{port_no},type=#{type},gateway_sn=#{gatewaySn} where id=#{gatewayId}
+	</update>
+	
+	<!-- 批量删除网关 -->
+	<delete id="bathDeleteGateway" parameterType="java.util.List">
+		delete from gateway_agent_table where id in 
+		<foreach collection="gatewayIdList" item="model" open="("
+			separator="," close=")">
+			#{model}
+		</foreach>
+	</delete>
+	
+ </mapper>

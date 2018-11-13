@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <!-- 加载文件 -->
+    <!--<context:property-placeholder location="classpath:redis.properties"/>-->
+
+    <!-- 自动扫描 -->
+    <context:component-scan base-package="com.zxxkj.cache"/>
+
+
+    <!-- jedis 配置 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- <property name="maxIdle" value="32"/>-->
+        <!-- <property name="minIdle" value="5"/>-->
+        <!-- <property name="maxWaitMillis" value="10"/>-->
+        <!--<property name="testOnBorrow" value="${redis.testOnBorrow}"/>-->
+    </bean>
+    <!--&lt;!&ndash; redis服务器中心 &ndash;&gt;-->
+    <bean id="connectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig"/>
+        <property name="port" value="6379"/>
+        <!-- <property name="hostName" value="47.93.37.49"/>
+        <property name="password" value="zxxkj.2017"/> -->
+        <property name="hostName" value="${redis.host}"/>
+        <property name="password" value="redis_zxxkj2017"/>
+        <!-- <property name="hostName" value="114.116.89.184"/>
+        <property name="password" value="diting"/> -->
+        <property name="timeout" value="-1" />
+    </bean>
+    <!-- redis操作模板，面向对象的模板 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!-- 如果不配置Serializer，那么存储的时候只能使用String，如果用对象类型存储，那么会提示错误 -->
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+    </bean>
+
+    <!--<bean id="jedisConnFactory"-->
+    <!--class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"-->
+    <!--p:use-pool="true"-->
+    <!--p:hostName="112.126.90.45"-->
+    <!--p:password="diting"-->
+    <!--p:port="7379"-->
+    <!--p:timeout="-1"-->
+    <!--p:poolConfig-ref="poolConfig"-->
+    <!--/>-->
+
+    <!-- redis template definition -->
+    <!--<bean id="redisTemplate"-->
+    <!--class="org.springframework.data.redis.core.RedisTemplate"-->
+    <!--p:connection-factory-ref="jedisConnFactory"-->
+    <!--p:keySerializer="org.springframework.data.redis.serializer.StringRedisSerializer"-->
+    <!--p:valueSerializer="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"-->
+    <!--/>-->
+
+</beans>

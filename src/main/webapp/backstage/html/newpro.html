@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼代理商管理后台</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/newpro.css"/>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jq-from.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/qiniu.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config/qiniu.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>-->		
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/newpro.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="navList">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<a href="index.html"><li>
+						<p class="navItemP">
+							<i class="iconfont icon-weibiaoti2"></i>
+							<span>客户管理</span>
+						</p>
+					</li></a>
+				</ul>
+			</div>
+			<div  class="mainBox">
+				<div class="titBox">
+					<p class="title"><input class="backBtn" type="button" name="Submit" onclick="javascript:history.back(-1);" value="<<返回"><span>添加项目</span></p>
+					<div class="logoutBox">
+						<!--<img class="lingdang" src="../images/lingdang.png"/>-->
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <span>▼</span></span>
+						<ul id="logoutUl" class="logoutUl">
+							<a href="login.html"><li>退出</li></a>
+						</ul>
+					</div>
+				</div>
+				<div class="tabsBox">
+					<ul onclick="trigTab(event)" class="tabsUl">
+						<li style="border-bottom: 0.04rem solid #6186CF;color: #6186CF;" class="tabsLi">主线流程库</li>
+						<li class="tabsLi">辅助问题编辑库</li>
+						<li class="tabsLi">多轮会话问题库</li>
+						<li class="tabsLi">特殊问题库</li>
+					</ul>
+					<button id="batchBtn" style="display:none;border:none;float: right;margin-right: 1rem;background: #6490d9; height: 0.4rem;line-height: 0.4rem;margin-top: 0.24rem;color: white;border-radius: 0.1rem;" class="tabsLi" onclick="batchTemplate()">批量上传</button>
+				</div>
+				<div style="display: block;" class="main">
+					<div class="nodeBox">
+						<div class="startNodeBox">
+							<div class="nodeItem">
+								<div class="node wid185">
+									<p level='0' class="nodeName">开始</p>
+									<div style="display: none;" id="firstBtn" class="nodeControl">
+										<button hsData="[]" onclick="addNode(this)" class="nodeBtn"><i class="iconfont icon-tianjia blue"></i> <span>添加节点</span></button>
+									</div>
+								</div>								
+							</div>
+						</div>
+						<div id="nodes" class="nodes">						
+							
+						</div>
+					</div>
+				</div>
+				<div class="main">
+					<div class="nodeBox">
+						<div id="assistContainer" class="mainVoiceBox">
+							<div class="floatBtnBox">																
+								<div class="floatBtnParent"><button class="newAssist" id="newAssist">+</button></div>
+							</div>																											
+						</div>
+						<!--<div class="botBtnGps">						
+							<button class="part00 grayBg">取消</button>
+							<button class="part00 blueBg">确定</button>
+						</div>-->
+					</div>
+				</div>
+				<div class="main">
+					<div class="nodeBox">
+						<div id="specialContainer" class="mainVoiceBox">
+							<div class="floatBtnBox">																
+								<div class="floatBtnParent"><button class="newAssist" onclick="moreSpecialBox()">+</button></div>
+							</div>																																
+					</div>						
+					</div>
+				</div>
+				<div id="fixedBox" class="main">
+					<div class="nodeBox">
+						<!--未识别-不讲话-->
+						<div style="height: 5.4rem;" class='specialQuesItem'>
+							<div style="height: 78%;" class='caps0 shows'></div>
+							<div class='sec00'>
+								<div class='sec01'>
+									<p class='sec02'><span>T1-</span>名称：</p>
+	   								<div class='sec03'><input readonly="readonly" value='未识别' class='sec04 quesName' type='text' /></div>
+								</div>
+								<div style="display: none;" class='sec05'>
+									<textarea maxlength="230" value='' placeholder='输入关键词，并以空格隔开' class='sec06 quesKw' name='' rows='' cols='' value="noKeywords">noKeywords</textarea>
+								</div>
+								<div max='3' class='threeVoicesBox'>
+	   								
+	    							<div class='miVoiceBox addSign shows'>
+	    								<div class='miAudioBox'>
+										</div>
+										<div class='miKwBox'>
+											<button id="specialBut01" class='sec09'>+</button>
+										</div>
+									</div>
+	   
+								</div>
+	   							<div max='3' itemid='' type='edit' class='saveBox'>
+	   								<div class='hiddens' >
+	   									<button onclick='saveItemFixed(this)' class='itemBtn blueBg'>保存</button>
+	   									<button onclick='cancleItemFixed(this)' class='itemBtn grayBg'>取消</button>
+	   								</div>
+	   								<div class='shows'>
+	   									<button onclick='hiddenCaps0(this)' class='itemBtn blueBg'>编辑</button>
+	   								</div>
+	   							</div>
+	   						</div>
+	   						<p class="tips">最多可上传三条语音</p>
+						</div> <!--未识别-不讲话 结束-->
+						
+						<div style="height: 5.4rem;" class='specialQuesItem'>
+							<div style="height: 78%;" class='caps0 shows'></div>
+							<div class='sec00'>
+								<div class='sec01'>
+									<p class='sec02'><span>T2-</span>名称：</p>
+	   								<div class='sec03'><input readonly="readonly" value='未讲话' class='sec04 quesName' type='text' /></div>
+								</div>
+								<div style="display: none;" class='sec05'>
+									<textarea maxlength="230" value='' placeholder='输入关键词，并以空格隔开' class='sec06 quesKw' name='' rows='' cols='' value="noKeywords">noKeywords</textarea>
+								</div>
+								<div max='3' class='threeVoicesBox'>
+	   								
+	    							<div class='miVoiceBox addSign shows'>
+	    								<div class='miAudioBox'>
+										</div>
+										<div class='miKwBox'>
+											<button id="specialBut02" class='sec09'>+</button>
+										</div>
+									</div>
+	   
+								</div>
+	   							<div max='3' itemid='' type='edit' class='saveBox'>
+	   								<div class='hiddens' >
+	   									<button onclick='saveItemFixed(this)' class='itemBtn blueBg'>保存</button>
+	   									<button onclick='cancleItemFixed(this)' class='itemBtn grayBg'>取消</button>
+	   								</div>
+	   								<div class='shows'>
+	   									<button onclick='hiddenCaps0(this)' class='itemBtn blueBg'>编辑</button>
+	   								</div>
+	   							</div>
+	   						</div>
+	   						<p class="tips">最多可上传三条语音</p>
+						</div>
+						
+						
+						
+						<div style="height: 6rem;" class='specialQuesItem'>
+							<div style="height: 78%;" class='caps0 shows'></div>
+							<div class='sec00'>
+								<div class='sec01'>
+									<p class='sec02'><span>T3-</span>名称：</p>
+	   								<div class='sec03'><input value='结束语-邀约成功' readonly="readonly" class='sec04 quesName' type='text' /></div>
+								</div>
+								<div class='sec05'>
+									<textarea maxlength="230" value='' placeholder='输入关键词，并以空格隔开' class='sec06 quesKw' name='' rows='' cols=''></textarea>
+								</div>
+								<div style="height: 2.1rem;" max='1' class='threeVoicesBox'>
+	   								
+	    							<div class='miVoiceBox addSign shows'>
+	    								<div class='miAudioBox'>
+										</div>
+										<div class='miKwBox'>
+											<button id="specialBut03" class='sec09'>+</button>
+										</div>
+									</div>
+	   
+								</div>
+	   							<div max='1' itemid='' type='edit' class='saveBox'>
+	   								<div class='hiddens' >
+	   									<button onclick='saveItemFixed(this)' class='itemBtn blueBg'>保存</button>
+	   									<button onclick='cancleItemFixed(this)' class='itemBtn grayBg'>取消</button>
+	   								</div>
+	   								<div class='shows'>
+	   									<button onclick='hiddenCaps0(this)' class='itemBtn blueBg'>编辑</button>
+	   								</div>
+	   							</div>
+	   						</div>
+	   						<p class="tips">最多可上传一条语音</p>
+						</div>
+						
+						<div style="height: 6rem;" class='specialQuesItem'>
+							<div style="height: 78%;" class='caps0 shows'></div>
+							<div class='sec00'>
+								<div class='sec01'>
+									<p class='sec02'><span>T4-</span>名称：</p>
+	   								<div class='sec03'><input value='结束语-邀约失败' readonly="readonly" class='sec04 quesName' type='text' /></div>
+								</div>
+								<div class='sec05'>
+									<textarea maxlength="230" value='' placeholder='输入关键词，并以空格隔开' class='sec06 quesKw' name='' rows='' cols=''></textarea>
+								</div>
+								<div style="height: 2.1rem;" max='1' class='threeVoicesBox'>
+	   								
+	    							<div class='miVoiceBox addSign shows'>
+	    								<div class='miAudioBox'>
+										</div>
+										<div class='miKwBox'>
+											<button id="specialBut04" class='sec09'>+</button>
+										</div>
+									</div>
+	   
+								</div>
+	   							<div max='1' itemid='' type='edit' class='saveBox'>
+	   								<div class='hiddens' >
+	   									<button onclick='saveItemFixed(this)' class='itemBtn blueBg'>保存</button>
+	   									<button onclick='cancleItemFixed(this)' class='itemBtn grayBg'>取消</button>
+	   								</div>
+	   								<div class='shows'>
+	   									<button onclick='hiddenCaps0(this)' class='itemBtn blueBg'>编辑</button>
+	   								</div>
+	   							</div>
+	   						</div>
+	   						<p class="tips">最多可上传一条语音</p>
+						</div>
+						
+						
+						<div style="height: 6rem;" class='specialQuesItem'>
+							<div style="height: 78%;" class='caps0 shows'></div>
+							<div class='sec00'>
+								<div class='sec01'>
+									<p class='sec02'><span>T5-</span>名称：</p>
+	   								<div class='sec03'><input readonly="readonly" value='拒绝' class='sec04 quesName' type='text' /></div>
+								</div>
+								<div class='sec05'>
+									<textarea maxlength="230" value='' placeholder='输入关键词，并以空格隔开' class='sec06 quesKw' name='' rows='' cols=''></textarea>
+								</div>
+								<div style="height: 2.1rem;" max='2' class='threeVoicesBox'>
+	   								
+	    							<div class='miVoiceBox addSign shows'>
+	    								<div class='miAudioBox'>
+										</div>
+										<div class='miKwBox'>
+											<button id="specialBut05" class='sec09'>+</button>
+										</div>
+									</div>
+	   
+								</div>
+	   							<div max='2' itemid='' type='edit' class='saveBox'>
+	   								<div class='hiddens' >
+	   									<button onclick='saveItemFixed(this)' class='itemBtn blueBg'>保存</button>
+	   									<button onclick='cancleItemFixed(this)' class='itemBtn grayBg'>取消</button>
+	   								</div>
+	   								<div class='shows'>
+	   									<button onclick='hiddenCaps0(this)' class='itemBtn blueBg'>编辑</button>
+	   								</div>
+	   							</div>
+	   						</div>
+	   						<p class="tips">最多可上传两条语音</p>
+						</div>
+						<div style="height: 6rem;" class='specialQuesItem'>
+							<div style="height: 78%;" class='caps0 shows'></div>
+							<div class='sec00'>
+								<div class='sec01'>
+									<p class='sec02'><span>T6-</span>名称：</p>
+	   								<div class='sec03'><input value='结束语-忙' readonly="readonly" class='sec04 quesName' type='text' /></div>
+								</div>
+								<div class='sec05'>
+									<textarea maxlength="230" value='' placeholder='输入关键词，并以空格隔开' class='sec06 quesKw' name='' rows='' cols=''></textarea>
+								</div>
+								<div style="height: 2.1rem;" max='2' class='threeVoicesBox'>
+	   								
+	    							<div class='miVoiceBox addSign shows'>
+	    								<div class='miAudioBox'>
+										</div>
+										<div class='miKwBox'>
+											<button id="specialBut07" class='sec09'>+</button>
+										</div>
+									</div>
+	   
+								</div>
+	   							<div max='2' itemid='' type='edit' class='saveBox'>
+	   								<div class='hiddens' >
+	   									<button onclick='saveItemFixed(this)' class='itemBtn blueBg'>保存</button>
+	   									<button onclick='cancleItemFixed(this)' class='itemBtn grayBg'>取消</button>
+	   								</div>
+	   								<div class='shows'>
+	   									<button onclick='hiddenCaps0(this)' class='itemBtn blueBg'>编辑</button>
+	   								</div>
+	   							</div>
+	   						</div>
+	   						<p class="tips">最多可上传两条语音</p>
+						</div>
+						<div class='specialQuesItem'>
+							<div class='caps0 shows'></div>
+							<div class='sec00'>
+								<div class='sec01'>
+									<p class='sec02'><span>T7-</span>名称：</p>
+	   								<div class='sec03'><input value='打断关键词' readonly="readonly" class='sec04 quesName' type='text' /></div>
+								</div>
+								<div class='sec05'>
+									<textarea maxlength="230" value='' placeholder='输入关键词，并以空格隔开' class='sec06 quesKw' name='' rows='' cols=''></textarea>
+								</div>	
+								<div max='3' class='threeVoicesBox'>
+	   								
+	    							<div class='miVoiceBox addSign shows'>
+	    								<div class='miAudioBox'>
+										</div>
+										<div class='miKwBox'>
+											<button id="specialBut06" class='sec09'>+</button>
+										</div>
+									</div>
+	   
+								</div>
+	   							<div max='3' itemid='' type='edit' class='saveBox'>
+	   								<div class='hiddens' >
+	   									<button onclick='saveItemFixed(this)' class='itemBtn blueBg'>保存</button>
+	   									<button onclick='cancleItemFixed(this)' class='itemBtn grayBg'>取消</button>
+	   								</div>
+	   								<div class='shows'>
+	   									<button onclick='hiddenCaps0(this)' class='itemBtn blueBg'>编辑</button>
+	   								</div>
+	   							</div>
+	   						</div>
+	   						<p class="tips">最多可上传三条语音</p>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>	
+		<script type="text/javascript">
+			init()
+		</script>
+	</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼代理商管理后台</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/icon_bill/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/robot.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery.pagination.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery.pagination.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>	
+		<script src="../js/robot.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/lib/prov.css" />
+	</head>
+	<body>
+		<div style="height: 14rem;" class="wrap">
+			<div class="navList">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<a href="index.html"><li>
+						<p class="navItemP">
+							<i class="iconfont icon-weibiaoti2"></i>
+							<span>客户管理</span>
+						</p>
+					</li></a>
+				</ul>
+			</div>
+			<div class="mainBox">
+				<div class="titBox">
+					<p class="title"><span>编辑</span></p>
+					<div class="logoutBox">
+						<!--<img class="lingdang" src="../images/lingdang.png"/>-->
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <span>▼</span></span>
+						<ul id="logoutUl" class="logoutUl">
+							<a href="login.html"><li>退出</li></a>
+						</ul>
+					</div>
+				</div>
+				<div style="display: block;" class="main">
+					<ul onclick="changeTabs(event)" class="tabsUl">
+						<li card="0">客户信息</li>
+						<li card="1" class="tabsCurrLi">机器人</li>
+						<li card="2">话术信息</li>
+						<li onclick="addSipOrVos()" style="float: right;width: 1.62rem;height: 0.46rem;padding: 0; background: #FFA800;line-height: 0.48rem;margin-top: 0.12rem;border-radius: 0.1rem;color: white;margin-right: 0.32rem;text-align: center;font-size: 0.18rem;"><i style="margin-right: 0.1rem;font-size: 0.18rem;" class="iconfont icon-tianjia"></i>增加线路</li>
+					</ul>
+					
+					
+					<div style="display: block;height: 92%;" class="cards">
+					  	<div style="width: 96%;margin-left: 2%;box-shadow:0 0 34px #E6E6E6;height: 103%;position: relative;">
+					  		<div id="vosBox" class="vosBox">
+								<!--<div class='vosItem'>
+									<button class='editSipBtn'><i class='iconfont icon-bianji'></i>编辑</button>
+									<p class='vosName'>网关</p>
+									<p class='vosIcon'><i class='iconfont icon-dianhua'></i></p>
+									<p>
+										<span class="mark mark1"></span><span>转接</span>
+										<span class="mark mark2"></span><span>拨打</span>
+									</p>
+									<div class="portBox">
+										<span class="portIconBox"><i class="imgIcon yellowUncheck"></i><span class=""></span>1</span>
+										<span class="portIconBox"><i class="imgIcon yellowChecked"></i><span class=""></span>2</span>
+										<span class="portIconBox"><i class="imgIcon blueUncheck"></i><span class=""></span>3</span>
+										<span class="portIconBox"><i class="imgIcon blueChecked"></i><span class=""></span>4</span>
+										<span class="portIconBox"><i class="imgIcon whiteUncheck"></i><span class=""></span>5</span>
+										<span class="portIconBox"><i class="imgIcon whiteChecked"></i><span class=""></span>6</span>										
+									</div>
+								</div>									-->
+					  		</div>
+					  		<div style="width: 89%;box-shadow: 0 0 34px #E6E6E6;margin-left: 5%;padding-top: 0.16rem;" class="accMgrMainBox">
+								<div>
+									<div onclick="changeList(event)" class="cTabBox">
+										<p tabindex="0" class="unCheckedTabs">充值历史</p>
+										<p tabindex="1" class="checkedTabs">消费明细</p>
+									</div>
+									
+									<div class="dateBox">
+										<span style="margin-left: 0.2rem;font-size: 0.22rem;color: #999;" id="totalMoney"></span>
+										<span style="" id="totalBalance"></span>
+										<button onclick="searchList()" class="sxBtn">开始筛选</button>
+										<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="end" placeholder="请选择结束时间"></div>	
+										<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="start" placeholder="请选择开始时间"></div>	
+										<select style="float: right;border-radius: 0;height: 0.32rem;width: 1.6rem;margin-right: 0.2rem;" id="vosSelect" class="vosSelect">
+										</select>
+									</div>
+									
+									<div style="display: none;height: 6.2rem;" id="table0">
+							 			<div class="accMgrMainTit accMgrItem">
+											<span class="flex2">序号</span>
+											<span class="flex2">机器人</span>
+											<span class="flex2">单价/分钟（元）</span>
+											<span class="flex2">购买时长</span>
+											<span class="flex2">操作时间</span>
+											<span class="flex2">金额</span>
+							  			</div>
+							  			<ul id="simCardUl" class="accMgrMainUl"></ul>
+									</div>
+									
+									<div style="height: 6.2rem;" id="table1">
+							  			<div class="accMgrMainTit accMgrItem">
+											<span class="flex2">序号</span>
+											<span class="flex2">联系电话</span>
+											<span class="flex2">机器人</span>
+											<span class="flex2">通话时间</span>
+											<span class="flex2">单价/分钟（元）</span>
+											<span class="flex2">通话时长</span>
+											<span class="flex2">金额（元）</span>
+							  			</div>
+							  			<ul id="simCardUl_1" class="accMgrMainUl"></ul>
+									</div>
+								</div>						
+								<div class="page_div" id="pagination"></div>
+					  		</div>
+					  	</div>																  
+					</div>
+					
+					
+				</div>					
+			</div>
+		</div>	
+		<script type="text/javascript">
+			init()
+		</script>
+	</body>
+</html>

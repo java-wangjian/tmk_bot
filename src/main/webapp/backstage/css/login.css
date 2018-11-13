@@ -1,0 +1,57 @@
+        body{
+        	font-size: 100%;
+        }
+        button,input{
+			outline: none;
+		}
+		.bannerWrap{
+			height:4.2rem;
+			width: 100%;
+		}
+		.bannerWrap img{
+			height: 4.2rem;
+			width: 100%;
+		}
+		.bottomSec{
+			text-align: center;
+    		font-size: 0.18rem;
+    		color: #999999;
+    		margin-top: 0.4rem;
+    		line-height: 0.3rem;
+		}
+		.loginBox{
+			width: 5.4rem;
+    		margin: 0 auto;
+		}
+		.loginItem{
+			height: 0.66rem;
+    		width: 5.39rem;
+    		border: 1px solid #dddddd;
+    		margin-top: 0.6rem;
+		}
+		.loginBtn{
+			background: #547ed1;
+    		color: white;
+    		border: none;
+    		height: 100%;
+    		width: 100%;
+    		font-size: 0.26rem;
+    		float: left;
+		}
+		.inputIcon{
+			height: 0.34rem;
+   	 		width: 0.24rem;
+    		margin: 0.16rem 0.2rem 0 0.25rem;
+    		float: left;
+		}
+		.inputBox{
+			float: left;
+    		height: 100%;
+    		width: 80%;
+    		border: none;
+    		font-size: 0.22rem;
+    		color: #BBBBBB;
+		}
+		.bottomSec span{
+			cursor: pointer;
+		}

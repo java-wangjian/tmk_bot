@@ -1,0 +1,141 @@
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.navList{
+	width: 2.6rem;
+	height: 100%;
+	background: #3c475a;
+	overflow: hidden;
+}
+.pickfiles{
+	height: 100%;
+}
+.dtlogoBox{
+	height: 0.7rem;
+	margin-top: 0.3rem;
+	border-bottom: 1px solid #414f68;
+}
+.dtlogo{
+	display: block;
+	margin: 0 auto;
+	width: 1.8rem;
+}
+.nav{
+	margin-top: 0.3rem;
+}
+.navItemP{
+	background: white;
+	height: 0.52rem;
+	line-height: 0.52rem;
+	width: 2.18rem;
+	margin: 0 auto;
+	border-radius: 0.26rem;
+	font-size: 0.2rem;
+	text-align: center;
+	color: #3c475a;
+}
+.navItemP i{
+	display: inline-block;
+	margin-right: 0.1rem;
+	font-size: 0.22rem
+}
+.mainBox{
+	position: absolute;
+	top: 0;
+	left: 2.6rem;
+	right: 0;
+	height: 100%;
+	background: #fafafa;
+}
+.titBox{
+	height: 1rem;
+	background: white;
+}
+.title{
+	font-size: 0.24rem;
+	line-height: 1rem;
+	text-indent: 0.3rem;
+	float: left;
+	color: #666666
+}
+.logoutBox{
+	float: right;
+	margin-top: 0.23rem;
+	margin-right: 0.4rem;
+	color: #333333;
+	position: relative;
+	cursor: pointer;
+}
+#curAccount{
+	font-size: 16px;
+}
+.logoutUl{
+	position: absolute;
+    background: white;
+    text-align: center;
+    width: 1rem;
+    right: 0;
+    border: 1px solid #ccc;
+    display: none;
+    line-height: 0.3rem;
+}
+.lingdang{
+	height: 0.28rem;
+	vertical-align: middle;
+}
+.logoutImg{
+	height: 0.54rem;
+	vertical-align: middle;
+	margin-right: 0.2rem;
+}
+.main{
+	overflow: auto;
+	position: absolute;
+	background: white;
+	top: 1.26rem;
+	left: 0.3rem;
+	right: 0.3rem;
+	height: 86%;
+	box-shadow: 0px 0px 42px #eeeeee;
+	display: none
+}
+.tabsUl{
+	height: 0.7rem;
+    padding-left: 2%;
+    width: 98%;
+}
+.tabsUl li{
+	height: 0.66rem;
+	float: left;
+	font-size: 0.2rem;
+	line-height: 0.66rem;
+	padding: 0 0.7rem;	
+	cursor: pointer;
+}
+.tabsNoCurrLi{
+	color: #999999;
+	border-bottom: 0.04rem solid #EEEEEE;
+}
+.tabsCurrLi{
+	color: #6087CC;
+	border-bottom: 0.04rem solid #6087CC;
+}
+.proLi{
+	line-height: 0.8rem;
+    text-indent: 0.4rem;
+    font-size: 0.24rem;
+    border-bottom: 1px solid #ededed;
+}
+.proLi i{
+	font-size: 0.24rem;
+	margin-left: 0.2rem;
+}
+.proLi .icon-bianji{
+	color: #6490D9;
+}
+.proLi .icon-shanchu{
+	color: #EC6464;
+}

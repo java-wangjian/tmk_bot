@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼</title>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91621939-3"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+  			gtag('config', 'UA-91621939-3');
+		</script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+  				var hm = document.createElement("script");
+  				hm.src = "https://hm.baidu.com/hm.js?045ae5568e6fe5ccf3ba848683d68205";
+  				var s = document.getElementsByTagName("script")[0]; 
+  				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+		<style type="text/css">
+	    body{
+        	font-size: 100%;
+        }
+		button,input{
+			outline: none;
+		}
+		.bannerWrap{
+			height: 4.2rem;
+		}
+		.bannerWrap img{
+			height: 100%;
+		}
+		.bottomSec{
+			text-align: center;
+    		font-size: 0.18rem;
+    		color: #999999;
+    		margin-top: 0.4rem;
+    		line-height: 0.3rem;
+		}
+		.loginBox{
+			width: 5.4rem;
+    		margin: 0 auto;
+		}
+		.loginItem{
+			height: 0.66rem;
+    		width: 5.39rem;
+    		border: 1px solid #dddddd;
+    		margin-top: 0.6rem;
+		}
+		.loginBtn{
+			background: #547ed1;
+    		color: white;
+    		border: none;
+    		height: 100%;
+    		width: 100%;
+    		font-size: 0.26rem;
+    		float: left;
+		}
+		.inputIcon{
+			height: 0.34rem;
+   	 		width: 0.24rem;
+    		margin: 0.16rem 0.2rem 0 0.25rem;
+    		float: left;
+		}
+		.inputBox{
+			float: left;
+    		height: 100%;
+    		width: 80%;
+    		border: none;
+    		font-size: 0.22rem;
+    		color: #BBBBBB;
+		}
+		.bottomSec span{
+			cursor: pointer;
+		}
+	</style>
+	</head>
+	
+	<body>
+		<div class="wrap">
+			<div class="bannerWrap">
+				<img src="../images/banner.png"/>
+			</div>
+			<div class="loginWrap">
+				<div class="loginBox">
+					<div class="loginItem">
+						<img class="inputIcon" src="../images/user.png" alt="" />
+						<input class="inputBox" type="" name="" id="account" value="" placeholder="请输入账号"/>
+					</div>
+					<div class="loginItem" style="margin-top: 0.39rem;">
+						<img class="inputIcon" src="../images/pwd.png" alt="" />
+						<input class="inputBox" type="password" name="" id="password" value="" placeholder="请输入密码"/>
+					</div>
+					<div class="loginItem">
+						<button onclick="login()" class="loginBtn">登陆</button>
+					</div>
+				</div>
+			</div>
+			<div class="bottomSec">
+				<p>
+					<span style="margin-right: 0.74rem;">帮助</span>
+					<span style="margin-right: 0.74rem;">隐私</span>
+					<span>条款</span>
+				</p>
+				<p>copyright &copy;北京知行信科技有限公司</p>
+				<p style="font-size: 0.14rem;">语音识别技术由科大讯飞提供</p>
+				
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(document).keyup(function (e) {
+    			if (e.keyCode == 13) {
+       				login()
+    			}  
+			});  
+		</script>
+	</body>
+</html>

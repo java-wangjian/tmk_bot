@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.ProjectMapper">
+
+    <!-- 获取项目中哪些用户级别已经使用 -->
+    <select id="selectProjectSelectedGrade" parameterType="java.util.Map" resultType="com.zxxkj.model.SMS">
+	   select grade from sms_table where project_id = #{projectId} and user_id = #{userId}
+	</select>
+
+    <insert id="addProject" parameterType="com.zxxkj.model.Project">
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into project_table(projectName,userId,addTime)
+        values(#{projectName},#{userId},now());
+    </insert>
+
+    <!-- 根据userId和项目名查询项目的详细信息 -->
+    <select id="findProjectByUserIdAndprojectName" resultType="com.zxxkj.model.Project">
+	   select id,projectName,userId,addTime from project_table where projectName=#{projectName} and userId=#{userId};
+	</select>
+
+    <!-- 根据userId获取全部项目名 -->
+    <select id="selectAllProjectNameByUserID" resultType="com.zxxkj.model.Project">
+	   SELECT id,projectName from project_table where userId= #{userId}
+	</select>
+
+    <!-- 根据id删除项目 -->
+    <delete id="deleteProject" parameterType="java.lang.Integer">
+        delete from project_table where id = #{projectId}
+    </delete>
+
+    <!-- 根据项目ID查询项目名称 -->
+    <select id="findProjectNameByProjectID" parameterType="java.lang.Integer" resultType="String">
+        select projectName from project_table where id=#{id}
+    </select>
+    <!-- 根据userId查询该用户下的所有项目 -->
+    <resultMap type="com.zxxkj.model.Project" id="projectList">
+        <result property="id" column="id"/>
+        <result property="projectName" column="projectName"/>
+        <result property="switchStatus" column="switchStatus"/>
+    </resultMap>
+    <!--根据userId查询所有的话术-->
+    <select id="findProjectByUserId" parameterType="java.lang.Integer" resultMap="projectList">
+    	select id,projectName,switchStatus from project_table where userId=#{userId}
+    </select>
+
+    <resultMap type="com.zxxkj.model.Project" id="proList">
+        <result property="id" column="id"/>
+        <result property="projectName" column="projectName"/>
+    </resultMap>
+    <select id="findProjectByUserIdList" parameterType="java.util.List" resultMap="proList">
+        select id,projectName,userId,addTime,switchStatus from project_table where userId in
+        <foreach collection="list" item="model" open="(" separator="," close=")">
+            #{model}
+        </foreach>
+    </select>
+
+    <!--修改话术模版状态的接口-->
+    <update id="upDateSwitchStatus" parameterType="com.zxxkj.model.Project">
+       update project_table SET switchStatus= #{switchStatus} where userId= #{userId}
+	</update>
+    <!--删除多个用户 -->
+    <!--  <delete id="deleteUsers" parameterType="java.util.List">
+        delete from tb_user where user_id in
+        <foreach>标签有循环的功能，可以用来生成有规律的SQL语句，主要属性有：
+         item：表示集合每一个元素进行迭代时的别名
+         index：表示在迭代过程中，每次迭代到的位置
+         open：表示该语句以什么开始
+         separator：表示每次迭代之间以什么符号作为分隔
+         close：表示该语句以什么结束
+         collection：要循环的集合
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+     </delete> -->
+</mapper>

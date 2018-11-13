@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.SimCardMapper">
+
+	<!-- 根据用户的ID,查询用户名下端口的数量,方便分页 -->
+	<select id="selectCountFromSimCardTable" parameterType="com.zxxkj.model.SimCard"
+		resultType="Integer">
+		select Count(*) from port_table where userId=#{id}
+	</select>
+
+	<resultMap id="laMap" type="HashMap">
+		<id column="id" property="id"/>
+		<result column="gatewayNode" property="gatewayNode"/>
+		<result column="auth" property="auth"/>
+		<result column="pwd" property="pwd"/>
+		<result column="gatewayUrl" property="gatewayUrl"/>
+		<result column="gatewayId" property="gatewayId"/>
+		<result column="port" property="port"/>
+		<result column="label" property="label"/>
+		<result column="type" property="type"/>
+		<result column="userID" property="userID"/>
+	</resultMap>
+	<!-- 根据用户ID,分页显示用户名下手机卡的列表 -->
+	<select id="selectPortsInfo" parameterType="java.util.Map" resultMap="laMap">
+		SELECT
+			port.id id,
+			gateway.gatewayNumbers gatewayNode,
+			gateway.type `type`,
+			gateway.auth auth,
+			gateway.pwd pwd,
+			gateway.url gatewayUrl,
+			port.gatewayId gatewayId,
+			port.port port,
+			port.type label,
+			port.userId userID
+		FROM
+			port_table port
+		LEFT JOIN
+			gateway_agent_table gateway
+		ON
+			gatewayId = gateway.id
+		WHERE port.userId = #{id}
+		limit #{page} , #{per}
+	</select>
+
+	<!-- 根据用户ID,分页显示用户名下手机卡的列表 -->
+	<select id="selectListFromSimCardTable" parameterType="java.util.Map" resultType="com.zxxkj.model.SimCard">
+		SELECT
+			port.id id,
+			gateway.gatewayNumbers gatewayNode,
+			gateway.auth auth,
+			gateway.pwd pwd,
+			gateway.url gatewayUrl,
+			port.gatewayId gatewayId,
+			port.port port,
+			port.type label,
+			port.userId userID
+		FROM
+			port_table port
+		LEFT JOIN
+			gateway_agent_table gateway
+		ON
+			gatewayId = gateway.id
+		WHERE port.userId = #{id}
+		limit #{page} , #{per}
+	</select>
+
+	<!-- 根据手机卡ID的集合,批量删除手机卡 -->
+	<delete id="batchDeleteSimCard" parameterType="java.util.Map">
+		delete from simcard_table where id in
+		<foreach collection="simIDs" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		and userID=#{userID}
+	</delete>
+
+	<!-- 根据手机卡的ID,修改手机卡的信息 -->
+	<update id="updateSimCardInfo" parameterType="com.zxxkj.model.SimCard">
+		update
+		simcard_table set
+		prefix=#{prefix}
+		where id=#{id}
+	</update>
+	
+	<!-- 根据手机卡的ID,调节手机卡的激活开关 -->
+	<update id="switchSimCard" parameterType="com.zxxkj.model.SimCard">
+		update
+		simcard_table set
+		isActive=#{isActive}
+		where id=#{id}
+	</update>
+	
+	<!-- 根据参数,计算模糊搜索到的符合参数的手机号数量 -->
+	<select id="selectCountPhoneNum" parameterType="java.util.Map" resultType="Integer">
+		select Count(*) from simcard_table where userID=#{userID} and phone like "%"#{param}"%"
+	</select>
+	
+	<!-- 根据参数,模糊搜索手机卡,分页返回手机卡列表 -->
+	<select id="selectListPhoneNum" parameterType="java.util.Map" resultType="com.zxxkj.model.SimCard">
+		select * from simcard_table where userID=#{userID} and phone like "%"#{param}"%" limit
+		#{page} , #{per}
+	</select>
+	
+	<!-- 插入一个新的Sim卡信息 -->
+	<insert id="insertSimCardInfo" parameterType="com.zxxkj.model.SimCard">
+		(`mechine`,`isActive`,`prefix`,`phoneSignal`,`phone`,`home`,`callLimit`,`PUK`,`userID`,`port`) VALUES 
+		(#{mechine},0,#{prefix},#{phoneSignal},#{phone},#{home},0,#{PUK},#{userID},#{port})
+	</insert>
+
+</mapper>

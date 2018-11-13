@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    
+    <!--  加载spring和mybatis的配置文件 --> 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:spring-mybatis.xml,classpath*:spring-redis.xml</param-value>
+    </context-param>
+      
+    <!-- 使用ContextLoaderListener初始化Spring容器 -->
+    <!--若没有指定其他参数，默认查找的配置文件位置是：/WEB-INF/applicationContext.xml  -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <!-- quartz -->
+   <!--  <listener>  
+        <listener-class>com.zxxkj.quartz.QuartzServletContextListener</listener-class>  
+	</listener> -->
+    
+    <!-- 配置springmvc核心控制器 -->
+    <!-- spring MVC servlet -->
+    <servlet>
+        <servlet-name>SpringMVC</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring-mvc.xml</param-value>
+        </init-param>
+         <!-- 启动动优先级，越小越早加载 -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!-- Servlet访问的路径映射，所有的访问都必须经过调度用的前置控制器 -->
+    <servlet-mapping>
+        <servlet-name>SpringMVC</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    
+    <!--编码过滤器 -->
+	<filter>
+		<filter-name>SpringEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SpringEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+    
+    <listener> 
+		  <listener-class>com.zxxkj.listener.WorkTimeListner</listener-class> 
+	</listener>
+	<listener> 
+		  <listener-class>com.zxxkj.listener.CatchListner</listener-class> 
+	</listener>
+      <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+      </welcome-file-list>
+</web-app>

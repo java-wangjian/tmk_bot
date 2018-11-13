@@ -1,0 +1,350 @@
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.navList{
+	width: 2.6rem;
+	height: 100%;
+	background: #3c475a;
+	overflow: hidden;
+}
+.pickfiles{
+	height: 100%;
+}
+.dtlogoBox{
+	height: 0.7rem;
+	margin-top: 0.3rem;
+	border-bottom: 1px solid #414f68;
+}
+.dtlogo{
+	display: block;
+	margin: 0 auto;
+	width: 1.8rem;
+}
+.nav{
+	margin-top: 0.3rem;
+}
+.navItemP{
+	background: white;
+	height: 0.52rem;
+	line-height: 0.52rem;
+	width: 2.18rem;
+	margin: 0 auto;
+	border-radius: 0.26rem;
+	font-size: 0.2rem;
+	text-align: center;
+	color: #3c475a;
+}
+.navItemP i{
+	display: inline-block;
+	margin-right: 0.1rem;
+	font-size: 0.22rem
+}
+.mainBox{
+	position: absolute;
+	top: 0;
+	left: 2.6rem;
+	right: 0;
+	height: 100%;
+	background: #fafafa;
+}
+.titBox{
+	height: 1rem;
+	background: white;
+}
+.title{
+	font-size: 0.24rem;
+	line-height: 1rem;
+	text-indent: 0.3rem;
+	float: left;
+	color: #666666
+}
+.logoutBox{
+	float: right;
+	margin-top: 0.23rem;
+	margin-right: 0.4rem;
+	color: #333333;
+	position: relative;
+	cursor: pointer;
+}
+#curAccount{
+	font-size: 16px;
+}
+.logoutUl{
+	position: absolute;
+    background: white;
+    text-align: center;
+    width: 1rem;
+    right: 0;
+    border: 1px solid #ccc;
+    display: none;
+    line-height: 0.3rem;
+}
+.lingdang{
+	height: 0.28rem;
+	vertical-align: middle;
+}
+.logoutImg{
+	height: 0.54rem;
+	vertical-align: middle;
+	margin-right: 0.2rem;
+}
+.main{
+	overflow: auto;
+	position: absolute;
+	background: white;
+	top: 1.26rem;
+	left: 0.3rem;
+	right: 0.3rem;
+	height: 86%;
+	box-shadow: 0px 0px 42px #eeeeee;
+	display: none
+}
+.tabsUl{
+	height: 0.7rem;
+    padding-left: 2%;
+    width: 98%;
+}
+.tabsUl li{
+	height: 0.66rem;
+	float: left;
+	font-size: 0.2rem;
+	line-height: 0.66rem;
+	padding: 0 0.7rem;	
+	cursor: pointer;
+}
+.tabsNoCurrLi{
+	color: #999999;
+	border-bottom: 0.04rem solid #EEEEEE;
+}
+.tabsCurrLi{
+	color: #6087CC;
+	border-bottom: 0.04rem solid #6087CC;
+}
+.btn09{
+	height: 0.44rem;
+    width: 1.57rem;
+    color: #ffffff;
+    background: #84A2D4;
+    border: none;
+    font-size: 0.18rem;
+    border-radius: 0.2rem;
+}
+.itemBox{
+	height: 0.5rem;
+	margin-bottom: 0.2rem;
+	line-height: 0.5rem;
+}
+.itemBox0{
+	min-height: 0.5rem;
+	margin-bottom: 0.2rem;
+	line-height: 0.5rem;
+}
+.iLabel{
+	float: left;
+    width: 1.4rem;
+    text-indent: 0.3rem;
+    margin-left: 0.5rem;
+    font-size: 0.2rem;
+    color: #999;
+}
+.iInput{
+	height: 98%;
+    width: 100%;
+    font-size: 0.18rem;
+    outline: none;
+    border: none;
+    color: #999999;
+    text-indent: 0.2rem;
+}
+.editImg{
+	position: absolute;
+	left: 106%;
+	top: 0.14rem;
+}
+.oldMsg{
+	color: #333;
+	position: relative;
+	float: left;
+	width: 3.21rem;
+	font-size: 0.2rem;
+}
+.iBox{
+	border: 1px solid #F3F3F3;
+    float: left;
+    height: 100%;
+    width: 3.21rem;  
+    display: none;
+}
+.comBtn{
+	width: 1.7rem;
+    height: 0.48rem;
+    margin-left: 0.5rem;
+    margin-top: 0.2rem;
+    border: none;
+    border-radius: 0.4rem;
+    font-size: 0.22rem
+}
+.blueBg{
+	background: #6490D9;
+	color: white;
+}
+.grayBg{
+	background: #eff2f7;
+	color: #999999;
+}
+.vosBox{
+	height: 2.4rem;
+    overflow: auto;
+    padding-bottom: 0.5rem;
+    width: 98%;
+    margin-left: 1%;
+}
+.vosItem{
+	margin-top: 0.4rem;
+	height: 96%;
+	width: 28%;
+	float: left;
+	margin-left: 4%;
+	box-shadow:0 0 10px #CCCCCC;
+	position: relative;
+}
+.vosName{
+	font-size: 0.3rem;
+    text-align: center;
+}
+.vosIcon{
+	height: 0.5rem;
+    width: 0.5rem;
+    background: #6490d9;
+    color: white;
+    margin: 0.1rem auto 0;
+    border-radius: 100%;
+    line-height: 0.5rem;
+    text-align: center;
+}
+.vosItemFlex{
+	display: flex;
+	border-top: 1px solid #CCCCCC;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 0.6rem;
+}
+.vosItemFlex div{
+	flex: 1;
+	text-align: center;
+	border-right: 1px solid #CCCCCC;
+	line-height: 0.3rem;
+}
+.vosItemFlex div:last-child{
+	border: none;
+}
+.rechargeIcon{
+	background: #65c6a7;
+    color: white;
+    width: 1.2rem;
+    text-align: center;
+    margin: 0.18rem auto 0;
+    height: 0.38rem;
+    line-height: 0.38rem;
+    border-radius: 0.4rem;
+}
+.cTabBox{
+	text-align: center;
+	overflow: hidden;
+	width: 4.66rem;
+	margin: 0.2rem auto;
+	border: 1px solid #DDDDDD;
+	height: 0.66rem;
+	line-height: 0.66rem;
+}
+.cTabBox p{
+	width: 50%;
+	float: left;
+	font-size: 0.26rem;
+	outline: none;
+}
+.checkedTabs{
+	color: #adadad;
+	background: #f0f1f6;
+}
+.unCheckedTabs{
+	color: #B2B2B2;
+	background: white;
+}
+.dateBox{
+	height: 0.6rem;
+}
+.startAndEndDateBox{
+	float: right;
+	width: 2rem;
+	margin-right: 1%;
+	height: 100%;
+}
+.startAndEndDateBox input{
+	width: 80%;
+    float: left;
+    cursor: pointer;
+    border: 1px solid #999;
+    height: 0.3rem;
+    margin-left: 0.1rem;
+    text-align: center;
+}
+.startAndEndDateBox i{
+	float: left;
+    line-height: 0.34rem;
+    font-size: 0.2rem;
+    color: #999999;
+}
+.sxBtn{
+	float: right;
+	height: 0.34rem;
+	width: 1.12rem;
+	background: #6490D9;
+	color: white;
+	border-radius: 0.4rem;
+	border: none;
+	font-size: 0.18rem;
+}
+.accMgrMainTit{
+	height: 0.7rem;
+	background: #F2F2F2;
+}
+.accMgrMainTit span{
+	line-height: 0.7rem;
+	display: inline-block;
+}
+.accMgrItem{
+	text-align: center;
+	display: flex;
+	width: 100%;
+}
+.accMgrMainUl{
+	height: 5.6rem;
+	border: 1px solid #e6e6e6;
+    border-top: none;
+}
+.pagination{
+	height: 0.6rem;
+}
+.flex12{
+	flex: 12;
+}
+.flex8{
+	flex: 8;
+}
+.flex6{
+	flex: 6;
+}
+.flex4{
+	flex: 4;
+}
+.flex3{
+	flex: 3;
+}
+.flex2{
+	flex: 2;
+}

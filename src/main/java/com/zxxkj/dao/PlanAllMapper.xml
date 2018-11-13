@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.PlanAllMapper">
+
+    <!-- 根据userId查询当前执行中的计划 -->
+    <resultMap id="planMapList" type="HashMap">
+        <result column="planId" property="planId"/>
+        <result column="userId" property="userId"/>
+        <result column="excuteTime" property="excuteTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="timeStr" property="timeStr"/>
+        <result column="planName" property="planName"/>
+        <result column="projectName" property="projectName"/>
+        <result column="customerCount" property="customerCount"/>
+        <result column="thoughCount" property="thoughCount"/>
+        <result column="planStatus" property="planStatus"/>
+        <result column="isDelete" property="isDelete"/>
+        <result column="isInterrupt" property="isInterrupt"/>
+        <result column="isSendSMS" property="isSendSMS"/>
+        <result column="isTransfer" property="isTransfer"/>
+        <result column="transferGrade" property="transferGrade"/>
+        <result column="excuteCount" property="excuteCount"/>
+        <result column="projectId" property="projectId"/>
+        <result column="addTime" property="addTime"/>
+        <result column="gatewayNumbers" property="gatewayNumbers"/>
+        <result column="callPortListStr" property="callPortListStr"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="account" property="account"/>
+
+    </resultMap>
+    <select id="findNowPlansList" parameterType="Integer" resultMap="planMapList">
+        SELECT ut.account,plan.id
+        planId,plan.userId,plan.excuteTime,plan.updateTime,plan.endTime,plan.timeStr,plan.planName,plan.planStatus,plan.isDelete,plan.isInterrupt,plan.isTransfer,plan.transferGrade,plan.excuteCount,plan.addTime,plan.callPortListStr,
+        projec.projectName,plan.projectId,
+        plan.customerCount,plan.isSendSMS,
+        gateway_agent_table.gatewayNumbers
+        from plan_table plan
+        LEFT JOIN project_table projec
+        ON
+        	plan.projectId=projec.id
+        LEFT JOIN gateway_agent_table 
+        ON plan.gatewayId = gateway_agent_table.id
+        left JOIN  user_table ut
+        ON plan.userId=ut.id
+        right join  admin_table at
+        on ut.adminId=at.id
+      <where>
+          <if test="adminId!=null">
+              and at.id = #{adminId}
+          </if>
+        <if test="startTime!=null">
+            and plan.endTime &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and plan.endTime &lt;= #{endTime}
+        </if>
+        <if test="planStatus==1">
+            and plan.planStatus in (0,1,4)
+        </if>
+        <if test="planStatus!=1">
+            and  plan.planStatus in (2,3)
+        </if>
+        <if test="searchText!=''">
+            and  plan.planName like
+            "%"#{searchText}"%"
+        </if>
+        <if test="planStatus==1">
+            ORDER BY plan.id DESC
+        </if>
+        <if test="planStatus!=1">
+            ORDER BY plan.endTime DESC
+        </if>
+      </where>
+        limit #{start},#{pageCount}
+    </select>
+
+    <!-- 查询当前任务数量 -->
+    <select id="findPlansTotalList" resultType="Integer">
+        SELECT count(*)
+        from plan_table plan left join user_table ut
+        on plan.userId=ut.id left join  admin_table at
+        on ut.adminId=at.id
+       <where>
+           <if test="adminId!=null">
+            and at.id=#{adminId}
+           </if>
+        <if test="startTime!=null">
+            and plan.endTime &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and plan.endTime &lt;= #{endTime}
+        </if>
+        <if test="planStatus==1">
+            and plan.planStatus in (0,1,4)
+        </if>
+        <if test="planStatus!=1">
+            and plan.planStatus in (2,3)
+        </if>
+           <if test="searchText!=''">
+               and  plan.planName like
+               "%"#{searchText}"%"
+           </if>
+       </where>
+    </select>
+
+
+</mapper>

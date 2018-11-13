@@ -1,0 +1,133 @@
+.mainData{
+	width: 98%;
+	height: 16.4rem;
+	margin-top: 0.3rem;
+	background: white;
+	margin-left: 1%;
+	overflow: hidden;
+}
+.dataRow{
+	width: 14.6rem;
+	margin: 0.3rem auto 0;
+    box-shadow:0 0 30px #DDDDDD ;
+}
+.datasTitle{
+	width: 98%;
+	margin-left: 1%;
+	border-bottom: 1px solid #F6F6F6;
+	height: 0.7rem;
+	line-height: 0.7rem;
+	text-indent: 0.2rem;
+	color: #666666;
+	font-size: 0.2rem
+}
+.datasTitle span{
+	float: left;
+}
+.sec01{
+	width: 8.2rem;
+	height: 3.5rem;
+	margin-top: 0.36rem;
+	margin-left: 0.4rem;
+	float: left;
+}
+.sec02{
+	width: 5rem;
+	height: 3.5rem;
+	margin-top: 0.36rem;
+	margin-left: 0.4rem;
+	float: left;
+}
+.dts{
+	width: 1.46rem;
+    height: 1.46rem;
+    background: #92c0ef;
+    border-radius: 0.08rem;
+    overflow: hidden;
+    text-align: center;
+    color: #333333;
+    float: left;
+    margin: 0.14rem 0.28rem;
+}
+.dts_bottom{
+	color: white;
+}
+.dts_top{
+	height: 1rem;
+	background: #FAFAFA;
+}
+.vals{
+	font-size: 0.28rem;
+	line-height: 0.6rem;
+}
+.bfh{
+	font-size: 0.2rem;
+}
+.val_describe{
+	font-size: 0.16rem;
+	color: #999999;
+}
+.dts_bottom i{
+	font-size: 0.28rem;
+    line-height: 0.48rem;
+}
+.pieBox{
+	height: 100%;
+	width: 100%;
+}
+.dateRowItemBox{
+	float: right;
+	margin-left: 0.3rem;
+}
+.selectDateBox{
+	height: 0.32rem;
+	width: 4.8rem;
+	float: right;
+	margin-top: 0.19rem;
+}
+.startAndEndDateBox{
+	float: left;
+	width: 34%;
+	margin-right: 1%;
+	height: 100%;
+	border: 1px solid #ccc;
+}
+.startAndEndDateBox input{
+	width: 74%;
+    float: left;
+    cursor: pointer;
+    height: 0.32rem;
+    margin-left: 0.1rem;
+    border: none;
+    /*text-align: center;*/
+}
+.startAndEndDateBox i{
+	float: left;
+    line-height: 0.34rem;
+    font-size: 0.18rem;
+    text-align: left;
+    text-indent: 0;
+    color: #999999;
+    margin-left: 0.06rem;
+}
+.dataSerachBtn{
+	height: 0.32rem;
+	margin-top: 0.19rem;
+	background: #6490D9;
+	color: white;
+	width: 1rem;
+	float: right;
+	border: none;
+	border-radius: 0.08rem;
+}
+.lineBox{
+	width: 6.7rem;
+	height: 4.4rem;
+	float: left;
+	margin-left: 0.4rem;
+}
+.line_b{
+	width: 13.8rem;
+	height: 4.4rem;
+	margin-left: 0.4rem;
+}

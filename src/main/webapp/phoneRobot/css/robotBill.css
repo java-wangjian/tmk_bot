@@ -1,0 +1,358 @@
+.main{
+	position: absolute;
+	background: #f9f9f9;
+	top: 1rem;
+	width: 100%;
+	height: 13.1rem;
+	display: none;
+}
+.accMgrWrap{
+	height: 100%;
+    width: 96%;
+    margin-left: 2%;
+    margin-top: 2%;
+}
+.accMgrTop{
+	height: 0.6rem;
+	overflow: hidden;
+}
+.accMgrTop a{
+	display: inline-block;
+    height: 0.56rem;
+    width: 1.8rem;
+    margin-left: 0.4rem;
+    color: #333;
+    font-size: 0.22rem;
+    border-bottom: 0.04rem solid #6490d9;
+    text-align: center;
+}
+.blueBtn{
+	background: #6490D9;
+	color: white;	
+}
+.grayBtn{
+	background: #F2F2F2;
+	color: #666666;	
+}
+.accMgrMainBox{
+	height: 8.6rem;
+    width: 96%;
+    margin-left: 2%;
+   
+}
+.accMgrMainTit{
+	height: 0.7rem;
+	background: #F2F2F2;
+}
+.accMgrMainTit span{
+	line-height: 0.7rem;
+	display: inline-block;
+}
+.accMgrMainLi{
+	height: 0.54rem;
+	border-bottom: 1px solid #CCCCCC;
+	font-size: 0.16rem
+}
+.accMgrMainLi:last-child{
+	border: none;
+}
+.accMgrMainLi span{
+	display: inline-block;
+	line-height: 0.54rem;
+}
+.accMgrItem{
+	text-align: center;
+	display: flex;
+	width: 100%;
+}
+.accMgrMainUl{
+	height: 5.6rem;
+    border-top: none;
+}
+.pagination{
+	height: 0.6rem;
+}
+.flex12{
+	flex: 12;
+}
+.flex8{
+	flex: 8;
+}
+.flex6{
+	flex: 6;
+}
+.flex4{
+	flex: 4;
+}
+.flex3{
+	flex: 3;
+}
+.flex2{
+	flex: 2;
+}
+.swImg{
+	height: 0.4rem;
+    margin-top: 0.1rem;
+}
+.controlSpan span{
+	padding: 0 0.2rem;
+	text-decoration: underline;
+	color: #6490D9;
+}
+.controlSpan .redFont{
+	color: #ff6130;
+}
+
+
+.singleUploadBox{
+	height: 5.8rem;
+	width: 5.2rem;
+	background: white;
+    position: relative;
+}
+.singleMsgBox{
+	width: 4.2rem;
+	height: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.singleMsgBoxItem{
+	border: 1px solid #d5d5d5;
+	height: 0.56rem;
+	line-height: 0.56rem;
+	color: #999999;
+	margin-top: 0.3rem;
+}
+.singleMsgBoxItemTxt{
+	height: 1.4rem;
+	color: #999999;
+	margin-top: 0.3rem;
+}
+.singleMsgBoxItem input{
+	height: 100%;
+    box-sizing: border-box;
+    width: 3.4rem;
+    border: none;
+    text-indent: 0.2rem;
+}
+.singleMsgBoxItem i{
+	width: 0.4rem;
+    display: inline-block;
+    text-align: center;
+    font-size: 0.24rem;
+    float: left;
+}
+.btnGroup0{
+	display: flex;
+    justify-content: space-between;
+    margin: 0.2rem 0;
+}
+.btnGroup0 p{
+	margin: 0 0.4rem;
+}
+.btnGroup1{
+	position: absolute;
+	height: 0.72rem;
+	width: 100%;	
+	display: flex;
+	bottom: 0;
+	left: 0;
+}
+.btnGroup1 button{
+	border: none;
+	flex: 1;
+	font-size: 0.24rem
+}
+.blueBg{
+	background: #547ed1;
+	color: white;
+}
+.grayBg{
+	background: #ededed;
+	color: #999999;
+}
+.xialakfBox{
+	width: 3.8rem;
+    margin-left: 0.4rem;
+    height: 100%;
+    position: relative;
+    text-indent: 0.2rem;
+}
+.seleKfUl{
+	background: white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    height: 0.6rem;
+    z-index: 2;
+    overflow-y: auto;
+    width: 100%;
+    display: none;
+}
+.searchBox{
+	height: 0.5rem;
+    width: 3.6rem;
+    border: 1px solid #E6E6E6;
+    line-height: 0.5rem;
+    margin-top: 0.2rem;
+    margin-left: 0.4rem;
+}
+.searchBox p{
+	float: right;
+	background: #6490D9;
+	color: white;
+	width: 0.8rem;
+	text-align: center;
+}
+.searchBox input{
+	border: none;
+	height: 100%;
+	width: 2.8rem;
+	text-indent: 0.2rem;
+	
+}
+.vosBox{
+	height: 3rem;
+    overflow: auto;
+    /*box-shadow: 0 0 20px #cccccc;*/
+    padding-bottom: 0.5rem;
+    width: 98%;
+    margin-left: 1%;
+}
+.vosItem{
+	margin-top: 0.4rem;
+	height: 80%;
+	width: 28%;
+	float: left;
+	margin-left: 4%;
+	box-shadow:0 0 10px #CCCCCC;
+	position: relative;
+}
+.cTabBox{
+	text-align: center;
+	overflow: hidden;
+	width: 4.66rem;
+	margin: 0.2rem auto;
+	border: 1px solid #DDDDDD;
+	height: 0.66rem;
+	line-height: 0.66rem;
+}
+.cTabBox p{
+	width: 50%;
+	float: left;
+	font-size: 0.26rem;
+	outline: none;
+}
+.checkedTabs{
+	color: white;
+	background: #6490d9;
+}
+.unCheckedTabs{
+	color: #B2B2B2;
+	background: white;
+}
+.startAndEndDateBox{
+	float: right;
+	width: 1.9rem;
+	margin-right: 1%;
+	height: 50%;
+	border: 1px solid #CCCCCC;
+}
+.startAndEndDateBox input{
+	width: 80%;
+    float: left;
+    cursor: pointer;
+    border: none;
+    height: 0.3rem;
+    text-align: center;
+}
+.startAndEndDateBox i{
+	float: left;
+    line-height: 0.3rem;
+    font-size: 0.16rem;
+    color: #999999;
+    margin-left: 0.06rem;
+}
+.dateBox{
+	height: 0.6rem;
+}
+.sxBtn{
+	float: right;
+	height: 0.34rem;
+	width: 1.12rem;
+	background: #6490D9;
+	color: white;
+	border-radius: 0.4rem;
+	border: none;
+	font-size: 0.18rem;
+}
+.vosItemFlex{
+	display: flex;
+	border-top: 1px solid #CCCCCC;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 0.8rem;
+}
+.vosItemFlex div{
+	flex: 1;
+	text-align: center;
+	border-right: 1px solid #CCCCCC;
+	color: #999;
+}
+.vosItemFlex div:last-child{
+	border: none;
+}
+.vosName{
+	font-size: 0.3rem;
+    text-align: center;
+    margin-top: 0.2rem;
+}
+.vosIcon{
+	height: 0.58rem;
+    width: 0.58rem;
+    background: #6490d9;
+    color: white;
+    margin: 0.1rem auto 0;
+    border-radius: 100%;
+    line-height: 0.58rem;
+    text-align: center;
+}
+.vosIcon i{
+	font-size: 0.26rem;
+}
+.vosSelect{
+	float: right;
+    height: 0.3rem;
+    margin-right: 0.2rem;
+    width: 1rem;
+    outline: none;
+    border: 1px solid #ccc;
+    text-indent: 0.16rem;
+}
+.strongs{
+	font-size: 0.24rem;
+	color: #000000;
+}
+.color999{
+	color: #999999;
+}
+.color666{
+	color: #666666;
+}
+.addSip0{
+	width: 1.4rem;
+    color: white;
+    height: 0.4rem;
+    background: #6490d9;
+    border: none;
+    border-radius: 0.4rem;
+    margin: 0 auto;
+    display: block;
+    font-size: 0.18rem;
+    margin-top: 0.18rem;
+}
+.marTop01{
+	margin-top: 0.14rem;
+	color: #999;
+}

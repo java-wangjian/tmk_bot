@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont_new.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/new.css"/>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/datas.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>		
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/datas.js" type="text/javascript" charset="utf-8"></script>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91621939-3"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+  			gtag('config', 'UA-91621939-3');
+		</script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+  				var hm = document.createElement("script");
+  				hm.src = "https://hm.baidu.com/hm.js?045ae5568e6fe5ccf3ba848683d68205";
+  				var s = document.getElementsByTagName("script")[0]; 
+  				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<div style="height: 18rem;" class="wrap">
+			<div style="height: 100%" class="navList">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<li>
+						<p style=" background: white;color: #3c475a;" class="navItemP">
+							<i class="iconfont icon-data"></i>
+							<span class="parentList">数据统计</span>
+							<i class="iconfont icon-xiala transIcon90"></i>
+						</p>
+						<ul class="show">
+							<li>
+								<p class="childList">
+									<a style="color: #5dacf5;" href="datas.html">
+										<i class="iconfont icon-fenxi2"></i>
+										<span>统计分析</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-dianhua"></i>
+							<span class="parentList">AI外呼</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="currList.html">
+										<i class="iconfont icon-msnui-calendar"></i>
+										<span>当前任务</span>
+									</a>
+								</p>
+							</li>
+							<li>
+								<p class="childList">
+									<a href="historyPlan.html">
+										<i class="iconfont icon-msnui-plan-time"></i>
+										<span>历史任务</span>
+									</a>
+								</p>
+							</li>	
+							<li>
+								<p class="childList">
+									<a href="simCard.html">
+										<i class="iconfont icon-zhinengkefu"></i>
+										<span>AI机器人</span>
+									</a>
+								</p>
+							</li>
+							<li>
+                            	<p class="childList">
+                                	<a href="smsSetting.html">
+                                    	<i class="iconfont icon-youjianduanxin"></i>
+                                    	<span>意向短信</span>
+                                	</a>
+                            	</p>
+                        	</li>
+                        	<li>
+								<p class="childList">
+									<a href="accMgr.html">
+										<i class="iconfont icon-guanli"></i>
+										<span>转接人工</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					
+					
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-kehuguanli"></i>
+							<span class="parentList">客户管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="index.html?tabs=0">
+										<i class="iconfont icon-customer"></i>
+										<span>客户管理</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>	
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-icon_yuyin-mian"></i>
+							<span class="parentList">话术管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="voice.html">
+										<i class="iconfont icon-huatong"></i>
+										<span>话术管理</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					<li class="part01">
+						<p  class="navItemP">
+							<i class="iconfont icon-zhanghuffffffpx"></i>
+							<span class="parentList">账户管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+                            	<p class="childList">
+                                	<a href="robotBill.html">
+                                    	<i class="iconfont icon-drxx66"></i>
+                                    	<span>账单管理</span>
+                                	</a>
+                            	</p>
+                        	</li>
+							<li>
+								<p class="childList">
+									<a href="changepwd.html">
+										<i class="iconfont icon-xiugaimima"></i>
+										<span>修改密码</span>
+									</a>
+								</p>
+							</li>                       	
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-shezhi"></i>
+							<span class="parentList">系统管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="feedback.html">
+										<i class="iconfont icon-drxx66"></i>
+										<span>意见反馈</span>
+									</a>
+								</p>
+							</li>
+							<!--<li>
+								<p class="childList">
+									<a href="">
+										<i class="iconfont icon-icon_help"></i>
+										<span>使用帮助</span>
+									</a>
+								</p>
+							</li>-->
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div style="height: 100%;background: #FAFAFA;" class="mainBox">
+				<div class="titBox">
+					<p class="title">统计分析</p>
+					<div class="logoutBox">
+						<a href="systemMsg.html"><img class="lingdang" src="../images/lingdang.png"/><span id="unReadCount"></span></a>
+						
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <i class="iconfont icon-xiala"></i></span>
+						<ul id="logoutUl" class="logoutUl">
+							<!--<a href="login.html"><li>退出</li></a>-->
+							<li onclick="logout()">退出</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="mainData">
+					<div style="height: 4.96rem;" class="dataRow">
+						<div class="datasTitle">
+							<span style="font-size: 12px;font-weight: 600;color: #333;">外呼情况</span>
+							<!--<button class="dataSerachBtn">查询</button>-->
+							<div class="dateRowItemBox">
+								<label for="">日期筛选：</label>
+								<div style="width: 1.6rem;" class="selectDateBox">								
+									<div style="width: 98%;" class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input readonly="readonly" type="text" id="start" placeholder="请选择开始时间"></div>
+									<!--<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input readonly="readonly" type="text" id="end" placeholder="请选择结束时间"></div>-->																
+								</div>
+							</div>
+						</div>
+						<div class="detailsBox">
+							<div class="sec01">
+								<div class="dts">
+									<p class="dts_top">
+										<span id="gt30" class="vals">0</span><br />
+										<span class="val_describe">通话大于30秒</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-shangsheng"></i>
+									</p>
+								</div>
+								<div class="dts">
+									<p class="dts_top">
+										<span id="lt10gt5" class="vals">0</span><br />
+										<span class="val_describe">小于10s</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-xiajiang"></i>
+									</p>
+								</div>
+								<div class="dts">
+									<p class="dts_top">
+										<span id="connCount" class="vals">0</span><br />
+										<span class="val_describe">接通电话</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-tonghuajilu"></i>
+									</p>
+								</div>
+								<div class="dts">
+									<p class="dts_top">
+										<span id="refuseCount" class="vals">0</span><br />
+										<span class="val_describe">未接电话(F)</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-icon_tingzhi"></i>
+									</p>
+								</div>
+								<div class="dts">
+									<p class="dts_top">
+										<span id="toStaffCount" class="vals">0</span><br />
+										<span class="val_describe">转接客服</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-kefu"></i>
+									</p>
+								</div>
+								
+								<div class="dts">
+									<p class="dts_top">
+										<span id="serRate" class="vals">0</span><span class="bfh">%</span><br />
+										<span class="val_describe">客服转接率</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-phone"></i>
+									</p>
+								</div>
+								<div class="dts">
+									<p class="dts_top">
+										<span id="callRate" class="vals">0</span><span class="bfh">%</span><br />
+										<span class="val_describe">接通率</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-64x64zhuanhuan"></i>
+									</p>
+								</div>
+								<div class="dts">
+									<p class="dts_top">
+										<span id="aRate" class="vals">0</span><span class="bfh">%</span><br />
+										<span class="val_describe">A类转化率</span>
+									</p>
+									<p class="dts_bottom">
+										<i class="iconfont icon-zhuanhuashuai"></i>
+									</p>
+								</div>
+							</div>
+							<div class="sec02">
+								<div class="pieBox">
+									<div id="pie" style="height: 100%;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="height: 5.24rem;" class="dataRow">
+						<div class="datasTitle">
+							<span></span>
+							<button onclick="multiDaysData()" class="dataSerachBtn">查询</button>
+							<div class="dateRowItemBox">
+								<label for="">日期筛选：</label>
+								<div  style="width: 4.8rem;" class="selectDateBox">								
+									<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input readonly="readonly" type="text" id="startF" placeholder="请选择开始时间"></div>
+									<span style="line-height: 0.3rem;margin-right: 0.06rem;text-indent: 0;">—</span>
+									<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input readonly="readonly" type="text" id="endF" placeholder="请选择结束时间"></div>																
+								</div>
+							</div>
+						</div>
+						<div class="detailsBox">
+							<div class="lineBox">
+								<div id="line00" style="height: 100%;"></div>
+							</div>
+							<div class="lineBox">
+								<div id="line01" style="height: 100%;"></div>
+							</div>
+						</div>
+					</div>
+					<div style="height: 5.24rem;" class="dataRow">
+						<div class="datasTitle"><span style="font-size: 12px;font-weight: 600;color: #333;">通话时长统计</span></div>
+						<div class="detailsBox">
+							<div class="line_b">
+								<div id="bar" style="height: 100%;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+								  
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			$(function(){
+				loadFuncOrStyle()
+			})
+		</script>
+	</body>
+</html>

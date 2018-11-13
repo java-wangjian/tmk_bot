@@ -1,0 +1,58 @@
+.main{
+	position: absolute;
+	top: 1.91rem;
+	width: 100%;
+	height: 6.4rem;
+	display: none;
+}
+.rePwdBox{
+	width: 7rem;
+    margin: 0.95rem auto 0;
+}
+.rePwdItem{
+	height: 0.64rem;
+	line-height: 0.64rem;
+	font-size: 0.22rem;
+	color: #333333;
+	margin-top: 0.52rem;
+}
+.rePwdItem label{
+	float: left;
+	width: 1.4rem;
+	text-align: right;
+	height: 100%;
+}
+.reItemInput{
+	float: right;
+	width: 5rem;
+	height: 100%;
+	border: 1px solid #DDDDDD;
+	box-sizing: content-box;
+}
+.reItemInput input{
+	border: none;
+	width: 100%;
+	height: 100%;
+	float: left;
+	font-size: 0.22rem;
+	color: #BBBBBB;
+	text-indent: 0.2rem;
+}
+.rePwdBtnBox{
+	height: 0.64rem;
+	line-height: 0.64rem;
+	font-size: 0.22rem;
+	color: #333333;
+	margin-top: 0.6rem;
+}
+.rePwdBtnBox button{
+	display: block;
+	margin: 0 auto;
+	width: 2.29rem;
+	height: 0.64rem;
+	border-radius: 0.08rem;
+	font-size: 0.22rem;
+	color: white;
+	border: none;
+	background: #6490D9;
+}

@@ -1,0 +1,29 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html{
+	height: 100%;
+	min-width: 1200px;
+	min-height: 600px;
+	overflow: auto;
+	font-family: Microsoft YaHei;
+}
+body{
+	font-size: 12px;
+	height: 100%;
+}
+ul,li{
+	list-style: none;
+}
+button{
+	outline: none;
+}
+.wrap{
+	height: 100%;
+	position: relative;
+}
+a{
+	text-decoration: none;
+	color: #333333;
+}

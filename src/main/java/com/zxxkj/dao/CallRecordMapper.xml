@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.CallRecordMapper">
+
+	<!-- 查询通话记录导出历史的总条数 -->
+	<select id="selectExportHistoryCountByUserID" parameterType="java.util.Map"
+		resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		export_his_table
+		WHERE
+		userID = #{userID}
+	</select>
+
+	<!-- 查询导出历史数据 的list -->
+	<select id="selectExportHistoryListByUserID" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.RecordHistory">
+		SELECT
+		id,
+		count,
+		time,
+		userID,
+		dateInterval,
+		levels,
+		duarts,
+		minDuart,
+		projects
+		FROM
+		export_his_table
+		WHERE
+		userID = #{userID}
+		ORDER BY
+		time DESC
+		LIMIT #{page}, #{per}
+	</select>
+
+	<!-- 插入导出通话记录的详情到服务器,方便查询通话记录导出历史 -->
+	<insert id="insertExportHistoryContent" parameterType="java.util.Map">
+		insert
+		into `export_his_table`
+		(`count`,`content`,`time`,`userID`,`dateInterval`,`levels`,`duarts`,`minDuart`,`projects`)
+		values
+		(#{count},#{content},#{time},#{userID},#{dateInterval},#{levels},#{durats},#{minDuart},#{projects});
+	</insert>
+
+	<!-- 插入新的通话记录到数据库(暂时废弃) -->
+	<insert id="insertCallRecord" parameterType="com.zxxkj.model.CallRecord">
+		INSERT INTO
+		`callrecord_table`
+		(`status`,`callSignal`,`exportCount`,`durationTime`,`projectID`,
+		`customerID`,`datetime`,`userID`,`reverse`,`fileID`,`customerPhone`,`userPhone`)
+		VALUES
+		(#{status},#{callSignal},0,#{durationTime},#{projectID},#{customerID},#{datetime}
+		,#{userID},1,#{fileID},#{c_phone},#{u_phone})
+	</insert>
+
+	<resultMap id="lalalaMap" type="HashMap">
+		<result column="account" property="account" />
+		<result column="visitGrade" property="visitGrade" />
+		<result column="callrecordId" property="callrecordId" />
+		<result column="datetime" property="datetime" javaType="String"
+			jdbcType="TIMESTAMP" />
+		<result column="exportCount" property="exportCount" />
+		<result column="durationTime" property="durationTime" />
+		<result column="fileID" property="fileID" />
+		<result column="customerGrade" property="grade" />
+		<result column="projectName" property="projectName" />
+		<result column="planName" property="planName" />
+		<result column="customerNote" property="customerNote" />
+		<result column="customerId" property="customerId" />
+		<result column="customerName" property="customerName" />
+		<result column="customerPhone" property="customerPhone" />
+	</resultMap>
+	<select id="selectCallRecordListByIdListForExcel" resultMap="lalalaMap">
+		SELECT
+		record.id callrecordId,
+		record.exportCount,
+		record.durationTime,
+		record.customerPhone,
+		record.projectName,
+		record.`status`,
+		record.customerID,
+		record.datetime,
+		record.fileID,
+		`user`.account account,
+		customer.customerName customerName,
+		customer.company customerCompany,
+		customer.note customerNote,
+		record.grade customerGrade,
+		plan.planName
+		FROM
+		callrecord_table record
+		LEFT JOIN user_table `user` ON record.userID = `user` .id
+		LEFT
+		JOIN customer_table customer ON record.customerID = customer.id
+		LEFT
+		JOIN plan_table plan ON record.planId = plan.id
+		WHERE
+		record.reverse = 1 AND `user` .id = #{userID} AND record.id in
+		<foreach collection="ids" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		order by record.datetime desc
+	</select>
+
+	<!-- 根据IdList,返回要写入Excel的通话记录List (废弃) -->
+	<select id="selectCallRecordListByIdList" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.CallRecord">
+		SELECT
+		record.id,
+		record.`status`,
+		record.callSignal,
+		record.exportCount,
+		record.durationTime,
+		record.projectID,
+		record.projectName,
+		record.userPhone,
+		record.customerPhone,
+		record.customerID,
+		record.userID,
+		record.datetime,
+		record.reverse,
+		record.fileID,
+		`user`.company userCompany,
+		customer.customerName customerName,
+		customer.company customerCompany,
+		customer.note customerNote,
+		record.grade customerGrade,
+		plan.planName
+		FROM
+		callrecord_table record
+		LEFT JOIN user_table `user` ON record.userID = `user`.id
+		LEFT JOIN
+		customer_table customer ON record.customerID = customer.id
+		LEFT JOIN
+		plan_table plan ON record.planId = plan.id
+		WHERE record.reverse=1
+		AND
+		record.id in
+		<foreach collection="ids" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+	</select>
+
+	<!-- 多条件查找通话记录,得到所有的记录ID -->
+	<resultMap type="Integer" id="callRecordIdList">
+		<result property="id" column="id" />
+	</resultMap>
+	<select id="selectAllIDsByMultiple" parameterType="java.util.Map" resultMap="callRecordIdList">
+		SELECT
+		record.id
+		FROM
+		callrecord_table record
+		WHERE
+		record.reverse = 1
+		AND record.userID = #{userID}
+		<if test="startSecond!=null and endSecond!=null"> and durationTime BETWEEN #{startSecond} AND #{endSecond}
+		</if>
+		<if test="startDate!=null and endDate!=null"> and `datetime` BETWEEN #{startDate} AND #{endDate}</if>
+		<if test="param!=null"> and record.customerPhone like "%"#{param}"%" </if>
+		<if test="levels!=null">
+			and record.grade in
+			<foreach collection="levels" item="i" open="(" separator=","
+				close=")">
+				#{ i }
+			</foreach>
+		</if>
+	</select>
+
+	<!-- 多条件查询通话记录的总条数 -->
+	<select id="selectRecordCountByMultiple" parameterType="java.util.Map"
+		resultType="Integer">
+		SELECT
+		COUNT(id)
+		FROM
+		callrecord_table record
+		WHERE
+		record.reverse = 1
+		AND userID = #{userID}
+		<if test="startSecond!=null and endSecond!=null"> and record.`durationTime` BETWEEN #{startSecond} AND
+			#{endSecond}
+		</if>
+		<if test="startDate!=null and endDate!=null"> and record.`datetime` BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="param!=null"> and record.`customerPhone` like "%${param}%" </if>
+		<if test="levels!=null and levels.size > 0">
+			and record.grade in
+			<foreach collection="levels" item="i" open="(" separator=","
+				close=")">
+				#{ i }
+			</foreach>
+		</if>
+	</select>
+
+	<select id="selectListByMultiple" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.CallRecord">
+		SELECT
+		record.id id,
+		record.exportCount,
+		record.`status`,
+		record.durationTime,
+		record.customerPhone,
+		record.projectName,
+		record.customerID,
+		record.datetime,
+		record.callSignal,
+		record.fileID,
+		USER .account account,
+		customer.customerName customerName,
+		customer.company customerCompany,
+		customer.note customerNote,
+		record.grade customerGrade,
+		visit.grade visitGrade,
+		plan.planName
+		FROM
+		callrecord_table record
+		LEFT JOIN user_table USER ON record.userID = USER .id
+		LEFT JOIN
+		customer_table customer ON record.customerID = customer.id
+		LEFT JOIN (
+		SELECT
+		customerId,
+		grade
+		FROM
+		visit_table
+		WHERE
+		userId = #{userID}
+		ORDER BY
+		visitTime
+		LIMIT 1
+		) visit ON record.customerID = visit.customerId
+		LEFT JOIN plan_table
+		plan ON record.planId = plan.id
+		WHERE
+		record.reverse = 1
+		AND USER .id = #{userID}
+		<if test="startSecond!=null and endSecond!=null"> and durationTime BETWEEN #{startSecond} AND #{endSecond}
+		</if>
+		<if test="startDate!=null and endDate!=null"> and `datetime` BETWEEN #{startDate} AND #{endDate}</if>
+		<if test="param!=null"> and record.customerPhone like "%"#{param}"%" </if>
+		<if test="levels!=null">
+			and record.grade in
+			<foreach collection="levels" item="i" open="(" separator=","
+				close=")">
+				#{ i }
+			</foreach>
+		</if>
+		ORDER BY record.datetime DESC
+		<if test="page!=null and per != null">LIMIT #{page} , #{per}</if>
+	</select>
+
+	<!-- 根据userID和customerIDs联合删除通话记录 -->
+	<update id="betchDeleteCallRecordListByUserIDAndCustomerIDS"
+		parameterType="java.util.Map">
+		update callrecord_table set reverse=0 where customerID in
+		<foreach collection="customerIDS" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		and userID=#{userID}
+	</update>
+
+	<!-- 根据通话记录ID的集合,对符合要求的记录导出次数 +1 -->
+	<update id="incrExportCountByIDList" parameterType="java.util.Map">
+		update callrecord_table set exportCount = exportCount + 1 where id in
+		<foreach collection="ids" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		and userID=#{userID}
+	</update>
+
+	<!-- 批量删除 -->
+	<update id="batchDeleteCallRecord" parameterType="java.util.Map">
+		update callrecord_table set reverse=0 where id in
+		<foreach collection="ids" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		and userID=#{userID}
+	</update>
+
+	<!-- 根据用户ID查询通话记录 总条数 -->
+	<select id="selectCallRecordCountByUserID" parameterType="java.util.Map"
+		resultType="Integer">
+		SELECT
+		COUNT(id)
+		FROM
+		callrecord_table record
+		WHERE
+		record.reverse = 1
+		AND record.userID = #{id}
+	</select>
+
+	<!-- 查询通话记录列表 -->
+	<select id="selectCallRecordListByUserID" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.CallRecord">
+		SELECT
+		record.id,
+		record.`status`,
+		record.callSignal,
+		record.exportCount,
+		record.durationTime,
+		record.projectID,
+		record.projectName,
+		record.userPhone,
+		record.customerPhone,
+		record.customerID,
+		record.userID,
+		record.datetime,
+		record.reverse,
+		record.fileID,
+		record.isTransfer,
+		customer.company customerCompany,
+		customer.customerName customerName,
+		customer.note customerNote,
+		record.grade customerGrade,
+		plan.planName
+		FROM
+		callrecord_table record
+		LEFT JOIN user_table `user` ON record.userID = `user`.id
+		LEFT JOIN
+		customer_table customer ON record.customerID = customer.id
+		LEFT JOIN plan_table
+		plan ON record.planId = plan.id
+		WHERE record.reverse=1
+		AND record.userID=
+		#{id}
+		ORDER BY record.datetime DESC
+		<if test="page!=null and per != null">LIMIT #{page} , #{per}</if>
+	</select>
+
+	<!-- 动态查询通话记录 -->
+	<resultMap type="Integer" id="userIdList">
+		<result property="id" column="customerID" />
+	</resultMap>
+	<select id="findUserIdByCallTimeRang" resultMap="userIdList">
+		select distinct customerID from callrecord_table where 1=1
+		<if test="callStartTime!=null">
+			and datetime &gt;= #{callStartTime}
+		</if>
+		<if test="callEndTime!=null">
+			and datetime &lt;= #{callEndTime}
+		</if>
+	</select>
+
+	<!-- 得到通话状态后,先插入一条临时数据,通话结束后再修改 -->
+	<insert id="prepareInsertCallRecord" parameterType="com.zxxkj.model.CallRecord"
+		useGeneratedKeys="true" keyProperty="CallRecord.id">
+		insert into
+		`callrecord_table`
+		(`status`,`callSignal`,`exportCount`,`durationTime`,`projectID`,`projectName`,`userPhone`,
+		`customerPhone`,`customerID`,`datetime`,`userID`,`reverse`,`fileID`,`grade`,`planId`)
+		values
+		(#{CallRecord.status},#{CallRecord.callSignal},0,0,#{CallRecord.projectID},#{CallRecord.projectName},
+		#{CallRecord.userPhone},#{CallRecord.customerPhone},#{CallRecord.customerID},#{CallRecord.datetime},
+		#{CallRecord.userID},1,NULL
+		,#{CallRecord.customerGrade},#{CallRecord.planId});
+	</insert>
+
+	<delete id="deleteCallRecordById" parameterType="Integer">
+		delete from
+		callrecord_table where id=#{callRecordId}
+	</delete>
+
+	<update id="insertAfterUpdateStatus" parameterType="com.zxxkj.model.CallRecord">
+		update
+		`callrecord_table` set
+		grade=#{CallRecord.customerGrade},durationTime=#{CallRecord.durationTime},
+		fileID=#{CallRecord.fileID}
+		where id=#{CallRecord.id}
+	</update>
+
+	<!-- 打完电话之后修改通话记录 -->
+	<update id="updateCallRecorde" parameterType="java.util.List">
+		<!-- update `callrecord_table` set
+		grade=#{customerGrade},durationTime=#{durationTime},status=#{status},fileID=#{fileID}
+		where id=#{CallRecord.id}  -->
+		
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE callrecord_table set grade=#{item.customerGrade},durationTime=#{item.durationTime},status=#{item.status},fileID=#{item.fileID} WHERE id = #{item.id}
+		</foreach>
+	</update>
+
+	<update id="updateCallRecordStatusById" >
+		UPDATE
+		callrecord_table SET
+		status=#{status},durationTime=#{time},grade=#{grade},fileID=#{fileID} WHERE
+		id=#{callRecordId}
+	</update>
+
+	<select id="findLastCallRecordByphone" parameterType="long"
+		resultType="com.zxxkj.model.CallRecord">
+		select id,durationTime,datetime from callrecord_table where
+		customerID=#{customerID}
+	</select>
+
+	<!-- 根据customerId查询该用户最后一条通话记录的详细信息 -->
+	<resultMap id="loopSpeedResult" type="HashMap">
+		<result column="datetime" property="datetime" />
+		<result column="durationTime" property="durationTime" />
+		<result column="callSignal" property="callSignal" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="fileID" property="fileID" />
+		<result column="grade" property="customerGrade" />
+		<result column="projectName" property="projectName" />
+		<result column="phone" property="phone" />
+		<result column="callRecordId" property="callRecordId" />
+	</resultMap>
+	<select id="findLastCallRecordByCustomerID" parameterType="Integer"
+		resultMap="loopSpeedResult">
+		select
+		a.datetime,a.durationTime,a.callSignal,a.fileID,a.id
+		callRecordId,
+		b.customerPhone,b.grade,
+		c.projectName,
+		d.phone,
+		plan.planName
+		from
+		callrecord_table a
+		LEFT JOIN
+		customer_table b
+		ON
+		a.customerID=b.id
+		LEFT JOIN
+		project_table c
+		ON
+		a.projectId=c.id
+		JOIN
+		user_table d
+		ON
+		a.userID=d.id
+		LEFT JOIN
+		plan_table plan
+		ON a.planId=plan.id
+		where
+		customerID=#{customerId}
+		ORDER BY
+		datetime
+		DESC
+		LIMIT 1
+	</select>
+
+	<!-- 查询已拨打的客户总量 -->
+	<select id="findCalledCountByUserId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		<!-- SELECT COUNT(*) calledCount FROM callrecord_table JOIN plan_table 
+			ON plan_table.id=callrecord_table.planId WHERE callrecord_table.userId=#{userId} 
+			and callrecord_table.planId=#{planId} -->
+		<!-- 修复 -->
+
+		SELECT COUNT(DISTINCT record.customerPhone) customerTotal FROM
+		callrecord_table record
+		WHERE userId=#{userId} and reverse=1 and planId=#{planId}
+	</select>
+
+	<!-- 查询未拨打的客户总量 -->
+	<select id="findNoCallCountByUserId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) noCallCount FROM callrecord_table WHERE
+		userID=#{userId} AND
+		planId=#{planId} and customerID in(SELECT id FROM
+		customer_table WHERE
+		userId=#{userId} AND isCall=0)
+	</select>
+
+	<!--查询已接通的客户总量 -->
+	<select id="findPassCountByUserId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT COUNT(DISTINCT customerPhone) calledCount FROM
+		callrecord_table record
+		WHERE userId=#{userId} and reverse=1 and planId=#{planId} AND grade != 6
+	</select>
+
+	<!-- 查询接通以及转接人工的客户总量 -->
+	<select id="findTransferCountByUserId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) transferCount FROM callrecord_table JOIN
+		plan_table ON
+		plan_table.id=callrecord_table.planId WHERE
+		callrecord_table.userId=#{userId} AND
+		callrecord_table.status=1 AND
+		callrecord_table.isTransfer=2 and callrecord_table.planId=#{planId}
+	</select>
+
+	<!-- 各级别对应的客户人数 -->
+	<resultMap id="gradeAndCountMap" type="HashMap">
+		<result column="grade" property="grade" />
+		<result column="calledCount" property="calledCount" />
+	</resultMap>
+	<select id="findGradeAndGradeCountByUserId" parameterType="java.lang.Integer"
+		resultMap="gradeAndCountMap">
+		SELECT
+		count(DISTINCT customerPhone) calledCount,
+		grade
+		FROM
+		callrecord_table
+		WHERE
+		userId = #{userId} and reverse=1 and planId=#{planId} GROUP BY grade
+	</select>
+
+	<!-- 查询该计划中接通的客户id -->
+	<resultMap type="Integer" id="customerIdList">
+		<result property="id" column="customerID" />
+	</resultMap>
+	<select id="findPassCustomerIdsByPlanId" resultMap="customerIdList">
+		select
+		DISTINCT customerID from callrecord_table WHERE userID=#{userId} and
+		planId=#{planId} and grade!=6
+	</select>
+
+	<!-- 查询计划下的所有客户id -->
+	<select id="findAllCustomerIdsByPlanId" resultMap="customerIdList">
+		select
+		DISTINCT customerID from callrecord_table WHERE userID=#{userId} and
+		planId=#{planId}
+	</select>
+
+	<!-- 根据客户id和计划id查询客户的通话记录 -->
+
+	<select id="findCallRecordByCustomerIdAndPlanId" resultType="java.lang.Integer">
+		SELECT count(id) FROM callrecord_table callrecord
+		WHERE
+		callrecord.customerID=#{customerId} AND callrecord.planId=#{planId}
+	</select>
+
+	<!-- 根据通话记录id查询详细信息 -->
+	<resultMap type="HashMap" id="callRecordMap">
+		<result column="callSignal" property="callSignal" />
+		<result column="datetime" property="datetime" />
+		<result column="durationTime" property="durationTime" />
+		<result column="fileID" property="fileID" />
+		<result column="grade" property="grade" />
+		<result column="projectName" property="projectName" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="planName" property="planName" />
+		<result column="visitGrade" property="visitGrade" />
+	</resultMap>
+	<select id="findCallRecordByCallRecordId" resultMap="callRecordMap">
+		SELECT
+		callrecord.callSignal,
+		callrecord.datetime,
+		callrecord.durationTime,
+		callrecord.fileID,
+		callrecord.grade,
+		callrecord.projectName,
+		customer.customerPhone,
+		plan.planName,
+		visit.grade visitGrade
+		FROM
+		callrecord_table callrecord
+		LEFT JOIN customer_table customer ON callrecord.customerID = customer.id
+		LEFT JOIN plan_table plan ON callrecord.planId = plan.id
+		LEFT JOIN (
+		SELECT
+		grade,
+		customerId
+		FROM
+		visit_table
+		WHERE
+		planId = #{planId}
+		AND customerId = #{customerId}
+		ORDER BY
+		visitTime DESC
+		LIMIT 1
+		) visit ON callrecord.customerID = visit.customerId
+		WHERE
+		callrecord.id = #{callRecordId}
+	</select>
+
+	<!-- 根据计划id查询此计划中的客户通话记录 -->
+	<resultMap id="customerListDuringPlan" type="HashMap">
+		<result column="customerId" property="customerId" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="customerName" property="customerName" />
+		<result column="fileID" property="fileID" />
+		<result column="grade" property="grade" />
+		<result column="callrecordId" property="callrecordId" />
+		<result column="callStatus" property="status" />
+		<result column="isTransfer" property="isTransfer" />
+	</resultMap>
+	<select id="findCustomersByplanId" resultMap="customerListDuringPlan">
+		SELECT callrecord.id
+		callrecordId,callrecord.status,callrecord.projectName,callrecord.datetime,
+		callrecord.durationTime,callrecord.fileID,callrecord.grade,
+		customer.id customerId,customer.customerName,customer.customerPhone
+		FROM customer_table customer LEFT JOIN callrecord_table callrecord ON
+		callrecord.customerID=customer.id
+		WHERE callrecord.planId=#{planId} and customer.userId=#{userId}
+		<if test="cutomerPhone!=null">
+			and customer.customerPhone like "%"#{cutomerPhone}"%"
+		</if>
+		<if test="startDuringTime!=null">
+			and callrecord.durationTime &gt;= #{startDuringTime}
+		</if>
+		<if test="endDuringTime!=null">
+			and callrecord.durationTime &lt;= #{endDuringTime}
+		</if>
+		<if test="startTimeStr!=null">
+			and callrecord.datetime &gt;= #{startTimeStr}
+		</if>
+		<if test="endTimeStr!=null">
+			and callrecord.datetime &lt;= #{endTimeStr}
+		</if>
+		<if test="gradeList!=null">
+			and callrecord.grade in
+			<foreach collection="gradeList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		<if test="customerIdList!=null">
+			and customer.id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		limit #{start},#{pageCount}
+	</select>
+
+	<!-- 根据计划id查询此计划中的客户通话记录总数 -->
+	<select id="findCustomersCountByplanId" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM customer_table customer LEFT JOIN callrecord_table callrecord ON
+		callrecord.customerID=customer.id
+		WHERE callrecord.planId=#{planId} and customer.userId=#{userId}
+		<if test="cutomerPhone!=null">
+			and customer.customerPhone like "%"#{cutomerPhone}"%"
+		</if>
+		<if test="startDuringTime!=null">
+			and callrecord.durationTime &gt;= #{startDuringTime}
+		</if>
+		<if test="endDuringTime!=null">
+			and callrecord.durationTime &lt;= #{endDuringTime}
+		</if>
+		<if test="startTimeStr!=null">
+			and callrecord.datetime &gt;= #{startTimeStr}
+		</if>
+		<if test="endTimeStr!=null">
+			and callrecord.datetime &lt;= #{endTimeStr}
+		</if>
+		<if test="gradeList!=null">
+			and callrecord.grade in
+			<foreach collection="gradeList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		<if test="customerIdList!=null">
+			and customer.id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+	</select>
+
+	<update id="updateGradeByCustomerIdAndUserId">
+		update callrecord_table set grade=#{grade} where
+		customerID=#{customerId} and userID=#{userId}
+	</update>
+	
+	<resultMap id="gradeAndCustomerPhone" type="hashmap">
+		<result column="grade" property="grade" javaType="Integer" />
+		<result column="phone" property="phone" />
+	</resultMap>
+	<select id="selectCallRecordGradeAndCustomerPhone"
+		parameterType="java.lang.Integer" resultMap="gradeAndCustomerPhone">
+		SELECT grade,customerPhone phone FROM callrecord_table record WHERE userID =
+		#{userId} AND planId = #{planId}
+	</select>
+	
+	<resultMap type="com.zxxkj.model.CallRecord" id="callRecordList">
+		<result column="id" property="id" />
+		<result column="customerGrade" property="customerGrade" />
+		<result column="fileID" property="fileID" />
+		<result column="datetime" property="datetime" />
+		<result column="status" property="status" />
+		<result column="customerID" property="customerID" />
+		<result column="isTransfer" property="isTransfer" />
+	</resultMap>
+	<select id="findCallRecordByPlanId" resultMap="callRecordList">
+		SELECT id,grade customerGrade,datetime,status,customerID,isTransfer FROM callrecord_table WHERE planId=#{planId}
+			<if test="startDuringTime!=null">
+				and durationTime &gt;= #{startDuringTime}
+			</if>
+			<if test="endDuringTime!=null">
+				and durationTime &lt;= #{endDuringTime}
+			</if>
+			<if test="startTimeStr!=null">
+				and datetime &gt;= #{startTimeStr}
+			</if>
+			<if test="endTimeStr!=null">
+				and datetime &lt;= #{endTimeStr}
+			</if>
+			<if test="gradeList!=null">
+				and grade in
+				<foreach collection="gradeList" item="model" open="("
+					separator="," close=")">
+					#{model}
+				</foreach>
+			</if>
+	</select>
+	
+	<select id="findHasCallCustomerIdList" parameterType="java.lang.Integer" resultMap="customerIdList">
+		SELECT DISTINCT customerID FROM callrecord_table WHERE planId=#{planId}
+	</select>
+	
+	<select id="findCountByGradeList" resultType="java.lang.Integer">
+		select count(id) from callrecord_table where planId=#{planId} and grade in 
+		<foreach collection="gradeList" item="model" open="("
+					separator="," close=")">
+					#{model}
+		</foreach>
+	</select>
+</mapper>

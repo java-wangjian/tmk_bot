@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼代理商管理后台</title>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>	
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+  				var hm = document.createElement("script");
+  				hm.src = "https://hm.baidu.com/hm.js?045ae5568e6fe5ccf3ba848683d68205";
+  				var s = document.getElementsByTagName("script")[0]; 
+  				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>	
+	<body>
+		<div class="wrap">
+			<div class="bannerWrap">
+				<img src="../images/banner.png"/>
+			</div>
+			<div class="loginWrap">
+				<div class="loginBox">
+					<div class="loginItem">
+						<img class="inputIcon" src="../images/user.png" alt="" />
+						<input class="inputBox" type="" name="" id="account" value="" placeholder="请输入账号"/>
+					</div>
+					<div class="loginItem" style="margin-top: 0.39rem;">
+						<img class="inputIcon" src="../images/pwd.png" alt="" />
+						<input class="inputBox" type="password" name="" id="password" value="" placeholder="请输入密码"/>
+					</div>
+					<div class="loginItem">
+						<button onclick="login()" class="loginBtn">登陆</button>
+					</div>
+				</div>
+			</div>
+			<div class="bottomSec">
+				<p>
+					<span style="margin-right: 0.74rem;">帮助</span>
+					<span style="margin-right: 0.74rem;">隐私</span>
+					<span>条款</span>
+				</p>
+				<p>copyright &copy;北京知行信科技有限公司</p>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(document).keyup(function (e) {
+    			if (e.keyCode == 13) {
+       				login()
+    			}  
+			});  
+		</script>
+	</body>
+</html>

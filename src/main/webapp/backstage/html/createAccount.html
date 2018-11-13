@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼代理商管理后台</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/createAccount.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/lib/prov.css"/>
+		<script src="../js/lib/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>	
+		<script src="../js/createAccount.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="navList">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<a href="index.html"><li>
+						<p class="navItemP">
+							<i class="iconfont icon-weibiaoti2"></i>
+							<span>客户管理</span>
+						</p>
+					</li></a>
+				</ul>
+			</div>
+			<div class="mainBox">
+				<div class="titBox">
+					<p class="title"><span>客户管理</span></p>
+					<div class="logoutBox">
+						<!--<img class="lingdang" src="../images/lingdang.png"/>-->
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <span>▼</span></span>
+						<ul id="logoutUl" class="logoutUl">
+							<a href="login.html"><li>退出</li></a>
+						</ul>
+					</div>
+				</div>
+				<div style="display: block;" class="main">
+					<p class="tit00"><img class="icon00" src="../images/icon/account.png" alt="" /><span>创建客户</span></p>
+					<div class="contents">
+						<div class="itemBox">
+							<label class="iLabel">账户：</label>
+							<div class="iBox">
+								<input maxlength="16" class="iInput" type="" name="" id="account" value="" placeholder="由数字加字母组成"/>
+							</div>
+						</div>
+						<!--<div class="itemBox">
+							<label class="iLabel">公司名称：</label>
+							<div class="iBox">
+								<input class="iInput" type="" name="" id="company" value="" placeholder="请输入汉字"/>
+							</div>
+						</div>-->
+						<div class="itemBox">
+							<label class="iLabel">联系人：</label>
+							<div class="iBox">
+								<input class="iInput" type="" name="" id="linkman" value="" placeholder="请输入汉字"/>
+							</div>
+						</div>
+						<div class="itemBox">
+							<label class="iLabel">联系电话：</label>
+							<div class="iBox">
+								<input maxlength="11" class="iInput" type="" name="" id="phone" value="" placeholder="请输入电话号码"/>
+							</div>
+						</div>
+						<div class="itemBox">
+							<label class="iLabel">公司名称：</label>
+							<div class="iBox">
+								<input class="iInput" type="" name="" id="company" value="" placeholder="请输入公司名称"/>
+							</div>
+						</div>
+						<div class="itemBox0">
+							<label class="iLabel">所在区域：</label>
+							<div id="city_1">
+                    			<select id="provs" class="prov"></select>                   			
+                    			<select id="citys" class="city" disabled="disabled"></select>                   			
+               	 			</div>
+               	 			
+						</div>
+						<div class="itemBox">
+							<label class="iLabel">开始时间：</label>
+							<input style="height: 0.4rem;text-indent: 0.2rem;cursor: pointer;float: left;" value='' readonly='readonly' type='text' id='start' placeholder='点击选择到期时间'>
+							<label class="iLabel">到期时间：</label>
+							<input style="height: 0.4rem;text-indent: 0.2rem;cursor: pointer;float: left;" value='' readonly='readonly' type='text' id='end' placeholder='点击选择到期时间'>
+						</div>
+						<div id="portMsgBox" class="portMsgBox">													
+							
+						</div>
+						<div class="bottomSec">
+							<button onclick="sendAccountMsg()" class="blueBg">确定</button>
+							<button onclick="goback()" class="grayBg">取消</button>
+						</div>
+						<div onclick="addType()" class="addBtn">
+							<img src="../images/icon/xinzeng.png"/>
+						</div>
+					</div>				
+				</div>								
+			</div>
+		</div>	
+		<script type="text/javascript">
+			init()
+		</script>
+	</body>
+</html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+    
+    <!-- 1.引入属性文件 -->
+    <context:property-placeholder location="classpath:config.properties,classpath:redis.properties" />
+    
+    <!-- 2.自动扫描service包(自动注入) -->
+     <context:component-scan base-package="com.zxxkj.service" />
+     <context:component-scan base-package="com.zxxkj.quartz" />
+     <context:component-scan base-package="com.zxxkj.task" />
+	 <context:component-scan base-package="com.zxxkj.remoteDao" />
+	 <context:component-scan base-package="com.zxxkj.thread" />
+	
+    
+    <!-- ========================================配置数据源========================================= -->
+    <!-- 3.配置C3P0数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close">
+        <!--驱动类名 -->
+        <property name="driverClass" value="${mysql.driver}" />
+        <!-- url -->
+        <property name="jdbcUrl" value="${mysql.url}" />
+        <!-- 用户名 -->
+        <property name="user" value="${mysql.user}" />
+        <!-- 密码 -->
+        <property name="password" value="${mysql.password}" />
+        <!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数 -->
+        <property name="acquireIncrement" value="${mysql.acquireIncrement}"></property>
+        <!-- 初始连接池大小 -->
+        <property name="initialPoolSize" value="${mysql.initialPoolSize}"></property>
+        <!-- 连接池中连接最小个数 -->
+        <property name="minPoolSize" value="${mysql.minPoolSize}"></property>
+        <!-- 连接池中连接最大个数 -->
+        <property name="maxPoolSize" value="${mysql.maxPoolSize}"></property>
+        <!-- 连接失效后是否重连 -->
+        <property name="testConnectionOnCheckin" value="${mysql.testConnectionOnCheckin}"></property>
+        <!-- 自动连接的表 -->
+        <!-- <property name="automaticTestTable" value="${mysql.automaticTestTable}"></property> -->
+    </bean>
+
+    <!-- 需要文件上传功能时，启用以下配置 -->
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <property name="maxInMemorySize">
+	        <value>1638400</value>
+	    </property>
+	</bean> -->
+    
+    <!-- ========================================针对myBatis的配置项============================== -->
+    <!-- 4.配置sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
+        <!-- 数据源 -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- sql映射文件路径 -->
+        <!-- 自动扫描com/demo/mapping/目录下的所有SQL映射的xml文件, 省掉Configuration.xml里的手工配置
+        value="classpath:com/demo/mapping/*.xml"指的是classpath(类路径)下com.demo.mapping包中的所有xml文件 -->
+        <!-- <property name="mapperLocations" value="classpath:com/demo/mapping/*.xml" /> -->
+    </bean>
+    
+    <!-- 5.配置扫描器  -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 扫描com.demo.dao这个包以及它的子包下的所有映射接口类 -->
+        <property name="basePackage" value="com.zxxkj.dao" />
+        <!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" /> -->
+    </bean>
+    
+    <!-- ========================================配置事务============================== -->
+    <!-- 6.声明式事务管理 -->
+    <!--定义事物管理器，由spring管理事务 -->
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 配置数据源 -->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 通知 -->
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+             <!-- 传播行为 -->
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="append*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="modify*" propagation="REQUIRED" />
+            <tx:method name="edit*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="repair" propagation="REQUIRED" />
+
+            <tx:method name="get*" propagation="REQUIRED"  />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="load*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="search*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="datagrid*" propagation="REQUIRED" read-only="true" />
+
+            <tx:method name="*" propagation="REQUIRED"  />
+        </tx:attributes>
+    </tx:advice>
+    
+    <!-- 配置aop  -->
+    <aop:config>
+        <aop:pointcut id="transactionPointcut" expression="execution(* com.zxxkj.service..*Impl.*(..))" />
+        <aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />
+    </aop:config>
+    
+</beans>

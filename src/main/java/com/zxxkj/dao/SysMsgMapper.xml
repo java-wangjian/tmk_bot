@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.SysMsgMapper">
+
+	<!-- 根据userID查询中间表数量 -->
+	<select id="selectConnMsgCountByUserID" parameterType="java.util.Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			msg_conn_user_table conn
+		WHERE
+			conn.user_id = #{userID}
+	</select>
+
+	<!-- 查看用户提出的意见反馈 -->
+	<select id="selectFeedbackMsgList" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.SysMsg">
+		select * from feedback_table where userID=#{userID}
+		<if test="page!=null"> limit #{page} , #{per} </if>
+	</select>
+
+	<!-- 向数据库插入用户提交的意见反馈 -->
+	<insert id="insertFeedbackMsg" parameterType="com.zxxkj.model.SysMsg">
+		insert into
+		feedback_table (msgType,title,content,createTime,userID) values
+		(#{msgType},#{title},#{content},#{createTime},#{userID})
+	</insert>
+
+	<!--根据用户账号创建时间及用户ID,返回所有符合条件的消息ID -->
+	<select id="findMsgListByTimeAndUserID" parameterType="java.util.Map" resultType="com.zxxkj.model.SysMsg">
+		select id from sysmsg_table where pointID=#{userID} OR msgObj=2 or
+		msgObj=1 and unix_timestamp(createTime) > unix_timestamp(#{createTime})
+		<if test="page!=null"> limit #{page} , #{per} </if>
+	</select>
+	
+	<!--根据用户账号创建时间及用户ID,分页返回系统消息列表 -->
+	<select id="findMsgListByConnTableAndMsgIDList" parameterType="java.util.Map" resultType="com.zxxkj.model.SysMsg">
+		SELECT * FROM sysmsg_table WHERE id in
+		<foreach collection="msgIDs" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+	</select>
+	
+	<!-- 返回符合条件的所有系统消息ID集合  -->
+	<select id="selectAllMsgID" parameterType="java.util.Map" resultType="com.zxxkj.model.SysMsg">
+		SELECT id FROM sysmsg_table WHERE pointID=#{userID} OR msgObj=2 OR msgObj=1 
+		AND UNIX_TIMESTAMP(createTime) > UNIX_TIMESTAMP(#{createTime}) 
+	</select>
+	
+	<!--从中间表中查找到已读消息和未消读消息数 -->
+	<select id="selectMsgCountByConnTable" parameterType="java.util.Map" resultType="Integer">
+		select count(*) from msg_conn_user_table where status = 1 or status = 2
+	</select>
+
+	<!-- 查询用户一共提交了多少条用户反馈 -->
+	<select id="selectFeedbackCountByUserID" parameterType="java.util.Map" resultType="Integer">
+		select count(*) from feedback_table where userID = #{userID}
+	</select>
+	
+	<!-- 根据时间查找系统消息列表 -->
+	<select id="findMsgStatusByMsgIDAndUserID" parameterType="java.util.Map"
+		resultType="Integer">
+		select status from msg_conn_user_table where msg_id=#{msgID} and user_id=#{userID} limit 1
+	</select>
+
+	<!-- 根据UserID和MsgID,在中间表没有找到阅读状态,初始化为1(未读) -->
+	<insert id="insertMsgIDConnUserID" parameterType="Integer">
+		insert into msg_conn_user_table(msg_id,user_id,status) values (#{msgID},#{userID},1)
+	</insert>
+
+	<!-- 从中间表中,计算这个UserID名下未读消息的数量 -->
+	<select id="selectUnreadMsgCountByUserID" parameterType="Integer" resultType="Integer">
+		select count(*) from msg_conn_user_table where user_id=#{userID} and status=1
+	</select>
+
+    <select id="selectRechargeSysMsgCountByUserIdAndContent" resultType="integer">
+        SELECT
+            COUNT(*)
+        FROM
+            sysmsg_table msg
+        RIGHT JOIN msg_conn_user_table conn ON msg.id = conn.msg_id
+        WHERE conn.`status` != 3 AND conn.user_id = #{user_id} AND msg.content= #{content}
+	</select>
+
+    <insert id="insertPointMsgByUserId" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `tmk_bot`.`sysmsg_table` (
+            `msgType`,
+            `msgObj`,
+            `pointID`,
+            `content`,
+            `createTime`,
+            `title`
+        )
+        VALUES
+            (
+                1,
+                3,
+                #{user_id},
+                #{content},
+                now(),
+                #{title}
+            );
+    </insert>
+
+    <insert id="insertPointMsgConnn">
+        INSERT INTO `tmk_bot`.`msg_conn_user_table` (`status`, `user_id`, `msg_id`) VALUES (1, #{user_id}, #{msg_id});
+    </insert>
+
+    <!-- 批量设置已读 -->
+	<update id="batchReadSysMsgByMsgIDList" parameterType="java.util.Map">
+		update msg_conn_user_table set status = 2 where msg_id in
+		<foreach collection="msgIDs" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		and user_id=#{userID}
+	</update>
+
+    <resultMap id="newSysMsgMap" type="hashmap">
+        <id column="id" property="id"/>
+        <result column="msgType" property="msgType"/>
+        <result column="msgObj" property="msgObj"/>
+        <result column="content" property="content"/>
+        <result column="createTime" property="createTime"/>
+        <result column="title" property="title"/>
+        <result column="status" property="status" javaType="Integer"/>
+    </resultMap>
+    <select id="selectMsgMapListByCondetion" resultMap="newSysMsgMap">
+          SELECT
+            msg.id,
+            msg.msgType,
+            msg.msgObj,
+            msg.content,
+            msg.createTime,
+            msg.title,
+            conn.`status`
+        FROM
+            sysmsg_table msg
+        RIGHT JOIN msg_conn_user_table conn ON msg.id = conn.msg_id
+        WHERE
+            conn.`status` != 3 AND conn.user_id = #{userID}
+        LIMIT #{page} , #{per}
+    </select>
+
+    <select id="selectMsgMapListSizeByCondetion" resultType="integer">
+        SELECT
+            COUNT(*)
+        FROM
+            sysmsg_table msg
+        RIGHT JOIN msg_conn_user_table conn ON msg.id = conn.msg_id
+        WHERE
+            conn.`status` != 3 AND conn.user_id = #{userID}
+    </select>
+
+    <select id="findAllSysMsgIdListByContidation" resultType="integer">
+        SELECT
+            id
+        FROM
+            sysmsg_table
+        WHERE
+            (
+                msgObj = 3
+                AND pointID = #{userID})
+                OR msgObj = 2
+                OR ( msgObj = 1 AND unix_timestamp(createTime) > unix_timestamp(#{createTime}) )
+	</select>
+
+	<!-- 通过系统消息ID的集合,批量删除系统消息 -->
+	<update id="batchDeleteSysMsgByMsgIDList" parameterType="java.util.Map">
+		update msg_conn_user_table set status = 3 where msg_id in
+		<foreach collection="msgIDs" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		and user_id=#{userID}
+	</update>
+
+</mapper>

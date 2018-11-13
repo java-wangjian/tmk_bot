@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.KeywordMapper">
+
+	<insert id="addKeywords" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into keyword_table (keyword,recordId,projectId,userId, addTime)
+		values
+		<!--item就是List里每一项的对象名，要用","分割每一条数据，最后要";"结尾 -->
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.keyword}, #{item.recordId}, #{item.projectId}, #{item.userId}, now())
+		</foreach>
+	</insert>
+
+	<delete id="deleteKeywordByRecordId" parameterType="java.lang.Integer">
+        delete from keyword_table where recordId = #{recordId}
+    </delete>
+    
+    <delete id="deleteKeywordByProjectId" parameterType="java.lang.Integer">
+        delete from keyword_table where projectId = #{projectId}
+    </delete>
+    
+    <resultMap type="com.zxxkj.model.Keyword" id="keywordList">  
+                <result property="id" column="id"/>  
+                <result property="url" column="url"/>  
+                <result property="projectId" column="projectId"/>  
+                <result property="userId" column="userId"/>  
+                <result property="addTime" column="addTime"/>  
+    </resultMap> 
+    <select id="findRecordByProjectId" parameterType="java.lang.Integer" resultMap="keywordList">
+    	select id,keyword from keyword_table where recordId=#{recordId}
+    </select>
+    
+	<!--删除多个用户 -->
+	<!-- <delete id="deleteUsers" parameterType="java.util.List"> delete from 
+		tb_user where user_id in <foreach>标签有循环的功能，可以用来生成有规律的SQL语句，主要属性有： item：表示集合每一个元素进行迭代时的别名 
+		index：表示在迭代过程中，每次迭代到的位置 open：表示该语句以什么开始 separator：表示每次迭代之间以什么符号作为分隔 close：表示该语句以什么结束 
+		collection：要循环的集合 <foreach item="item" index="index" collection="array" open="(" 
+		separator="," close=")"> #{item} </foreach> </delete> -->
+</mapper>

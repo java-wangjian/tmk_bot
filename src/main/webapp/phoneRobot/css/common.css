@@ -1,0 +1,223 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html{
+	height: 100%;
+	min-width: 1200px;
+	min-height: 600px;
+	overflow: auto;
+}
+body{
+	font-size: 12px;
+	height: 100%;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+ul,li{
+	list-style: none;
+}
+button{
+	outline: none;
+}
+a{
+	text-decoration: none;
+}
+.wrap{
+	height: 100%;
+	position: relative;
+}
+.layui-layer-btn .layui-layer-btn0 {
+    border-color: #6490d9;
+    background-color: #6490d9;
+    color: #fff;
+}
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+input,button,textarea{
+	outline: none;
+}
+.show{
+	display: block;
+}
+.hidden{
+	display: none;
+}
+
+.navList{
+	width: 2.6rem;
+	background: #3c475a;
+	overflow: auto;
+	min-width: auto;
+	height: 100%;
+}
+.dtlogoBox{
+	height: 0.7rem;
+	margin-top: 0.3rem;
+	border-bottom: 1px solid #414f68;
+}
+.dtlogo{
+	display: block;
+	margin: 0 auto;
+	width: 1.8rem;
+}
+.nav{
+	margin-top: 0.3rem;
+	visibility: hidden;
+}
+.navItemP{
+	border: 1px solid white;
+	height: 0.52rem;
+	line-height: 0.52rem;
+	width: 2.18rem;
+	margin: 0 auto;
+	border-radius: 0.26rem;
+	font-size: 0.2rem;
+	text-align: center;
+	color: white;
+	cursor: pointer;
+	position: relative;
+}
+.parentList{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+.childList{
+	height: 0.52rem;
+	line-height: 0.52rem;
+	width: 2.18rem;
+	margin: 0 auto;
+	font-size: 0.2rem;
+	text-indent: 0.5rem;
+	color: white;
+	cursor: pointer;
+}
+.navItemP i{
+	display: inline-block;
+	margin-right: 0.1rem;
+	font-size: 0.22rem;
+	position: absolute;
+    left: 14%;
+}
+.navItemP .icon-xiala{
+	position: absolute;
+    left: 74%;
+}
+.mainBox{
+	position: absolute;
+	top: 0;
+	left: 2.6rem;
+	right: 0;
+	background: #fafafa;
+}
+.titBox{
+	height: 1rem;
+	background: white;
+}
+.title{
+	font-size: 0.24rem;
+	line-height: 1rem;
+	text-indent: 0.3rem;
+	float: left;
+	color: #666666
+}
+.logoutBox{
+	float: right;
+	margin-top: 0.23rem;
+	margin-right: 0.4rem;
+	color: #333333;
+	position: relative;
+}
+.lingdang{
+	height: 0.28rem;
+	vertical-align: middle;
+	border: none;
+}
+#unReadCount{
+	color: #ff6130;
+	display: inline-block;
+	margin-right: 0.2rem;
+	font-size: 0.2rem;
+}
+.logoutImg{
+	height: 0.54rem;
+	vertical-align: middle;
+	margin-right: 0.2rem;
+}
+.part01{
+	margin-top: 0.3rem;
+}
+.childList a{
+	color: white;
+}
+.childList a:hover{
+	color: #bcd8ff;
+}
+.transIcon0{
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg); 	/* IE 9 */
+	-moz-transform:rotate(-90deg); 	/* Firefox */
+	-webkit-transform:rotate(-90deg); /* Safari 和 Chrome */
+	-o-transform:rotate(-90deg); 
+}
+.transIcon90{
+	transition: all 0.2s;
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg); 	/* IE 9 */
+	-moz-transform:rotate(0deg); 	/* Firefox */
+	-webkit-transform:rotate(0deg); /* Safari 和 Chrome */
+	-o-transform:rotate(0deg); 
+}
+.tabBox{
+	height: 0.86rem;
+    box-shadow: 0px 0px 30px #f1f1f1 inset;
+    padding-left: 0.3rem;
+}
+.tabs{
+	font-size: 0.22rem;
+    color: #666666;
+    cursor: pointer;
+    float: left;
+    line-height: 0.86rem;
+    padding: 0 0.5rem;
+    border-bottom: 0.06rem solid #f7f7f7
+}
+#curAccount{
+	font-size: 16px;
+}
+.logoutUl{
+	position: absolute;
+    background: white;
+    text-align: center;
+    width: 0.8rem;
+    right: 0;
+    border: 1px solid #ccc;
+    display: none;
+    line-height: 0.3rem;
+    z-index: 2;
+}
+.grays{
+	color: #999999;
+}
+.rela{
+	position: relative;
+}
+h1,h2{
+	margin: 12px 0;
+}
+.important{
+	color: red;
+}
+.isTransfer{
+	line-height: 0.4rem;
+}

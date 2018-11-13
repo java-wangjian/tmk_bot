@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jq-from.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<iframe name="message"></iframe>
+		<form id="klFile" action="http://192.168.1.115/tmk-bot/customer/batchInsert" method="post" enctype="multipart/form-data" target="message">
+			<input id="userId"  type="hidden" name="userId" value="1" />			
+			<input id="tipt" type="file" name="excel" />	
+			<input type="submit" />
+		</form>
+		<!--<input id="confirmDR" class="common1" type="button" value="上传" onclick="subimtBtn()" />-->
+		<script type="text/javascript">
+//			function subimtBtn() { 
+// 				var form = $("#klFile");   //选择from
+// 				var options = {  
+// 					url:"http://192.168.1.115/tmk-bot/customer/batchInsert", 
+// 					type:'post',
+// 					success:function(data){  
+// 	  					console.log(data)
+//					}
+// 				};  
+// 				form.ajaxSubmit(options); 
+// 	
+//			}
+		</script>
+	</body>
+</html>

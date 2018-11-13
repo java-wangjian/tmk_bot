@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.SMSMapper">
+
+	<!-- 获取短信的内容 -->
+	<select id="getSmsContentByProjectIdAndGrade" parameterType="java.util.Map" resultType="com.zxxkj.model.SMS">
+		select
+			content
+		from sms_table where project_id = #{projectId} and grade like "%"#{grade}"%" limit 1
+	</select>
+
+	<!-- 插入短信的发送记录 -->
+	<insert id="insertSmsLogModel" parameterType="java.util.Map">
+		insert into 
+			sms_log_table
+			(phone,content,send_time,user_id,status)
+		values
+			(#{phone},#{content},now(),#{userId},#{status})
+		
+	</insert>
+
+	<!-- 根据用户ID和项目ID和客户级别找到唯一短信 -->
+	<select id="selectSmsModelByUserIdAndProjectIdAndGrade" parameterType="java.util.Map" resultType="com.zxxkj.model.SMS">
+		select
+			id,
+			name,
+			project_id projectId,
+			project_name projectName,
+			grade,
+			status,
+			content,
+			`check`,
+			user_id userId
+		from sms_table where user_id = #{userId} and project_id = #{projectId} and grade like "%"#{grade}"%" limit 1
+	</select>
+
+	<!-- 查询 短信模板列表 -->
+	<select id="selectSmsListByUserID" parameterType="java.util.Map" resultType="com.zxxkj.model.SMS">
+		SELECT
+			id,
+			name,
+			project_id projectId,
+			project_name projectName,
+			grade,
+			`status`,
+			content,
+			`check`
+		FROM
+			sms_table
+		WHERE
+			user_id = #{userId}
+		LIMIT
+			#{per}
+		OFFSET
+			#{page} 
+	</select>
+	
+	<!-- 插入 短信模板 -->
+	<insert id="insertSmsTemplet" parameterType="java.util.Map">
+		INSERT INTO
+			sms_table
+			(name,project_id,project_name,grade,content,user_id)
+		VALUES
+			(#{sms.name},#{sms.projectId},#{sms.projectName},#{sms.grade},#{sms.content},#{sms.userId})
+	</insert>
+	
+	<!-- 删除 短信模板 -->
+	<delete id="deleteSmsTemplet">
+		DELETE FROM
+			sms_table
+		WHERE 
+			id = #{smsId}
+	</delete>
+	
+	<!-- 更新 短信模板 -->
+	<update id="updateSmsTemplet">
+		UPDATE
+			sms_table
+		SET
+			id=#{sms.id}
+		<if test="sms.grade != null and sms.grade != ''">
+			,grade = #{sms.grade}
+		</if>
+		<if test="sms.name != null and sms.name != ''">
+			,name = #{sms.name}
+		</if>
+		<if test="sms.content != null and sms.content != ''">
+			,content = #{sms.content}
+		</if>
+		WHERE
+			id=#{sms.id}
+	</update>
+	
+	<!-- 开关 短信模板 -->
+	<update id="switchSmsTemplet">
+		UPDATE
+			sms_table
+		SET
+			status = #{operate}
+		WHERE
+			id=#{smsId}
+	</update>
+	
+	<!-- 根据用户ID和条件查找符合要求条数 -->
+	<select id="selectSmsCountByUserIdAndCondition" parameterType="java.util.Map" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			sms_table
+		WHERE
+			user_id = #{userId}
+	</select>
+	
+</mapper>

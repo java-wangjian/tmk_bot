@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jq-from.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/audiojs/audio.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/audiojs/wx-audio.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/lib/wx-audio.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont_new.css"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/new.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/index.css"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery.pagination.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery.pagination.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/index.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<!--Global site tag (gtag.js) - Google Analytics--> 
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91621939-3"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+  			gtag('config', 'UA-91621939-3');
+		</script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+  				var hm = document.createElement("script");
+  				hm.src = "https://hm.baidu.com/hm.js?045ae5568e6fe5ccf3ba848683d68205";
+  				var s = document.getElementsByTagName("script")[0]; 
+  				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="navList changeHei1200">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<li>
+						<p class="navItemP">
+							<i class="iconfont icon-data"></i>
+							<span class="parentList">数据统计</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="datas.html">
+										<i class="iconfont icon-fenxi2"></i>
+										<span>统计分析</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-dianhua"></i>
+							<span class="parentList">AI外呼</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="currList.html">
+										<i class="iconfont icon-msnui-calendar"></i>
+										<span>当前任务</span>
+									</a>
+								</p>
+							</li>
+							<li>
+								<p class="childList">
+									<a href="historyPlan.html">
+										<i class="iconfont icon-msnui-plan-time"></i>
+										<span>历史任务</span>
+									</a>
+								</p>
+							</li>	
+							<li>
+								<p class="childList">
+									<a href="simCard.html">
+										<i class="iconfont icon-zhinengkefu"></i>
+										<span>AI机器人</span>
+									</a>
+								</p>
+							</li>
+							<li>
+                            	<p class="childList">
+                                	<a href="smsSetting.html">
+                                    	<i class="iconfont icon-youjianduanxin"></i>
+                                    	<span>意向短信</span>
+                                	</a>
+                            	</p>
+                        	</li>
+                        	<li>
+								<p class="childList">
+									<a href="accMgr.html">
+										<i class="iconfont icon-guanli"></i>
+										<span>转接人工</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					
+					
+					<li class="part01">
+						<p style=" background: white;color: #3c475a;" class="navItemP">
+							<i class="iconfont icon-kehuguanli"></i>
+							<span class="parentList">客户管理</span>
+							<i class="iconfont icon-xiala transIcon90"></i>
+						</p>
+						<ul class="show">
+							<li>
+								<p class="childList">
+									<a style="color: #5dacf5;" href="index.html?tabs=0">
+										<i class="iconfont icon-customer"></i>
+										<span>客户管理</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>	
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-icon_yuyin-mian"></i>
+							<span class="parentList">话术管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="voice.html">
+										<i class="iconfont icon-huatong"></i>
+										<span>话术管理</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-zhanghuffffffpx"></i>
+							<span class="parentList">账户管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+                            	<p class="childList">
+                                	<a href="robotBill.html">
+                                    	<i class="iconfont icon-drxx66"></i>
+                                    	<span>账单管理</span>
+                                	</a>
+                            	</p>
+                        	</li>
+							<li>
+								<p class="childList">
+									<a href="changepwd.html">
+										<i class="iconfont icon-xiugaimima"></i>
+										<span>修改密码</span>
+									</a>
+								</p>
+							</li>                       	
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-shezhi"></i>
+							<span class="parentList">系统管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="feedback.html">
+										<i class="iconfont icon-drxx66"></i>
+										<span>意见反馈</span>
+									</a>
+								</p>
+							</li>
+							<!--<li>
+								<p class="childList">
+									<a href="">
+										<i class="iconfont icon-icon_help"></i>
+										<span>使用帮助</span>
+									</a>
+								</p>
+							</li>-->
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="mainBox changeHei1200">
+				<div class="titBox">
+					<p class="title">客户管理</p>
+					<div class="logoutBox">
+						<a href="systemMsg.html"><img class="lingdang" src="../images/lingdang.png"/><span id="unReadCount"></span></a>
+						
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <i class="iconfont icon-xiala"></i></span>
+						<ul id="logoutUl" class="logoutUl">
+							<!--<a href="login.html"><li>退出</li></a>-->
+							<li onclick="logout()">退出</li>
+						</ul>
+					</div>
+				</div>				
+				<div class="tabBox">
+				  <div onclick="trigTab(event)">
+					<p class="tabs" style="border-bottom: 0.06rem solid #6186CF;">私海客户</p>
+					<p style="display: none;" class="tabs">通话记录</p>
+					<p class="tabs">拜访客户</p>	
+				  </div>					
+				</div>
+				<!--main是其中一个tab-->
+				<div style="display: block;" class="main">
+					<div class="mainTit changeHei116">
+						<!--<div style="margin-right: 0.6rem;" class="dateRowItemBox">
+							<label for="">计划状态：</label>
+							<div class="selectBox">
+								<p onclick="showSelect(event,this)"><span type="0" id="planStatus" class="part06">全部</span><i class="iconfont icon-xiala"></i></p>
+								<ul style="height: 1.32rem;" class="selectBoxUl">
+									<li type="0" onclick="getThisTxt(this)">全部</li>
+									<li type="2" onclick="getThisTxt(this)">计划完成</li>
+									<li type="1" onclick="getThisTxt(this)">计划中</li>
+									<li type="3" onclick="getThisTxt(this)">未计划</li>
+								</ul>
+							</div>
+						</div>-->
+						<div class="searchBox">
+							<input autocomplete="off" type="sea" onkeydown="enterSearch(event)" type="" name="" id="customerPhone" value="" placeholder="请输入手机号/姓名"/>
+							<button onclick="getPriSeaList(1,'ex')" class="ex01">搜索</button>
+						</div>
+						<div class="dateRowItemBox">
+							<label for="">导入日期：</label>
+							<div class="selectDateBox">								
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="start" placeholder="选择开始时间"></div>
+								<span style="line-height: 0.3rem;margin-right: 0.06rem;text-indent: 0;float: left;">—</span>
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="end" placeholder="选择结束时间"></div>																
+							</div>
+						</div>
+						<div class="dateRowItemBox">
+							<button style="float: left;margin-top: 0.18rem;margin-right: 0.2rem;" onclick="getPriSeaList(1)" class="selectMoreBtn mores"><i class="iconfont icon-shaixuan justIcon00"></i>开始筛选</button>
+							<button style="float: left;margin-top: 0.18rem;" isFold='0' onclick="cleanPriSeaBy()" class="selectMoreBtn"><i class="iconfont icon-zhongxinshiyang justIcon00"></i>清空筛选</button>
+						</div>
+						<div style="margin-right: 0.6rem;display: none;" class="dateRowItemBox">
+							<label for="">呼叫状态：</label>
+							<div class="selectBox">
+								<p onclick="showSelect(event,this)"><span id="callStatus" type="0" class="part06">全部</span><i class="iconfont icon-xiala"></i></p>
+								<ul class="selectBoxUl">
+									<li type="0" onclick="getThisTxt(this)">全部</li>
+									<li type="1" onclick="getThisTxt(this)">已接听</li>
+									<li type="2" onclick="getThisTxt(this)">未拨打</li>
+									<li type="3" onclick="getThisTxt(this)">未接通</li>
+								</ul>
+							</div>
+						</div>
+						<div style="margin-right: 0.6rem;display: none;" class="dateRowItemBox">
+							<label for="">意向标签：</label>
+							<div class="selectBox">
+								<p onclick="showSelect(event,this)"><span id="grade" type="0" class="part06">全部</span><i class="iconfont icon-xiala"></i></p>
+								<ul class="selectBoxUl">
+									<li type="0" onclick="getThisTxt(this)">全部</li>
+									<li type="1" onclick="getThisTxt(this)">A</li>
+									<li type="2" onclick="getThisTxt(this)">B</li>
+									<li type="3" onclick="getThisTxt(this)">C</li>
+									<li type="4" onclick="getThisTxt(this)">D</li>
+									<li type="5" onclick="getThisTxt(this)">E</li>
+									<li type="6" onclick="getThisTxt(this)">F</li>
+								</ul>
+							</div>
+						</div>
+						
+					</div>
+					<!--<div id="secMainTit" class="mainTit changeHei116 show">																		
+						<div class="dateRowItemBox">
+							<label for="">通话日期：</label>
+							<div class="selectDateBox">								
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="startF" placeholder="请选择开始时间"></div>
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="endF" placeholder="请选择结束时间"></div>																
+							</div>
+						</div>						
+					</div>-->
+					<div style="background: white;">
+					  <div class="controlSecBox">
+						<div class="dis0">
+							
+							<p class="part02"><span>输入最近导入数量</span><input maxlength="5" oninput="isChange(this)" autocomplete="off" class="countInput" id="count" /></p>	
+							<button onclick="createPlan()" class="norBtn"><i class="iconfont icon-msnui-plan-list"></i> 设置任务</button>
+							<button onclick="batchDel()" class="norBtn"><i style="font-size: 0.14rem;" class="iconfont icon-shanchu"></i> <span>删除</span></button>
+							<!--<button onclick="cancelAllPlan()" class="botBtn left"><i class="iconfont icon-quxiao justIcon03"></i> <sapn>取消所有计划</sapn></button>-->
+							<!--<button id="isStop" onclick="pausePlan(this)" class="botBtn left"><i class="iconfont icon-icon_tingzhi justIcon03"></i> <span>一键停止所有任务</span></button>-->														
+						</div>
+						<div class="createBox">
+							<button onclick="batchTemplate()"><i class="iconfont icon-daoru-tianchong"></i> 批量导入</button>
+							<button onclick="singleTemplate()"><i class="iconfont icon-daoru justicon01"></i> 单个导入</button>
+						</div>
+					  </div>
+					  <div class="contentBox">
+						<div class="tablesTitle">
+							<span class="flex3"><p id="seaAllcheck" style="height: 100%;"><i onclick="cusAllCheck(event)" class="iconfont icon-xuanze justIcon02"></i> <span style="display: inline;font-size: 0.14rem;" id="currPageAllCheck">全选</span></p></span>
+							<span class="flex3">序号</span>
+							<span>客户信息</span>
+							<!--<span class="flex3">意向</span>-->
+							<!--<span class="flex8">最后拨打</span>-->
+							<!--<span class="flex6">计划日期</span>-->
+							<span class="flex6">导入时间</span>
+							<!--<span class="flex4">通话次数</span>-->
+							<!--<span class="flex4">最近拜访</span>-->
+							<!--<span style="margin-right: 12px;" class="flex4">所属者</span>-->
+							<span class="flex8">操作</span>
+							
+						</div>
+						<ul id="planList" class="planList">	</ul>
+						<div id="page" class="page_div"></div>
+					  </div>
+					  <!--<div class="bottomSecBox">
+						
+					  </div>-->
+					</div>
+					
+				</div>
+				<div class="main">
+					<div class="mainTit changeHei116">						
+						<div class="dateRowItemBox">
+							<label for="">通话时长：</label>
+							<div class="selectBox">
+								<p onclick="showSelect(event,this)"><span type="0-10000" id="seconds" class="part06">不限时长</span><i class="iconfont icon-xiala"></i></p>
+								<ul class="selectBoxUl">
+									<li type="0-10000" onclick="getThisTxt(this)">不限时长</li>
+									<li type="0-10" onclick="getThisTxt(this)">10s以下</li>
+									<li type="10-30" onclick="getThisTxt(this)">10s-30s</li>
+									<li type="30-10000" onclick="getThisTxt(this)">30s以上</li>
+								</ul>
+							</div>
+						</div>
+						<div class="dateRowItemBox">
+							<label for="">通话日期：</label>
+							<div class="selectDateBox">								
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="startA" placeholder="请选择开始时间"></div>
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="endA" placeholder="请选择结束时间"></div>																
+							</div>
+						</div>
+						<div class="selRowItemBox">
+							<label for="">筛选：</label>
+							<div class="selRowItem">								
+								<span class='serviceType'><i onclick='changeService0(this)' level='1' class='iconfont icon-fangxingweixuanzhong'></i> <span>A</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='2' class='iconfont icon-fangxingweixuanzhong'></i> <span>B</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='3' class='iconfont icon-fangxingweixuanzhong'></i> <span>C</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='4' class='iconfont icon-fangxingweixuanzhong'></i> <span>D</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='5' class='iconfont icon-fangxingweixuanzhong'></i> <span>E</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='6' class='iconfont icon-fangxingweixuanzhong'></i> <span>F</span></span>
+							</div>
+						</div>
+						
+						<div class="dateRowItemBox">
+							<button style="margin-top: 0.14rem;float: left;" onclick="getCallLogByCondition(1)" class="selectMoreBtn"><i class="iconfont icon-shaixuan justIcon00"></i>开始筛选</button>
+							<button style="margin-top: 0.14rem;float: left;margin-left: 0.2rem;" onclick="cleanCallLog()" class="selectMoreBtn"><i class="iconfont icon-sousuo justIcon00"></i>重新筛选</button>
+						</div>
+					</div>
+					<div style="background: white;">
+					  <div class="controlSecBox">
+					  	<div style="margin-left: 0.2rem;" class="searchBox">
+						    <input autocomplete="off" type="call" onkeydown="enterSearch(event)" maxlength="11" type="" name="" id="keywords" value="" placeholder="请输入手机号"/>
+						    <button onclick="getCallLogByCondition(1,'ex')" class="ex01">搜索</button>
+					    </div>
+						<div class="createBox">
+							<a href="exportLog.html"><button onclick=""><i class="iconfont icon-daoru-tianchong"></i> 查看导出历史</button></a>
+						</div>
+					  </div>
+					 
+					  <div class="contentBox">
+						<div class="tablesTitle">
+							<span style="text-align: center;" class="flex3"><i style="float: left;" onclick="calllogAllCheck(event)" class="iconfont icon-xuanze justIcon02"></i> <span>全选</span></span>	
+							<span class="flex8">计划名称</span>
+							<span class="flex8">被叫电话信息</span>
+							<span class="flex3">意向</span>
+							<span class="flex3">状态</span>
+							<span class="flex8">模板</span>
+							<span class="flex3">通话时长</span>
+							<span class="flex8">通话时间</span>
+							<span>语音记录</span>	
+							<span class="flex8">操作</span>							
+						</div>
+						<ul id="calllogList" class="planList"></ul>
+					  </div>
+					  <div class="bottomSecBox">
+						<div class="bottomSec">		
+							<div class="page_div" id="paginationCalllog"></div>	
+							<button style="margin-left: 0rem;" onclick="batchMult('export')" class="botBtn0 left marginL50"><i class="iconfont icon-tubiao05"></i> 导出</button>
+							<button onclick="batchMultBy(this)" style="display: none;" id="ids" idlist="[]" class="botBtn0 left marginL50"><i class="iconfont icon-tubiao05"></i> 导出全部</button>
+							<!--<button onclick="batchMult('delete')" class="botBtn left"><i class="iconfont icon-shanchu"></i> <span>批量删除</span></button>-->
+						</div>
+					  </div>
+					</div>
+				</div>
+				
+				
+				<div class="main">
+					<div style="background: white;margin-top: 0.2rem;">
+					  <div class="contentBox">
+						<div class="tablesTitle">
+							<span class="flex4">序号</span>
+							<span class="flex4">电话</span>
+							<span class="flex4">姓名</span>
+							<span class="flex4">企业</span>										
+							<span class="flex4">客户意向</span>
+							<span style="-webkit-box-flex: 10;-moz-box-flex: 10;-webkit-flex: 10;-ms-flex: 10;flex: 10;">拜访日期</span>
+							<span class="flex4">拜访方式</span>
+							<span class="flex8">拜访详情</span>
+						</div>
+						<ul id="visitList" class="visitList">
+					
+							
+						</ul>
+						<div class="page_div" id="paginationVisit"></div>	
+					  </div>					  
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			$(function(){
+				loadFuncOrStyle()
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.CustomerMapper">
+
+	<!-- 添加多个用户 -->
+	<insert id="addCustomers" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into customer_table
+		(company,customerName,customerPhone,note,userId,addTime,batchNo)
+		values
+		<!--item就是List里每一项的对象名，要用","分割每一条数据，最后要";"结尾 -->
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.company}, #{item.customerName},
+			#{item.customerPhone}, #{item.note}, #{item.userId},#{item.addTime},#{item.batchNo})
+		</foreach>
+	</insert>
+
+	<!-- 添加单个用户 -->
+	<insert id="addCustomer" parameterType="com.zxxkj.model.Customer">
+		<selectKey keyProperty="id" order="AFTER" resultType="int">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into
+		customer_table(company,customerName,customerPhone,note,userId,addTime)
+		values(#{company},#{customerName},#{customerPhone},#{note},#{userId},now());
+	</insert>
+
+	<!-- 根据客户名字和手机查询是否已添加该用户 -->
+	<select id="findCustomerByUserIdAndPhone" resultType="java.lang.Integer">
+		select count(id) from customer_table where
+		userId=#{userId} and isDelete=0 and customerPhone=#{customerPhone};
+	</select>
+
+	<!-- 动态查询客户 -->
+	<!-- <resultMap type="com.zxxkj.model.Customer" id="customerList"> <result 
+		property="id" column="id"/> <result property="company" column="company"/> 
+		<result property="note" column="note"/> <result property="customerName" column="customerName"/> 
+		<result property="addTime" column="addTime"/> <result property="customerPhone" 
+		column="customerPhone"/> <result property="callStatus" column="callStatus"/> 
+		<result property="grade" column="grade"/> <result property="userId" column="userId"/> 
+		</resultMap> <select id="findCustomerByPhoneOrDateTimeRangOrGrade" resultMap="customerList"> 
+		select id,company,note,customerName,addTime,customerPhone,callStatus,grade,userId 
+		from customer_table where userId=#{userId} <if test="customerPhone!=0"> and 
+		customerPhone=#{customerPhone} </if> <if test="startTime!=null"> and addTime 
+		&gt; #{startTime} </if> <if test="endTime!=null"> and addTime &lt; #{endTime} 
+		</if> <if test="grade!=0"> and grade=#{grade} </if> <if test="callStatus!=0"> 
+		and callStatus=#{callStatus} </if> <if test="userIdList!=null"> and id in 
+		<foreach collection="list" item = "model" open="(" separator="," close=")"> 
+		#{model} </foreach> </if> limit(#{start}, #{count}) </select> -->
+	<resultMap id="loopSpeedResult" type="HashMap">
+		<result column="id" property="id" />
+		<result column="company" property="company" />
+		<result column="note" property="note" />
+		<result column="customerName" property="customerName" />
+		<result column="addTime" property="addTime" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="account" property="account" />
+	</resultMap>
+	<select id="findCustomerByPhoneOrDateTimeRangOrGradeMap"
+		parameterType="java.util.Map" resultMap="loopSpeedResult">
+		SELECT id,company,customerName,addTime,customerPhone,grade,callCount,userId,isPlaned FROM customer_table 
+		WHERE userId=#{userId} AND isDelete=0
+			<if test="customerPhone!=0">
+				and customerPhone like "%"#{customerPhone}"%" 
+			</if>
+			<if test="customerPhone==0 and customerName!=null">
+				and customerName like "%"#{customerName}"%" 
+			</if>
+			<if test="startTime!=null">
+				and addTime &gt;= #{startTime}
+			</if>
+			<if test="endTime!=null">
+				and addTime &lt;= #{endTime}
+			</if>
+		 order by id desc
+		 LIMIT #{start}, #{count}
+	</select>
+
+	<!-- 根据userId查询该userId下的用户数量 -->
+	<select id="findCountByUserId" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT count(id) FROM customer_table 
+		WHERE userId=#{userId} AND isDelete=0
+			<if test="customerPhone!=0">
+				and customerPhone like "%"#{customerPhone}"%" 
+			</if>
+			<if test="customerPhone==0 and customerName!=null">
+				and customerName like "%"#{customerName}"%" 
+			</if>
+			<if test="startTime!=null">
+				and addTime &gt;= #{startTime}
+			</if>
+			<if test="endTime!=null">
+				and addTime &lt;= #{endTime}
+			</if>
+	</select>
+
+	<!-- 根据userId查询该用户下的所有客户 -->
+	<resultMap type="com.zxxkj.model.Customer" id="customerList">
+		<result property="id" column="id" />
+		<result property="customerPhone" column="customerPhone" />
+	</resultMap>
+	<select id="findCustomerListByUserId" parameterType="Integer"
+		resultMap="customerList">
+		select id,customerPhone from customer_table where userId=#{userId} and
+		isDelete=0
+	</select>
+
+	<!-- 修改客户的意向评定 -->
+	<update id="updateGradeByCustomerId">
+		UPDATE customer_table SET customer_table.grade = #{grade}
+		WHERE customer_table.id = #{customerId};
+	</update>
+
+	<!-- 查询固定数量的客户 -->
+	<select id="findCustomerListByUserIdAndCount" resultMap="customerList">
+		select id,customerPhone from customer_table where userId=#{userId} and
+		isDelete=0 ORDER BY addTime DESC LIMIT #{count}
+	</select>
+
+	<!-- 修改客户的执行计划 -->
+	<update id="updateIsPlanedIdByCustomerIdList">
+		UPDATE customer_table SET customer_table.isPlaned = #{isPlaned}
+		WHERE customer_table.id in
+		<foreach collection="customerIdList" item="model" open="("
+			separator="," close=")">
+			#{model}
+		</foreach>
+	</update>
+
+	<!-- 修改客户的删除状态 -->
+	<update id="batchDeleteUser">
+		UPDATE customer_table SET customer_table.isDelete = #{isDelete}
+		WHERE customer_table.id in
+		<foreach collection="customerIdList" item="model" open="("
+			separator="," close=")">
+			#{model}
+		</foreach>
+	</update>
+
+	<!-- 修改客户的删除状态 -->
+	<update id="updateCallCountByPhone">
+		UPDATE customer_table SET customer_table.callCount =
+		customer_table.callCount+1
+		WHERE customer_table.customerPhone = #{customerPhone}
+	</update>
+
+	<!-- 根据手机号查询当前拨打的数量 -->
+	<select id="findCallCountByPhone" resultType="Integer">
+		select callCount
+		from customer_table where customerPhone=#{customerPhone}
+	</select>
+
+	<!-- 删除用户下的所有计划 -->
+	<update id="batchUpdatePlanIdByUserId">
+		UPDATE customer_table SET customer_table.planId = 0
+		WHERE customer_table.userId =#{userId}
+	</update>
+
+	<!-- 根据userId和planId修改用户下在此计划下的所有客户planId -->
+	<update id="batchUpdatePlanIdByUserIdAndPlanId" parameterType="list">
+		UPDATE customer_table SET planId=0 WHERE id in
+		<foreach collection="customerIdList" item="model" open="("
+			separator="," close=")">
+			#{model}
+		</foreach>
+	</update>
+
+	<!-- 根据userId查询该用户下的正处于计划中的客户 -->
+	<select id="findCustomerHavePlanByuserId" resultType="Integer">
+		select count(*) from customer_table where userId=#{userId} and planId
+		!=0
+	</select>
+
+	<!--根据用户ID查询当前用户下的客户数量 -->
+	<select id="findCustomerNumByUserId" parameterType="Integer"
+		resultType="Integer">
+		SELECT COUNT(id) FROM customer_table WHERE
+		customer_table.userId =#{userId} and customer_table.planId=#{planId}
+		and customer_table.isDelete=0 and customer_table.isCall=0
+	</select>
+
+	<select id="findCustomers" resultMap="customerList">
+		SELECT * FROM
+		customer_table WHERE customer_table.userId=#{userId} AND
+		planId=#{planId} and isCall=0 and isDelete=0 limit #{pageNo},#{num}
+	</select>
+
+	<update id="updateIsCallById" parameterType="Integer">
+		UPDATE
+		customer_table SET isCall=#{isCall} WHERE id=#{customerId}
+	</update>
+
+	<update id="updateIsCallAndPlanIdByCustomerIdList"
+		parameterType="list">
+		UPDATE customer_table SET isCall=#{isCall} WHERE id in
+		<foreach collection="customerIdList" item="model" open="("
+			separator="," close=")">
+			#{model}
+		</foreach>
+	</update>
+
+	<!-- 根据userId修改该用户下的所有客户的isCall状态 -->
+	<update id="updateAllCustomerIsCall">
+		update customer_table set isCall=#{isCall} where userId=#{userId} and
+		planId=#{planId}
+	</update>
+
+	<!-- 根据customerIdList查询已经有计划的customerId -->
+	<resultMap type="Integer" id="customerIdList">
+		<result property="id" column="id" />
+	</resultMap>
+	<select id="findhavePlandCustomerIdByCustomerIdList" resultMap="customerIdList">
+		select id from customer_table where isCall=1 and userId=#{userId} and
+		id in
+		<foreach collection="customerIdList" item="model" open="("
+			separator="," close=")">
+			#{model}
+		</foreach>
+	</select>
+
+	<!-- 根据userId查询未添加计划的客户 -->
+	<select id="findCustomerListByUserIdAndCountAndPlanId"
+		resultMap="customerIdList">
+		select id,customerPhone from customer_table where userId=#{userId} and
+		isDelete=0 ORDER BY id DESC LIMIT #{count}
+	</select>
+
+	<!-- 查询计划中断后，计划中未拨打的客户id列表 -->
+	<select id="findInterruptedPlanCustomerIdList" resultMap="customerIdList">
+		select id from customer_table where isDelete=0 and planId=#{planId} and
+		isCall=0
+	</select>
+
+	<!-- 根据计划id查询计划中的客户列表 -->
+	<resultMap id="customerListDuringPlan" type="HashMap">
+		<result column="customerId" property="customerId" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="customerName" property="customerName" />
+		<result column="fileID" property="fileID" />
+		<result column="grade" property="grade" />
+		<result column="callrecordId" property="callrecordId" />
+		<result column="isCall" property="isCall" />
+		<result column="callStatus" property="status" />
+		<result column="isTransfer" property="isTransfer" />
+	</resultMap>
+	<select id="findCusomerByPlanIdAndUserId" resultMap="customerListDuringPlan">
+		SELECT customer.customerPhone,customer.isCall,customer.id
+		customerId,customer.customerName,
+		callrecord.grade,callrecord.status,callrecord.fileID,callrecord.id
+		callrecordId,callrecord.isTransfer
+		FROM customer_table customer
+		LEFT JOIN callrecord_table callrecord
+		ON customer.id=callrecord.customerID
+		WHERE callrecord.planId=#{planId}
+		<if test="customerIdList!=null">
+			and customer.id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		<if test="cutomerPhone!=null">
+			and customer.customerPhone like "%"#{cutomerPhone}"%"
+		</if>
+		<if test="startDuringTime!=null">
+			and callrecord.durationTime &gt;= #{startDuringTime}
+		</if>
+		<if test="endDuringTime!=null">
+			and callrecord.durationTime &lt;= #{endDuringTime}
+		</if>
+		<if test="startTimeStr!=null">
+			and callrecord.datetime &gt;= #{startTimeStr}
+		</if>
+		<if test="endTimeStr!=null">
+			and callrecord.datetime &lt;= #{endTimeStr}
+		</if>
+		<if test="gradeList!=null">
+			and callrecord.grade in
+			<foreach collection="gradeList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		limit #{start},#{pageCount}
+	</select>
+
+	<!-- 根据计划id查询计划中的客户列表(用于导出成Excel) -->
+	<resultMap id="customerListDuringPlanExcel" type="HashMap">
+		<result column="customerId" property="customerId" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="customerName" property="customerName" />
+		<result column="customerCompany" property="customerCompany" />
+		<result column="fileID" property="fileID" />
+		<result column="grade" property="grade" />
+		<result column="callrecordId" property="callrecordId" />
+	</resultMap>
+	<select id="findCusomerByPlanIdAndUserIdForExcel" parameterType="java.lang.Integer"
+		resultMap="customerListDuringPlanExcel">
+		SELECT customer.customerPhone,customer.isCall,customer.id
+		customerId,customer.customerName,customer.company customerCompany,
+		callrecord.grade,callrecord.status,callrecord.fileID,callrecord.id
+		callrecordId,callrecord.isTransfer
+		FROM customer_table customer
+		LEFT JOIN callrecord_table callrecord
+		ON customer.id=callrecord.customerID
+		WHERE callrecord.planId=#{planId}
+		<if test="customerIdList!=null">
+			and customer.id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		<if test="cutomerPhone!=null">
+			and customer.customerPhone like "%"#{cutomerPhone}"%"
+		</if>
+		<if test="startDuringTime!=null">
+			and callrecord.durationTime &gt;= #{startDuringTime}
+		</if>
+		<if test="endDuringTime!=null">
+			and callrecord.durationTime &lt;= #{endDuringTime}
+		</if>
+		<if test="startTimeStr!=null">
+			and callrecord.datetime &gt;= #{startTimeStr}
+		</if>
+		<if test="endTimeStr!=null">
+			and callrecord.datetime &lt;= #{endTimeStr}
+		</if>
+		<if test="gradeList!=null">
+			and callrecord.grade in
+			<foreach collection="gradeList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+	</select>
+
+	<!-- 根据计划planId查询该计划下的客户列表 -->
+	<resultMap id="customers" type="HashMap">
+		<result column="customerId" property="customerId" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="customerName" property="customerName" />
+		<result column="isCall" property="isCall" />
+	</resultMap>
+	<select id="findCustomersByPlanId" resultMap="customers">
+		SELECT customer.customerPhone,customer.isCall,customer.id
+		customerId,customer.customerName FROM customer_table customer WHERE
+		1=1
+		<if test="cutomerPhone!=null">
+			and customer.customerPhone like "%"#{cutomerPhone}"%"
+		</if>
+		<if test="customerIdList!=null">
+			and id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		LIMIT #{start},#{pageCount}
+	</select>
+
+	<!-- 根据计划id查询计划中的客户列表总数 -->
+	<select id="findCustomerCountByPlanIdAndUserId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM customer_table customer
+		JOIN callrecord_table callrecord
+		ON customer.id=callrecord.customerID
+		WHERE callrecord.planId=#{planId}
+		<if test="customerIdList!=null">
+			and customer.id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+		<if test="cutomerPhone!=null">
+			and customer.customerPhone=#{cutomerPhone}
+		</if>
+		<if test="startDuringTime!=null">
+			and callrecord.durationTime &gt;= #{startDuringTime}
+		</if>
+		<if test="endDuringTime!=null">
+			and callrecord.durationTime &lt;= #{endDuringTime}
+		</if>
+		<if test="startTimeStr!=null">
+			and callrecord.datetime &gt;= #{startTimeStr}
+		</if>
+		<if test="endTimeStr!=null">
+			and callrecord.datetime &lt;= #{endTimeStr}
+		</if>
+		<if test="gradeList!=null">
+			and callrecord.grade in
+			<foreach collection="gradeList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+	</select>
+	
+	<!-- 根据客户id列表查询客户信息 -->
+	<select id="findCustomersBycustomerIdList" resultMap="customers">
+		SELECT customer.customerPhone,customer.isCall,customer.id
+		customerId,customer.customerName FROM customer_table customer WHERE
+		1=1
+		<if test="customerIdList!=null">
+			and id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if> 
+	</select>
+	
+	<!-- 查询计划中未拨打电话的客户id列表 -->
+	<resultMap type="java.lang.Integer" id="noCallCustomerIdList">
+		<result property="id" column="id" />
+	</resultMap>
+	<select id="findNoCallCustomerIdByPlanId" resultMap="noCallCustomerIdList">
+		SELECT id FROM customer_table WHERE planId=#{planId} AND isCall=0
+	</select>
+	
+	<!-- 查询最新添加的客户id列表 -->
+	<select id="findNewAddIdList" parameterType="java.lang.Integer" resultMap="customerIdList">
+		SELECT id FROM customer_table WHERE userId=#{userId} ORDER BY addTime DESC LIMIT #{count}
+	</select>
+	
+	<!-- 根据计划id查询计划中的客户列表 -->
+	<select id="findCustomerListByPlanId" parameterType="java.lang.Integer" resultMap="customerList">
+		SELECT
+			id,
+			customerPhone
+		FROM
+			customer_table
+		WHERE
+			id IN (
+				SELECT
+					customer_plan_table.customerId
+				FROM
+					customer_plan_table
+				LEFT JOIN plan_table ON customer_plan_table.planId = plan_table.id
+				WHERE
+					plan_table.id = #{planId} AND customer_plan_table.isCall = #{isCall}
+			)
+	</select>
+	
+	<select id="findCustomerIdListByBatchNo" resultMap="customerIdList">
+		select id from customer_table where batchNo = #{batchNo}
+	</select>
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.VisitMapper">
+
+    <resultMap id="lalaMap" type="HashMap">
+        <result column="customerName" property="customerName"/>
+        <result column="grade" property="grade"/>
+        <result column="visitTime" property="visitTime"/>
+        <result column="visitWay" property="visitWay"/>
+        <result column="visitDetails" property="visitDetails"/>
+        <result column="planName" property="planName"/>
+    </resultMap>
+    <select id="selectVisitListByPlanId" parameterType="java.util.Map"  resultMap="lalaMap">
+    	SELECT
+            a.customerName,
+            b.grade,
+            b.visitTime,
+            b.visitWay,
+            b.visitDetails,
+            c.planName
+        FROM
+            customer_table a
+        RIGHT JOIN visit_table b ON a.id = b.customerId
+        RIGHT JOIN plan_table c ON b.planId = c.id
+        WHERE a.userId = #{userId} AND a.planId = #{planId}
+        ORDER BY
+            visitTime DESC
+    </select>
+
+    <select id="selectVisitCountByPlanId" parameterType="java.util.Map" resultType="Integer">
+        select count(*) from visit_table WHERE userId = #{userId} AND planId =#{planId}
+    </select>
+
+	<!-- 修改客户的意向评定 -->
+	<update id="updateGradeByCustomerId" >  
+	    UPDATE visit_table SET visit_table.grade = #{grade},visit_table.visitDetails=#{visitDetails}
+	     WHERE visit_table.id = #{customer};   
+	</update>
+	
+	<!-- 添加拜访记录 -->
+	 <insert id="addVisitRecord" parameterType="com.zxxkj.model.Visit">
+	    <selectKey keyProperty="id" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+        insert into visit_table(visitWay,visitTime,visitDetails,planId,customerId,userId,grade,addTime)
+        values(#{visitWay},now(),#{visitDetails},#{planId},#{customerId},#{userId},#{grade},now());
+    </insert>
+    
+    <!-- 根据userId查询此用户的所有拜访记录 -->
+     <resultMap id="loopSpeedResult"   type="HashMap">  
+	    <result column="durationTime" property="durationTime"/>  
+	    <result column="datetime" property="datetime" />
+	    <result column="callCount" property="callCount" />
+	    <result column="id" property="id" />
+	    <result column="company" property="company" />
+	    <result column="note" property="note" />
+	    <result column="customerName" property="customerName" />
+	    <result column="addTime" property="addTime" />
+	    <result column="customerPhone" property="customerPhone" />
+	    <result column="callStatus" property="callStatus" />
+	    <result column="grade" property="grade" />
+	    <result column="excuteTime" property="excuteTime" />
+	    <result column="visitTime" property="visitTime" />
+	    <result column="account" property="account" />
+	</resultMap>
+    <select id="findVisitListByUserId" parameterType="Integer"  resultMap="loopSpeedResult">
+    	select 
+    		a.company,a.customerName,a.customerPhone,b.grade,
+			b.visitTime,b.visitWay,b.visitDetails 
+		from 
+			customer_table a 
+		right JOIN 
+			visit_table b 
+		ON 
+			a.id=b.customerId
+		WHERE 
+			a.userId=#{userId} 
+		ORDER BY visitTime DESC
+		LIMIT 
+			#{start}, #{count}
+    </select>
+    
+    <resultMap id="laMap"   type="HashMap">  
+	    <id column="id" property="id"/>  
+	    <result column="visitTime" property="visitTime" />
+	    <result column="customerId" property="customerId" />
+	    <result column="grade" property="visitGrade" />
+	</resultMap>
+    <select id="selectVisitGradeByUserId" parameterType="java.util.Map"  resultMap="laMap">
+    	SELECT
+			id,
+			grade,
+			addTime,
+			customerId
+		FROM
+			visit_table
+		WHERE
+			userId = #{userID}
+    </select>
+    
+    <!-- 根据userId查询该用户拜访用户的总数 -->
+    <select id="findCountByUserId" parameterType="Integer" resultType="Integer">  
+     	select count(*) from visit_table where userId=#{userId}  
+	</select>
+</mapper>

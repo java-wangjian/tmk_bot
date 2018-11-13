@@ -1,0 +1,584 @@
+.navList{
+	width: 2.6rem;
+	height: 100%;
+	background: #3c475a;
+	overflow: hidden;
+}
+.pickfiles{
+	height: 100%;
+}
+.dtlogoBox{
+	height: 0.7rem;
+	margin-top: 0.3rem;
+	border-bottom: 1px solid #414f68;
+}
+.dtlogo{
+	display: block;
+	margin: 0 auto;
+	width: 1.8rem;
+}
+.nav{
+	margin-top: 0.3rem;
+}
+.navItemP{
+	background: white;
+	height: 0.52rem;
+	line-height: 0.52rem;
+	width: 2.18rem;
+	margin: 0 auto;
+	border-radius: 0.26rem;
+	font-size: 0.2rem;
+	text-align: center;
+	color: #3c475a;
+}
+.navItemP i{
+	display: inline-block;
+	margin-right: 0.1rem;
+	font-size: 0.22rem
+}
+.mainBox{
+	position: absolute;
+	top: 0;
+	left: 2.6rem;
+	right: 0;
+	height: 100%;
+	background: #fafafa;
+}
+.titBox{
+	height: 1rem;
+	background: white;
+}
+.title{
+	font-size: 0.24rem;
+	line-height: 1rem;
+	text-indent: 0.3rem;
+	float: left;
+	color: #666666
+}
+.logoutBox{
+	float: right;
+	margin-top: 0.23rem;
+	margin-right: 0.4rem;
+	color: #333333;
+	position: relative;
+	cursor: pointer;
+}
+#curAccount{
+	font-size: 16px;
+}
+.logoutUl{
+	position: absolute;
+    background: white;
+    text-align: center;
+    width: 1rem;
+    right: 0;
+    border: 1px solid #ccc;
+    display: none;
+    line-height: 0.3rem;
+}
+.lingdang{
+	height: 0.28rem;
+	vertical-align: middle;
+}
+.logoutImg{
+	height: 0.54rem;
+	vertical-align: middle;
+	margin-right: 0.2rem;
+}
+.main{
+	position: absolute;
+	background: white;
+	top: 1.86rem;
+	left: 0.3rem;
+	right: 0.3rem;
+	height: 80%;
+	box-shadow: 0px 0px 42px #eeeeee;
+	display: none
+}
+.tabsBox{
+	height: 0.84rem;
+    background: #FAFAFA;
+    box-shadow: 0 0 25px #f3f3f3 inset;
+}
+.tabsUl{
+	margin-left: 0.3rem;
+	font-size: 0.22rem;
+}
+.tabsLi{
+	color: #333333;
+	cursor: pointer;
+	float: left;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    padding: 0 0.4rem;
+    border-bottom: 0.04rem solid #FAFAFA;
+}
+.nodeBox{
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	position: relative;
+}
+.nodeItem{
+	text-align: center;
+}
+.node{
+	border: 2px solid #6490d9;
+    margin: 0 auto;
+    border-radius: 0.08rem;
+    padding: 0.2rem;
+    position: relative;
+    font-size: 0.26rem;
+    background: #eef3fb;
+    color: #6490D9;
+    min-width: 0.8rem;
+}
+.wid185{
+	width: 1.85rem;
+}
+.arrows{
+	color: #6490D9;
+	font-size: 0.4rem;
+}
+.nodeControl{
+	position: absolute;
+	left: 104%;
+	top: 0;
+}
+.startNodeBox{
+	margin-top: 0.96rem;
+}
+.inlineblock{
+	display: inline-block;
+}
+.pinkBg{
+	background: #FBEEEE;
+}
+.nodeBtn{
+	width: 1.4rem;
+    font-size: 0.14rem;
+    color: #aeaeae;
+    border: none;
+    float: left;
+    cursor: pointer;
+    background: white;
+}
+.nodeBtn i{
+	font-size: 0.14rem;
+}
+.blue{
+	color: #6490D9;
+}
+.red{
+	color: #ec6464;
+}
+.addRowBtn{
+	height: 0.72rem;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.addRowBtn button{
+	height: 100%;
+	width: 50%;
+	border: none;
+	float: left;
+}
+.but1{
+	background: #ededed;
+	color: #999999;
+	font-size: 0.24rem;
+}
+.but2{
+	background: #547ed1;
+	color: white;
+	font-size: 0.24rem;
+}
+.addNodeInput{
+	width: 2.7rem;
+	height: 0.4rem;
+	outline: none;
+}
+.addRow:first-child{
+	margin-top: 0.52rem;
+}
+.addRow{
+	margin-top: 0.2rem;
+}
+.addItemTit{
+	font-size: 0.18rem;
+	color: #333333;
+	margin-left: 0.5rem;
+}
+.addNodeKW{
+	resize: none;
+    width: 4.2rem;
+    margin: 0 auu;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: navajowhite;
+    display: block;
+    height: 1.4rem;
+    background: #f8f8fa;
+    line-height: 0.4rem;
+    outline: none;
+    text-indent: 0.2rem;
+}
+.voiceBox{
+	height: 0.4rem;
+}
+.voiceImgBox{
+	float: left;
+    height: 0.4rem;
+    width: 1.6rem;
+    background: url(../images/voice.png) no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    margin-left: 0.4rem;
+}
+.playing{
+	height: 70%;
+    margin-left: 0.2rem;
+    margin-top: 4%;
+}
+.fileName{
+	float: left;
+    line-height: 0.6rem;
+    margin-left: 0.2rem;
+}
+.speFileName{
+	max-width: 1.3rem;
+    float: left;
+    overflow: hidden;
+    line-height: 0.6rem;
+    margin-left: 1.1rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.speFileName00{
+	max-width: 3rem;
+    float: left;
+    overflow: hidden;
+    line-height: 0.6rem;
+    margin-left: 1.1rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.speFileName0{
+	width: 0.64rem;
+    float: left;
+    overflow: hidden;
+    line-height: 0.6rem;
+    margin-left: 1.4rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.delVoice{
+	float: left;
+    display: inline-block;
+    height: 0.27rem;
+    margin-top: 0.18rem;
+    margin-left: 0.1rem;
+    color: #bbbbbb;
+    cursor: pointer;
+}
+.newAudioBtn{
+	text-indent: 0.4rem;
+	font-size: 0.2rem;
+	color: #999999;
+	cursor: pointer;
+}
+.botBtnGps{
+	position: absolute;
+	bottom: 0.1rem;
+	width: 100%;
+	height: 0.46rem;
+}
+.mainVoiceBox{
+	position: absolute;
+	bottom: 0.7rem;
+	width: 100%;
+	top: 0;
+	overflow-y: auto;
+	padding-bottom: 0.4rem;
+}
+.part00{
+	height: 100%;
+	width: 1.5rem;
+	font-size: 0.22rem;
+	border-radius: 0.2rem;
+	border: none;
+	float: right;
+	margin-right: 0.27rem;
+}
+.blueBg{
+	background: #6490D9;
+	color: white;
+}
+.grayBg{
+	background: #e6e9ef;
+	color: #999999;
+}
+.assistQuesAddBtnBox,.assistItemBox{
+	height: 4.6rem;
+	width: 44%;
+	float: left;
+	margin-left: 4%;
+	margin-top: 0.6rem;
+	position: relative;
+	box-shadow: 0 0 20px #eeeeee;
+}
+.caps{
+	position: absolute;
+	width: 100%;
+	height: 80%;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	background: rgba(250,250,250,0.5);
+}
+.caps0{
+	position: absolute;
+	width: 100%;
+	height: 82%;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	background: rgba(250,250,250,0.5);
+}
+.sec00{
+	overflow: hidden;
+}
+.assistQuesAddBtn{
+	height: 2.8rem;
+}
+.sec01{
+	overflow: hidden;
+	margin-top: 0.1rem;
+}
+.sec02{
+	font-size: 0.2rem;
+    color: #333333;
+    float: left;
+    line-height: 0.48rem;
+    text-align: right;
+    width: 1.4rem;
+}
+.sec03{
+	height: 0.48rem;
+    float: left;
+    border: 1px solid #DDDDDD;
+    width: 5rem;
+}
+.sec04{
+	height: 100%;
+	border: none;
+	width: 100%;
+}
+.sec05{
+	height: 1.6rem;
+	margin-top: 0.2rem;
+}
+.sec06{
+	height: 100%;
+    text-indent: 0.2rem;
+    margin-left: 0.4rem;
+    width: 6rem;
+    resize: none;
+    border: none;
+    background: #F8F8FA;
+    line-height: 0.4rem;
+}
+.sec07{
+	height: 0.4rem;
+	margin-top: 0.2rem;
+}
+.sec08{
+	float: left;
+    height: 0.4rem;
+    width: 1rem;
+    background: url(../images/voice.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    z-index: 3;
+}
+.sec080{
+	float: left;
+    height: 0.4rem;
+    width: 1.2rem;
+    background: url(../images/voice.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    z-index: 3;
+}
+.specialQuesItem{
+	width: 44%;
+	margin-left: 4%;
+	height: 7.2rem;
+	float: left;
+	position: relative;
+	margin-top: 0.5rem;
+    box-shadow: 0 0 20px #eeeeee;
+    margin-bottom: 40px;
+}
+.threeVoicesBox{
+	margin-top: 0.2rem;
+	height: 3.3rem;
+}
+.miVoiceBox{
+	width: 44%;
+	margin-left: 4%;
+	height: 1.5rem;
+	float: left;
+	margin-top: 0.1rem;
+}
+.miAudioBox{
+	height: 0.4rem;
+	position: relative;
+}
+.miKwBox{
+	height: 1rem;
+    border: 1px solid #dddddd;
+    margin-top: 0.1rem;
+    border-radius: 0.04rem;
+}
+.sec09{
+	width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 1rem;
+    color: #eaeaea;
+    background: white;
+    line-height: 1rem;
+}
+.sec10{
+	resize: none;
+    outline: none;
+    border: none;
+    height: 90%;
+    text-indent: 0.2rem;
+    width: 100%;
+}
+.sec11{
+	margin-top: 2rem;
+    height: 100%;
+    width: 100%;
+    color: #eee;
+    border: none;
+    line-height: 2.8rem;
+    font-size: 2rem;
+    background: white;
+}
+.shows{
+	display: block;
+}
+.hiddens{
+	display: none;
+}
+.saveBox{
+    padding-top: 0.2rem;
+    height: 0.8rem;
+}
+.itemBtn{
+	border-radius: 0.04rem;
+	float: right;
+	height: 0.4rem;
+	width: 1rem;
+	margin-right: 0.2rem;
+	border: none;
+}
+.floatBtnBox{
+	position: fixed;
+    background: sandybrown;
+    right: 2rem;
+    top: 80%;
+    height: 1.16rem;
+    width: 1.16rem;
+    border-radius: 100%;
+    overflow: hidden;
+    box-shadow: 0 0 20px #BBBBBB;
+    z-index: 10;
+}
+.floatBtnParent{
+	height: 100%;
+	width: 100%;
+}
+.newAssist{
+	height: 100%;
+	width: 100%;
+	border: none;
+	line-height: 1.16rem;
+	text-align: center;
+	font-size: 0.72rem;
+	background: white;
+}
+.tips{
+	color: #6490d9;
+    text-indent: 0.2rem;
+}
+.backBtn{
+	border: none;
+    background: white;
+    margin-right: 0.2rem;
+    outline: none;
+}
+.patchUploadBox{
+	width: 5.73rem;
+	height: 5.55rem;
+	background: white;
+	overflow: hidden;
+}
+.uploadTempBox{
+	width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 0.05rem;
+    border: 0.08rem dashed #e6e6e6;
+    position: relative;
+    text-align: center;
+    margin:1rem auto 0;
+}
+.addsign0{
+	line-height: 1.45rem;
+    font-size: 0.8rem;
+    color: #e6e6e6;
+    font-weight: 900;
+}
+.uploadTempFile{
+	top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    opacity: 0;
+}
+.downTempLinkBox{
+	text-align: center;
+    font-size: 0.18rem;
+    margin-top: 0.47rem;
+}
+.downTempLinkBox a{
+	color: #7459cc;
+}
+.uploadTemplateBtn{
+	margin: 0 auto;
+    display: block;
+    margin-top: 0.27rem;
+    width: 3.98rem;
+    height: 0.56rem;
+    border-radius: 0.08rem;
+    border: none;
+    color: white;
+    background: #719bd9;
+}
+#tipt{
+	position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+#filesName{
+	text-align: center;
+    margin-top: 0.2rem;
+}

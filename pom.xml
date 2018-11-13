@@ -1,0 +1,360 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.zxxkj</groupId>
+    <artifactId>tmk-bot</artifactId>
+    <packaging>war</packaging>
+    <version>1.5.11.20181112_test</version>
+    <name>tmk-bot</name>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <!--Spring框架核心库 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Spring MVC -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- aspectJ AOP 织入器 -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.9</version>
+        </dependency>
+        <!--mybatis-spring适配器 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        <!--Spring java数据库访问包，在本例中主要用于提供数据源 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--mysql数据库驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+        <!--log4j日志包 -->
+        <!-- logback start -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <!-- mybatis ORM框架 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <!-- JUnit单元测试工具 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+        </dependency>
+        <!--c3p0 连接池 -->
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+        <!-- JSTL -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- Servlet核心包 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--JSP -->
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+        <!--文件上传 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.7</version>
+        </dependency>
+        <!-- alibaba fastjson 格式化对 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.41</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.2.0, 7.2.99]</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.6.4.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+            <type>jar</type>
+        </dependency>
+
+        <!-- <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.0</version>
+        </dependency> -->
+
+        <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+        <!--httprequest依赖-->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.3.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-multipart</artifactId>
+            <version>1.19.2</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <finalName>tmk-bot</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>4.0.5.RELEASE</spring.version>
+        <!--本地外网IP-->
+        <service.local_ip>103.25.20.169</service.local_ip>
+        <!--测试IP地址-->
+        <service.test_ip>47.93.8.246</service.test_ip>
+        <!--生产IP地址-->
+        <!--华为：114.116.89.184：-->
+        <!--SOSO:47.93.37.49-->
+        <!--百务:114.116.86.196 -->
+        <service.pro_ip>114.116.89.184</service.pro_ip>
+    </properties>
+    <!--Maven环境切换-->
+    <profiles>
+        <profile>
+            <id>pro</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <!--数据库配置-->
+                <mvn.jdbc.driver.classname>com.mysql.jdbc.Driver</mvn.jdbc.driver.classname>
+                <mvn.jdbc.url>jdbc:mysql://${service.pro_ip}:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.url>
+                <mvn.jdbc.dlsrzurl>jdbc:mysql://114.116.89.184:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.dlsrzurl>
+                <mvn.jdbc.username>root</mvn.jdbc.username>
+                <mvn.jdbc.password>zxxkj2017</mvn.jdbc.password>
+                <!--redis配置-->
+                <mvn.redis.host>${service.pro_ip}</mvn.redis.host>
+                <mvn.redis.port>6379</mvn.redis.port>
+                <mvn.redis.password>redis_zxxkj2017</mvn.redis.password>
+                <!--freeswitch setting配置-->
+                <mvn.setting.freeswitch_post>${service.pro_ip}</mvn.setting.freeswitch_post>
+                <mvn.setting.freeswitch_url>${service.pro_ip}</mvn.setting.freeswitch_url>
+                <mvn.setting.app_port>8080</mvn.setting.app_port>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!--数据库配置-->
+                <mvn.jdbc.driver.classname>com.mysql.jdbc.Driver</mvn.jdbc.driver.classname>
+                <mvn.jdbc.url>jdbc:mysql://${service.test_ip}:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.url>
+                <mvn.jdbc.dlsrzurl>jdbc:mysql://${service.test_ip}:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.dlsrzurl>
+                <mvn.jdbc.username>root</mvn.jdbc.username>
+                <mvn.jdbc.password>zxxkj2017</mvn.jdbc.password>
+                <!--redis配置-->
+                <mvn.redis.host>${service.test_ip}</mvn.redis.host>
+                <mvn.redis.port>6379</mvn.redis.port>
+                <mvn.redis.password>redis_zxxkj2017</mvn.redis.password>
+                <!--freeswitch setting配置-->
+                <mvn.setting.freeswitch_post>${service.test_ip}</mvn.setting.freeswitch_post>
+                <mvn.setting.freeswitch_url>${service.test_ip}</mvn.setting.freeswitch_url>
+                <mvn.setting.app_port>8080</mvn.setting.app_port>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev-fjk</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <!--数据库配置-->
+                <mvn.jdbc.driver.classname>com.mysql.jdbc.Driver</mvn.jdbc.driver.classname>
+                <mvn.jdbc.url>jdbc:mysql://${service.test_ip}:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.url>
+                <mvn.jdbc.dlsrzurl>jdbc:mysql://${service.test_ip}:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.dlsrzurl>
+                <mvn.jdbc.username>root</mvn.jdbc.username>
+                <mvn.jdbc.password>zxxkj2017</mvn.jdbc.password>
+                <!--redis配置-->
+                <mvn.redis.host>${service.test_ip}</mvn.redis.host>
+                <mvn.redis.port>6379</mvn.redis.port>
+                <mvn.redis.password>redis_zxxkj2017</mvn.redis.password>
+                <!--freeswitch setting配置-->
+                <mvn.setting.freeswitch_post>${service.test_ip}</mvn.setting.freeswitch_post>
+                <mvn.setting.freeswitch_url>${service.local_ip}</mvn.setting.freeswitch_url>
+                <mvn.setting.app_port>8899</mvn.setting.app_port>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev-jdj</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <!--数据库配置-->
+                <mvn.jdbc.driver.classname>com.mysql.jdbc.Driver</mvn.jdbc.driver.classname>
+                <mvn.jdbc.url>jdbc:mysql://${service.test_ip}:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.url>
+                <mvn.jdbc.dlsrzurl>jdbc:mysql://${service.test_ip}:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.dlsrzurl>
+                <mvn.jdbc.username>root</mvn.jdbc.username>
+                <mvn.jdbc.password>zxxkj2017</mvn.jdbc.password>
+                <!--redis配置-->
+                <mvn.redis.host>${service.test_ip}</mvn.redis.host>
+                <mvn.redis.port>6379</mvn.redis.port>
+                <mvn.redis.password>redis_zxxkj2017</mvn.redis.password>
+                <!--freeswitch setting配置-->
+                <mvn.setting.freeswitch_post>${service.test_ip}</mvn.setting.freeswitch_post>
+                <mvn.setting.freeswitch_url>${service.local_ip}</mvn.setting.freeswitch_url>
+                <mvn.setting.app_port>8800</mvn.setting.app_port>
+            </properties>
+        </profile>
+        <profile>
+            <id>local-jdj</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <!--数据库配置-->
+                <mvn.jdbc.driver.classname>com.mysql.jdbc.Driver</mvn.jdbc.driver.classname>
+                <mvn.jdbc.url>jdbc:mysql://47.93.8.246:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.url>
+                <mvn.jdbc.dlsrzurl>jdbc:mysql://47.93.8.246:3306/tmk_bot?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</mvn.jdbc.dlsrzurl>
+                <mvn.jdbc.username>root</mvn.jdbc.username>
+                <mvn.jdbc.password>root</mvn.jdbc.password>
+                <!--redis配置-->
+                <mvn.redis.host>${service.test_ip}</mvn.redis.host>
+                <mvn.redis.port>6379</mvn.redis.port>
+                <mvn.redis.password>redis_zxxkj2017</mvn.redis.password>
+                <!--freeswitch setting配置-->
+                <mvn.setting.freeswitch_post>${service.test_ip}</mvn.setting.freeswitch_post>
+                <mvn.setting.freeswitch_url>jiedongjun.oicp.io</mvn.setting.freeswitch_url>
+                <mvn.setting.app_port>30133</mvn.setting.app_port>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>

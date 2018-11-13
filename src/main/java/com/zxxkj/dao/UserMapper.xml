@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.UserMapper">
+
+	<!-- 用户账户名查库,防止重复 -->
+	<select id="selectAccountNameNotRepeat" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.User">
+		select account from user_table where account=#{account}
+	</select>
+
+	<!--新增客服 -->
+	<insert id="insertStaffByUser" parameterType="com.zxxkj.model.User">
+		insert into
+		user_table(account,password,company,isActive,phone,supportStaffName,robotPort,identity,activeTime,createTime,parentId)
+		values(#{account},#{password},#{company},1,#{phone},#{supportStaffName},#{robotPort},#{identity},#{activeTime},#{createTime},#{parentId})
+	</insert>
+
+	<!-- 根据ID修改用户为到期的状态 -->
+	<update id="updateUserStatusByID" parameterType="java.util.Map">
+		update
+		user_table
+		set
+		isActive=3
+		where id=#{userID}
+	</update>
+
+	<!--根据ID修改用户的信息 -->
+	<update id="editUserInfoByID" parameterType="java.util.Map">
+		update user_table
+		set
+		phone=#{phone},supportStaffName=#{supportStaffName},password=#{password},robotPort=#{robotPort},identity=#{identity}
+		where id=#{id}
+	</update>
+
+	<!--修改人工客服开关 -->
+	<update id="editStaffSwitch" parameterType="java.util.Map">
+		update user_table set
+		isActive=#{operate} where id=#{userID}
+	</update>
+
+	<!--批量删除人工客服 -->
+	<delete id="deleteStaffsByIDs" parameterType="java.util.Map">
+		delete from user_table where id in
+		<foreach collection="staffIDs" item="i" open="(" separator=","
+			close=")">
+			#{ i }
+		</foreach>
+		and parentId=#{parentID}
+	</delete>
+
+	<!-- 用户ID做为客服的父ID,分页查看用户名下客服 -->
+	<select id="selectStaffListByParentID" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.User">
+		select * from user_table where parentID=#{userID} limit
+		#{page},#{per}
+	</select>
+
+	<!-- 根据用户id，查看所有客户信息（暂时废弃） -->
+	<select id="selectStaffAllByParentID" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.User">
+		select * from user_table where parentID=#{userID}
+	</select>
+
+	<!-- 把用户ID做为客服的父ID,计算用户名下客服数量 -->
+	<select id="selectStaffCountByParentID" parameterType="Integer"
+		resultType="Integer">
+		select Count(*) from user_table where parentID=#{userID}
+	</select>
+
+	<!-- 根据用户名密码查找用户 -->
+	<select id="findUserInfoByAccAndPwd" parameterType="com.zxxkj.model.User"
+		resultType="com.zxxkj.model.User">
+		select * from user_table where account=#{account} and password=#{password}
+	</select>
+
+	<!-- 根据用户ID查找用户 -->
+	<select id="findUserInfoByID" parameterType="com.zxxkj.model.User"
+		resultType="com.zxxkj.model.User">
+		select * from user_table where id=#{id}
+	</select>
+
+	<!-- 修改用户的密码 -->
+	<update id="updateUserPassword" parameterType="java.util.Map">
+		update user_table
+		set password=#{newpwd} where account=#{account} and password=#{oldpwd}
+	</update>
+
+	<select id="selectUserFlagStatusByUserId" resultType="int">
+        select flag from user_table where  id = #{userID}
+    </select>
+	
+	<!-- 根据用户和新密码直接修改密码（暂时废弃） -->
+	<update id="updateUserPwd" parameterType="com.zxxkj.model.User">
+		update user_table set
+		password=#{password} where account=#{account}
+	</update>
+
+	<!--新增用户 -->
+	<insert id="addUser" parameterType="com.zxxkj.model.User">
+		<selectKey keyProperty="id" order="AFTER" resultType="int">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into
+		user_table(account,password,company,validTime,phone,supportStaffName,robotPort,identity,parentId,adminId,activeTime,createTime,contactPerson,contactPhone,city)
+		values(#{account},#{password},#{company},#{validTime},#{phone},#{supportStaffName},#{robotPort},'用户',0,#{adminId},now(),now(),#{contactPerson},#{contactPhone},#{city});
+	</insert>
+
+	<!-- 根据创建的账户查询该账户的详细信息 -->
+	<select id="findUserByAccount" parameterType="String"
+		resultType="com.zxxkj.model.User">
+		select id,account,createTime,validTime,adminId,isActive from user_table
+		where account=#{account};
+	</select>
+
+	<!-- 修改密码 -->
+	<update id="updatePassword">
+		UPDATE user_table SET user_table.password = #{password}
+		WHERE user_table.id = #{userId};
+	</update>
+
+	<!-- 返回未删除且打开状态的客服信息 -->
+	<select id="findOnStaffPhoneList" resultType="com.zxxkj.model.User">
+		select id,supportStaffName,phone from user_table where parentID=#{userID}
+		and isActive = 1
+	</select>
+
+	<!-- 根据userId修改状态 -->
+	<update id="updateActiveById" parameterType="Integer">
+		UPDATE user_table SET user_table.isActive = #{isActive}
+		WHERE user_table.id = #{userId};
+	</update>
+
+	<!-- 查询用户列表 -->
+	<resultMap type="com.zxxkj.model.User" id="userList">
+		<result property="id" column="id" />
+		<result property="userAccount" column="userAccount" />
+		<result property="adminAccount" column="adminAccount" />
+		<result property="isActive" column="isActive" />
+		<result property="validTime" column="validTime" />
+		<result property="createTime" column="createTime" />
+		<result property="company" column="company" />
+	</resultMap>
+	<select id="findUserListByAdminId" resultMap="userList">
+		select a.id,a.account
+			userAccount,a.company,a.validTime,a.isActive,a.createTime,b.account
+			adminAccount from user_table a
+		LEFT JOIN admin_table b ON 
+			a.adminId=b.id
+		WHERE a.adminId=#{adminId} 
+		<if test="account!=null">
+			and a.account like "%"#{account}"%"
+		</if>
+		order by createTime desc
+		limit #{start},#{count}
+	</select>
+
+	<!-- 根据adminId查询该adminId下的用户数量 -->
+	<select id="findCountByAdminId" parameterType="Integer"
+		resultType="Integer">
+		select count(*) from user_table where adminId=#{adminId}
+	</select>
+
+	<!-- 根据adminId查询该adminId下的所有用户 -->
+	<resultMap type="com.zxxkj.model.User" id="allUser">
+		<result property="id" column="id" />
+		<result property="account" column="account" />
+		<result property="isActive" column="isActive" />
+		<result property="validTime" column="validTime" />
+		<result property="createTime" column="createTime" />
+		<result property="adminId" column="adminId" />
+		<result property="company" column="company" />
+	</resultMap>
+	<select id="findAllUserByAdminId" parameterType="Integer"
+		resultMap="allUser">
+		select id,account,isActive,createTime,validTime,adminId,company,activeTime from
+		user_table where adminId=#{adminId}
+	</select>
+
+
+	<update id="updateActiveByUserIdList" parameterType="java.util.List">
+		UPDATE user_table SET user_table.isActive = #{isActive}
+		WHERE user_table.id in
+		<foreach collection="list" item="model" open="(" separator=","
+			close=")">
+			#{model}
+		</foreach>
+	</update>
+
+	<!-- 根据userId查询用户的信息 -->
+	<select id="findUserInfoByUserId" parameterType="Integer"
+		resultType="com.zxxkj.model.User">
+		select id,validTime,activeTime,company,contactPhone,account,contactPerson,city from user_table where
+		id=#{userId}
+	</select>
+
+	<!-- 修改密码 -->
+	<update id="updateValidTime">
+		UPDATE user_table SET user_table.validTime = #{validTime}
+		WHERE user_table.id = #{userId};
+	</update>
+
+	<!--删除多个用户 -->
+	<!-- <delete id="deleteUsers" parameterType="java.util.List"> delete from 
+		tb_user where user_id in <foreach>标签有循环的功能，可以用来生成有规律的SQL语句，主要属性有： item：表示集合每一个元素进行迭代时的别名 
+		index：表示在迭代过程中，每次迭代到的位置 open：表示该语句以什么开始 separator：表示每次迭代之间以什么符号作为分隔 close：表示该语句以什么结束 
+		collection：要循环的集合 <foreach item="item" index="index" collection="array" open="(" 
+		separator="," close=")"> #{item} </foreach> </delete> -->
+		
+	<update id="updateUserInfoByUserId">
+		update user_table set company=#{company},contactPhone=#{contactPhone},
+		contactPerson=#{contactPerson},city=#{city},activeTime=#{activeTime},isActive=#{isActive} WHERE id = #{id};
+	</update>
+</mapper>

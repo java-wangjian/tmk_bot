@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.PlanMapper">
+
+    <!-- 插入新的计划到数据库 -->
+    <insert id="addPlan" parameterType="com.zxxkj.model.Plan">
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        plan_table(belong,excuteTime,userId,isInterrupt,transferGrade,isTransfer,projectId,timeStr,planName,customerCount,excuteCount,callPortListStr,trancferPortListStr,addTime,isSendSMS,gatewayId,planTag,updateTime)
+        values
+        (#{belong},#{excuteTime},#{userId},#{isInterrupt},#{transferGrade},#{isTransfer},#{projectId},#{timeStr},#{planName},#{customerCount},#{excuteCount},#{callPortListStr},#{trancferPortListStr},now(),#{isSendSMS},
+        #{gatewayId},#{planTag},#{excuteTime})
+    </insert>
+
+    <!-- 根据planStutas查询customerId（去重后的） -->
+    <resultMap type="java.lang.Integer" id="customerIdList">
+        <result property="customerId" column="customerId"/>
+    </resultMap>
+    <select id="findUserIdByPlanStatus" resultMap="customerIdList">
+        select distinct customerId from plan_table where isDelete=0
+        <if test="planStatus!=0">
+            and planStatus=#{planStatus}
+        </if>
+    </select>
+
+    <select id="selectPlanCreateAccountByPlanID" parameterType="Integer" resultType="String">
+		select user.account from user_table user LEFT JOIN plan_table plan ON plan.userId = user.id where plan.id = #{planId}
+	</select>
+
+    <!-- 根据userId查询该用户下的所有计划 -->
+    <resultMap type="com.zxxkj.model.Plan" id="allPlanList">
+        <result property="id" column="id"/>
+        <result property="excuteCount" column="excuteCount"/>
+    </resultMap>
+    <select id="findPlanByUserId" parameterType="Integer"
+            resultMap="allPlanList">
+		select id,excuteCount from plan_table where userId=#{userId} and isDelete=0 and planStatus in(0,1)
+	</select>
+
+    <!-- 修改用户的计划是否删除状态 -->
+    <update id="updateIsDeleteByUserId" parameterType="Integer">
+		update plan_table set isDelete=#{isDelete} where userId=#{userId}
+	</update>
+
+    <!-- 修改用户的计划是否完成状态 -->
+    <update id="updatePlanStatusByPlanId">
+		update plan_table set planStatus=#{planStatus},endTime=#{endTime} where id=#{planId} 
+	</update>
+
+    <!-- 根据userId查询该用户下所有计划的是否暂停状态 -->
+    <select id="findPlanIsStopByUserId" parameterType="Integer"
+            resultType="Integer">
+		select DISTINCT isStop from plan_table WHERE userId=#{userId} and isDelete=0
+	</select>
+
+    <!-- 根据planStutas查询没有完成而中断的计划 -->
+    <resultMap type="com.zxxkj.model.Plan" id="interruptedPlanList">
+        <result property="id" column="id"/>
+        <result property="timeStr" column="timeStr"/>
+        <result property="excuteTime" column="excuteTime"/>
+    </resultMap>
+    <select id="findInterruptedPlanList" resultMap="interruptedPlanList">
+		select
+		id,timeStr,excuteTime,userId,projectId,transferGrade,isTransfer,isInterrupt,gatewayId,callPortListStr,trancferPortListStr,isSendSMS
+		from plan_table where isDelete=0 and planStatus=1
+	</select>
+
+    <!-- 根据userId查询当前执行中的计划 -->
+    <resultMap id="planMapList" type="HashMap">
+        <result column="planId" property="planId"/>
+        <result column="excuteTime" property="excuteTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="timeStr" property="timeStr"/>
+        <result column="planName" property="planName"/>
+        <result column="projectName" property="projectName"/>
+        <result column="customerCount" property="customerCount"/>
+        <result column="thoughCount" property="thoughCount"/>
+        <result column="planStatus" property="planStatus"/>
+        <result column="isDelete" property="isDelete"/>
+        <result column="isInterrupt" property="isInterrupt"/>
+        <result column="isSendSMS" property="isSendSMS"/>
+        <result column="isTransfer" property="isTransfer"/>
+        <result column="transferGrade" property="transferGrade"/>
+        <result column="excuteCount" property="excuteCount"/>
+        <result column="projectId" property="projectId"/>
+        <result column="addTime" property="addTime"/>
+        <result column="gatewayNumbers" property="gatewayNumbers"/>
+        <result column="callPortListStr" property="callPortListStr"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+    <select id="findNowPlanListByUserId" parameterType="Integer" resultMap="planMapList">
+        SELECT plan.id
+        planId,plan.excuteTime,plan.updateTime,plan.endTime,plan.timeStr,plan.planName,plan.planStatus,plan.isDelete,plan.isInterrupt,plan.isTransfer,plan.transferGrade,plan.excuteCount,plan.addTime,plan.callPortListStr,
+        projec.projectName,plan.projectId,
+        plan.customerCount,plan.isSendSMS,
+        gateway_agent_table.gatewayNumbers
+        from plan_table plan
+        LEFT JOIN project_table projec
+        ON
+        	plan.projectId=projec.id
+        LEFT JOIN gateway_agent_table 
+        ON plan.gatewayId = gateway_agent_table.id
+        WHERE plan.userId=#{userId}
+        <if test="startTime!=null">
+            and plan.endTime &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and plan.endTime &lt;= #{endTime}
+        </if>
+        <if test="planStatus==1">
+            and plan.planStatus in (0,1,4)
+        </if>
+        <if test="planStatus!=1">
+            and plan.planStatus in (2,3)
+        </if>
+        <if test="searchText!=''">
+            and plan.planName like
+            "%"#{searchText}"%"
+        </if>
+        <if test="planStatus==1">
+            ORDER BY plan.id DESC
+        </if>
+        <if test="planStatus!=1">
+            ORDER BY plan.endTime DESC
+        </if>
+
+        limit #{start},#{pageCount}
+    </select>
+
+    <!-- 查询当前任务数量 -->
+    <select id="findPlanTotalListByUserId" resultType="Integer">
+        SELECT count(*)
+        from plan_table plan
+        WHERE plan.userId=#{userId}
+        <if test="startTime!=null">
+            and plan.endTime &gt;= #{startTime}
+        </if>
+        <if test="endTime!=null">
+            and plan.endTime &lt;= #{endTime}
+        </if>
+        <if test="planStatus==1">
+            and plan.planStatus in (0,1,4)
+        </if>
+        <if test="planStatus!=1">
+            and plan.planStatus in (2,3)
+        </if>
+        <if test="searchText!=''">
+            and  plan.planName like
+            "%"#{searchText}"%"
+        </if>
+    </select>
+
+    <!-- 根据planId修改计划的是否停止状态 -->
+    <!-- <update id="updatePlanStatusByPlanId">
+		update plan_table set planStatus=#{planStatus} where id=#{planId}
+	</update>-->
+
+    <!-- 根据planId修改计划的isDelete状态 -->
+    <update id="updatePlanIsDeleteByPlanId">
+		update plan_table set isDelete=#{isDelete} where id=#{id}
+	</update>
+
+    <!-- 根据planId修改计划的详细信息 -->
+    <update id="updatePlanInfoByPlanId">
+		update plan_table set
+			projectId=#{projectId},isInterrupt=#{isInterrupt},isTransfer=#{isTransfer},transferGrade=#{transferGrade},timeStr=#{timeStr},excuteCount=#{excuteCount},
+			callPortListStr=#{callPortListStr},trancferPortListStr=#{trancferPortListStr},planTag=#{planTag},updateTime=#{updateTime},gatewayId=#{gatewayId},planStatus=#{planStatus} 
+		where id=#{id}
+	</update>
+
+    <!-- 修改执行时间 -->
+    <update id="updateExcuteTime">
+		update plan_table set excuteTime=#{excuteTime},updateTime=#{excuteTime} where id=#{id}
+	</update>
+
+    <!-- 查询该用户计划的客户总量 -->
+    <select id="findPlanedAllCustomerCount" resultType="java.lang.Integer">
+		SELECT customerCount customerTotal FROM plan_table WHERE
+		userID=#{userId} and id =#{planId}
+	</select>
+
+    <!-- 根据planId查询该计划中的客户id列表 -->
+    <select id="findCustomerIdListByPlanId" resultMap="customerIdList">
+		SELECT customer_plan.customerId FROM customer_plan_table customer_plan 
+		LEFT JOIN plan_table plan ON customer_plan.planId=plan.id 
+		WHERE plan.id=#{planId}
+	</select>
+
+    <!-- 根据planId查询计划的 excuteCount字段(该计划一天之内执行的次数) -->
+    <select id="findExcuteCountByPlanId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT excuteCount FROM plan_table WHERE id=#{planId} 
+	</select>
+
+    <!-- 根据 userId 查询所有未完成的计划 -->
+    <resultMap type="java.lang.Integer" id="planIdList">
+        <result property="id" column="id"/>
+    </resultMap>
+    <select id="findAllPlanIdByUserId" resultMap="planIdList">
+		select id from plan_table where userId=#{userId} and isDelete=0 and planStatus=1
+	</select>
+
+    <!-- 修改planIdList的计划状态 -->
+    <update id="updatePlanStatusByPlanIdList">
+        update plan_table set planStatus=#{planStatus},endTime=#{endTime} where userId=#{userId} and planStatus=1
+        <if test="planIdList!=null">
+            and id in
+            <foreach collection="planIdList" item="model" open="("
+                     separator="," close=")">
+                #{model}
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 查询所有计划以及对应的客户id -->
+    <resultMap type="HashMap" id="planIdAndCustomerIdListMap">
+        <result property="customerIdList" column="customerIdList"/>
+        <result property="planId" column="planId"/>
+    </resultMap>
+    <select id="findAllPlanIdAndCustomerId" resultMap="planIdAndCustomerIdListMap">
+		SELECT customerIdList,id planId FROM plan_table 
+	</select>
+
+    <!-- 根据计划id查询计划的详细信息 -->
+    <select id="findPlanInfoByPlanId" resultType="com.zxxkj.model.Plan">
+		select plan.id,plan.excuteTime,plan.timeStr,plan.isInterrupt,plan.isTransfer,plan.excuteCount,plan.id,plan.userId,plan.projectId,plan.gatewayId,plan.callPortListStr,plan.trancferPortListStr,plan.planTag,plan.customerCount,plan.planStatus,plan.updateTime 
+		from plan_table plan where plan.id=#{planId}
+	</select>
+
+    <update id="updatePlanStartTime" parameterType="java.lang.Integer">
+		update plan_table set excuteTime=now() where id=#{planId}
+	</update>
+
+    <select id="findPlanIsExist" parameterType="com.zxxkj.model.Plan" resultType="java.lang.Integer">
+		select count(id) from plan_table where planName=#{planName} and planStatus=1 and userId=#{userId}
+	</select>
+
+    <resultMap type="com.zxxkj.model.Plan" id="planList">
+        <result property="id" column="id"/>
+        <result property="excuteTime" column="excuteTime"/>
+        <result property="userId" column="userId"/>
+        <result property="gatewayId" column="gatewayId"/>
+        <result property="projectId" column="projectId"/>
+        <result property="timeStr" column="timeStr"/>
+        <result property="gateName" column="gateName"/>
+        <result property="callPortListStr" column="callPortListStr"/>
+        <result property="trancferPortListStr" column="trancferPortListStr"/>
+    </resultMap>
+    <select id="findNoEndPlanCountByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select 
+			plan.id,plan.excuteTime,plan.userId,plan.gatewayId,plan.projectId,plan.timeStr,plan.callPortListStr,plan.trancferPortListStr,
+			gateway.gatewayNumbers gateName 
+		from 
+			plan_table plan 
+		join 
+			gateway_agent_table gateway 
+		ON 
+			plan.gatewayId=gateway.id
+		where 
+			plan.isDelete=0 and plan.planStatus=1 and plan.userId=#{userId}
+	</select>
+
+    <update id="updatePlanTag">
+		update plan_table set planTag=#{planTag} where id=#{planId}
+	</update>
+
+    <resultMap type="com.zxxkj.model.Plan" id="planVector">
+        <result property="id" column="id"/>
+        <result property="excuteTime" column="excuteTime"/>
+        <result property="userId" column="userId"/>
+        <result property="gatewayId" column="gatewayId"/>
+        <result property="projectId" column="projectId"/>
+        <result property="timeStr" column="timeStr"/>
+        <result property="gateName" column="gateName"/>
+        <result property="callPortListStr" column="callPortListStr"/>
+        <result property="trancferPortListStr" column="trancferPortListStr"/>
+    </resultMap>
+    <select id="findPlanListByGatewayIdAndPort" resultMap="planVector">
+		SELECT * FROM plan_table WHERE userId=#{userId} and planStatus=1 and isDelete=0 
+		and gatewayId=#{gatewayId} AND callPortListStr LIKE "%"#{port}"%"
+	</select>
+	
+	<select id="findPlanInfoByPlanTag" resultType="com.zxxkj.model.Plan">
+		select * from plan_table where planTag=#{planTag} and userId=#{userId}
+	</select>
+	
+	<!-- 根据计划状态和计划是否开启查询userIdList -->
+	<resultMap type="java.lang.Integer" id="userIdList">
+		<result property="userId" column="userId"/>
+	</resultMap>
+	<select id="findUserIdByPlanStatusIsStop" resultMap="userIdList">
+		SELECT userId FROM plan_table WHERE planStatus=#{planStatus}
+	</select>
+	
+	<!-- 根据userId查询当前计划列表 -->
+	<resultMap type="com.zxxkj.model.Plan" id="currentPlanVector">
+        <result property="id" column="id"/>
+        <result property="excuteTime" column="excuteTime"/>
+        <result property="planStatus" column="planStatus"/>
+        <result property="userId" column="userId"/>
+        <result property="isInterrupt" column="isInterrupt"/>
+        <result property="transferGrade" column="transferGrade"/>
+        <result property="isTransfer" column="isTransfer"/>
+        <result property="excuteCount" column="excuteCount"/>
+        <result property="projectId" column="projectId"/>
+        <result property="isDelete" column="isDelete"/>
+        <result property="timeStr" column="timeStr"/>
+        <result property="addTime" column="addTime"/>
+        <result property="planName" column="planName"/>
+        <result property="addTime" column="addTime"/>
+        <result property="customerCount" column="customerCount"/>
+        <result property="gatewayId" column="gatewayId"/>
+        <result property="callPortListStr" column="callPortListStr"/>
+        <result property="trancferPortListStr" column="trancferPortListStr"/>
+        <result property="isSendSMS" column="isSendSMS"/>
+        <result property="endTime" column="endTime"/>
+        <result property="planTag" column="planTag"/>
+    </resultMap>
+	<select id="findCurrentPlanByUserId" parameterType="java.lang.Integer" resultMap="currentPlanVector">
+		select 
+			id,excuteTime,planStatus,userId,isInterrupt,transferGrade,isTransfer,excuteCount,
+			projectId,isDelete,timeStr,addTime,planName,customerCount,gatewayId,callPortListStr,
+			trancferPortListStr,isSendSMS,endTime,planTag
+		from plan_table where userId=#{userId} and isDelete=#{isDelete} and planStatus=#{planStatus}
+	</select>
+</mapper>

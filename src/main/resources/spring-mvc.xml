@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/aop   
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd   
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd   
+        http://www.springframework.org/schema/mvc   
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd   
+        http://www.springframework.org/schema/tx   
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd" >
+    <context:property-placeholder location="classpath:config.properties,classpath:redis.properties" />
+
+    <!-- 1.自动扫描包，实现支持注解的IOC  -->
+    <!-- 自动扫描该包，使springmvc认为包下用了@Controller注解的类是控制器 -->
+	<context:component-scan base-package="com.zxxkj.controller" /> 
+	
+    
+    <!-- 2.配置注解的处理器映射器和处理器适配器 -->
+    <!-- <mvc:annotation-driven /> 是一种简写形式，完全可以手动配置替代这种简写形式，简写形式可以让初学者
+        快速应用默认配置方案。<mvc:annotation-driven /> 会自动注册DefaultAnnotationHandlerMapping与
+        AnnotationMethodHandlerAdapter 两个bean,是spring MVC为@Controllers分发请求所必须的。 -->
+    <mvc:annotation-driven />
+    
+    <!-- 3.Spring MVC不处理静态资源  -->
+    <mvc:default-servlet-handler/>
+    
+    <!-- 4.配置内部视图解析器 -->
+      <!-- 对模型视图名称的解析,即在模型视图名称添加前后缀 -->
+   <!--  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean> -->
+    
+    <!--5.配置文件上传解析器 -->
+    <!--Spring MVC默认不能识别multipart格式的文件内容 -->
+    <!-- <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean> -->
+    <!-- 支持文件上传 -->
+     <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+        <!--&lt;!&ndash;请求编码格式&ndash;&gt;-->
+        <!--<property name="defaultEncoding" value="utf-8"></property>-->
+        <!--&lt;!&ndash;上传文件大小(单位:字节)&ndash;&gt;-->
+        <!--<property name="maxUploadSize" value="50000000"></property>-->
+        <!--&lt;!&ndash;缓冲区大小(单位:KB)&ndash;&gt;-->
+        <!--<property name="maxInMemorySize" value="10240000"></property>-->
+    <!--</bean>-->
+    <import resource="spring-redis.xml"/>
+</beans>

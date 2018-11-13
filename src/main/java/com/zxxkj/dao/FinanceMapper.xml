@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxxkj.dao.FinanceMapper">
+
+    <resultMap id="mapTotalMoneyAndTotalBalance" type="hashmap">
+        <result column="totalMoney" property="totalMoney"/>
+        <result column="totalTimes" property="totalTimes"/>
+    </resultMap>
+
+    <resultMap id="userCostTotalData" type="hashmap">
+        <result column="totalMoney" property="totalMoney"/>
+    </resultMap>
+
+    <resultMap id="userCostRecord" type="hashmap">
+        <result column="record_id" property="record_id"/>
+        <result column="phone" property="phone"/>
+        <result column="sipName" property="sip_name"/>
+        <result column="money" property="money"/>
+        <result column="datetime" property="datetime"/>
+        <result column="unit_price" property="unit_price"/>
+        <result column="durat_time" property="durat_time"/>
+    </resultMap>
+
+    <resultMap id="sipBalanceMap" type="hashmap">
+        <result column="sipId" property="sipId"/>
+        <result column="unitPrice" property="unitPrice"/>
+        <result column="addTime" property="addTime"/>
+        <result column="balanceMoney" property="balanceMoney"/>
+        <result column="leftover" property="leftover"/>
+        <result column="sip_name" property="sip_name"/>
+    </resultMap>
+
+    <resultMap id="sipBalanceMap2" type="hashmap">
+        <result column="sipId" property="sipId"/>
+        <result column="gatewayType" property="gatewayType"/>
+        <result column="unitPrice" property="unitPrice"/>
+        <result column="addTime" property="addTime"/>
+        <result column="balanceMoney" property="balanceMoney"/>
+        <result column="leftover" property="leftover"/>
+        <result column="sip_name" property="sip_name"/>
+    </resultMap>
+
+    <!--查询当前线路信息-->
+    <select id="selectUserAllSipDataList" resultMap="sipBalanceMap2">
+        SELECT
+        balance.sip_id sipId,
+        balance.unit_price unitPrice,
+        balance.balance_money balanceMoney,
+        balance.add_time addTime,
+        balance.leftover leftover,
+        gateways.gatewayNumbers sip_name
+        FROM
+        user_sip_balance_table balance
+        left JOIN  gateway_agent_table gateways
+        ON balance.sip_id=gateways.id
+        where balance.user_id = #{userId}
+        AND balance.sip_id=#{sipId}
+        AND gateways.type=2
+    </select>
+    <!--代理商根据userId和sip线路为用户充值-->
+    <update id="updateUserSipDataByRecordId">
+        UPDATE user_sip_balance_table balance
+        SET
+        <if test="leftover!=null">
+            balance.leftover=#{leftover},
+        </if>
+        <if test="unitPrice!=null">
+            balance.unit_price=#{unitPrice},
+        </if>
+        <if test="new_sip_balance != null">
+            balance.balance_money = #{new_sip_balance}
+        </if>
+        WHERE
+        balance.user_id = #{userId}
+        AND balance.sip_id = #{sipId}
+    </update>
+
+    <!--代理商为用户线路充值记录-->
+    <insert id="insertUserRechargeRecordByAdminData">
+        INSERT INTO `tmk_bot`.`user_recharge_record_table` (
+            `user_id`,
+            `sip_id`,
+            `sip_name`,
+            `unit_price`,
+            `sum_money`,
+            `lengthtime`,
+            `admin_id`,
+            `add_time`
+        )
+        VALUES
+            (
+                #{userId},
+                #{sipId},
+                #{sipName},
+                #{unitPrice},
+                #{rechargePrice},
+                #{lengthtime},
+                #{adminId},
+                now()
+            )
+    </insert>
+
+    <!--查询代理商为用户充值条数-->
+    <select id="selectUserRechargeRecordCount" resultType="integer">
+        SELECT
+        COUNT(*)
+        FROM
+        user_recharge_record_table record
+        WHERE
+        record.user_id = #{user_id}
+        <if test="sip_id != null and sip_id != ''">
+            AND record.sip_id = #{sip_id}
+        </if>
+        <if test="start_date != null and start_date != '' and end_date != null and end_date != ''">
+            AND ( record.add_time &gt; #{start_date} AND record.add_time &lt; #{end_date} )
+        </if>
+    </select>
+
+    <!--代理商为用户充值总额-->
+    <select id="seleceUserTotalMoney" resultMap="mapTotalMoneyAndTotalBalance">
+        SELECT
+        SUM(record.sum_money) AS totalMoney
+        FROM
+        user_recharge_record_table record
+        WHERE
+        record.user_id = #{user_id}
+        <if test="sip_id != null and sip_id != ''">
+            AND record.sip_id = #{sip_id}
+        </if>
+        <if test="start_date != null and start_date != '' and end_date != null and end_date != ''">
+            AND ( record.add_time &gt; #{start_date} AND record.add_time &lt; #{end_date} )
+        </if>
+    </select>
+    <resultMap id="sipBalanceMap3" type="hashmap">
+        <result column="sipId" property="sipId"/>
+        <result column="unitPrice" property="unitPrice"/>
+        <result column="sum_money" property="sumMoney"/>
+        <result column="addTime" property="addTime"/>
+        <result column="LengthTime" property="LengthTime"/>
+        <result column="sip_name" property="sipName"/>
+    </resultMap>
+    <!--代理商为用户充值记录数据-->
+    <select id="selectUserRechargeRecordList" resultMap="sipBalanceMap3">
+        SELECT
+        record.sip_id sipId,
+        record.unit_price unitPrice,
+        record.sum_money sumMoney,
+        DATE_FORMAT(record.add_time,'%Y-%m-%d %H:%i:%S') addTime,
+        lengthtime LengthTime,
+        sip_name sipName
+        FROM
+        user_recharge_record_table record
+        WHERE
+        record.user_id = #{user_id}
+        <if test="sip_id != null and sip_id != ''">
+            AND record.sip_id = #{sip_id}
+        </if>
+        <if test="start_date != null and start_date != '' and end_date != null and end_date != ''">
+            AND ( record.add_time &gt; #{start_date} AND record.add_time &lt; #{end_date} )
+        </if>
+        ORDER BY
+        record.add_time DESC
+        limit #{page},#{per}
+    </select>
+    <!--判断是否是第一次充值-->
+    <select id="isRechargeFirst" resultType="integer">
+        SELECT
+        COUNT(*)
+        FROM
+        user_sip_balance_table
+        WHERE
+        user_id = #{userId}
+        AND sip_id = #{sipId}
+    </select>
+    <!--代理商第一次为用户充值-->
+    <insert id="insertUserBalanceMoneyByAdminData">
+        INSERT INTO `tmk_bot`.`user_sip_balance_table` (
+            `user_id`,
+            `sip_id`,
+            `unit_price`,
+            `balance_money`,
+             `leftover`,
+            `add_time`
+        )
+        VALUES
+            (
+                #{userId},
+                #{sipId},
+                #{unitPrice},
+                #{rechargePrice},
+                #{lengthtime},
+                NOW()
+            )
+    </insert>
+
+
+    <!--查询消费明细条数-->
+    <select id="selectUserCostRecordListCount" resultType="integer">
+        SELECT
+        count(1)
+        FROM
+        user_consum_record ucr
+        WHERE ucr.userid= #{user_id}
+        <if test="start_date != null and start_date != '' and end_date != null and end_date != ''">
+            AND ( ucr.call_time &gt; #{start_date} AND ucr.call_time &lt; #{end_date} )
+        </if>
+        <if test="sip_id != null and sip_id != ''">
+            AND ucr.sip_id = #{sip_id}
+        </if>
+    </select>
+
+    <!--消费明细列表-->
+    <select id="selectUserCostRecordList" resultMap="userCostRecord">
+        select
+        ucr.id record_id,
+        ucr.link_phone phone,
+        ucr.sip_id,
+        ucr.sip_name sipName,
+        ucr.call_time datetime,
+        ucr.unit_price unit_price,
+        ucr.long_time durat_time,
+        ucr.amount_many money,
+        ucr.userid userid
+        from user_consum_record ucr
+        where
+        ucr.userid=#{user_id}
+        <if test="sip_id != null and sip_id != ''">
+            AND ucr.sip_id = #{sip_id}
+        </if>
+        <if test="start_date != null and start_date != '' and end_date != null and end_date != ''">
+            AND ( ucr.call_time &gt; #{start_date} AND ucr.call_time &lt; #{end_date} )
+        </if>
+        ORDER BY ucr.call_time DESC
+        LIMIT #{page} , #{per}
+    </select>
+
+    <!--消费明细表数据插入-->
+    <insert id="insertUserConsumRecord">
+        INSERT INTO `tmk_bot`.`user_consum_record` (
+            `link_phone`,
+            `sip_id`,
+            `sip_name`,
+             `call_time`,
+            `unit_price`,
+						`long_time`,
+						`amount_many`,
+						`userid`,
+						`new_sip_balance`
+        )
+        VALUES
+            (
+                #{linkPhone},
+                #{sipId},
+                #{sipName},
+                #{callTime},
+								#{unitPrice},
+								#{longTime},
+								#{amountMany},
+								#{userId},
+								#{new_sip_balance}
+            )
+    </insert>
+    <!--消费总额记录-->
+    <select id="selectUserCostTotalData" resultType="java.lang.Double">
+        select
+        sum(ucr.amount_many)
+        from user_consum_record ucr
+        where
+        ucr.userid=#{user_id}
+        <if test="sip_id != null and sip_id != ''">
+            AND ucr.sip_id = #{sip_id}
+        </if>
+        <if test="start_date != null and start_date != '' and end_date != null and end_date != ''">
+            AND ( ucr.call_time &gt; #{start_date} AND ucr.call_time &lt; #{end_date} )
+        </if>
+    </select>
+    <!-- 按条件查询下拉菜单数据(满足删除的线路账单数据，显示在查询条件里)-->
+    <resultMap id="sipLineMap" type="hashmap">
+        <result column="sip_id" property="sip_id"/>
+        <result column="sip_name" property="sip_name"/>
+    </resultMap>
+    <select id="selcectSipLine" resultMap="sipLineMap">
+        SELECT
+        sip_id,
+        sip_name
+    FROM
+        user_recharge_record_table
+    WHERE
+        user_id =  #{user_id}
+    GROUP BY
+        sip_id
+    </select>
+</mapper>

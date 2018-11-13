@@ -1,0 +1,368 @@
+.main{
+	position: absolute;
+	background: #f9f9f9;
+	top: 1rem;
+	width: 100%;
+	height: 9.1rem;
+	display: none;
+}
+.accMgrWrap{
+	height: 100%;
+    width: 96%;
+    margin-left: 2%;
+    background: #F8F8F8;
+    margin-top: 2%;
+}
+.accMgrTop{
+	height: 0.6rem;
+	overflow: hidden;
+}
+.accMgrTop a{
+	display: inline-block;
+    height: 0.56rem;
+    line-height: 0.6rem;
+    width: 1rem;
+    margin-left: 0.4rem;
+    color: #6490d9;
+    font-size: 0.12rem;
+    border-bottom: 0.04rem solid #6490d9;
+    text-align: center;
+}
+.blueBtn{
+	background: #6490D9;
+	color: white;	
+}
+.grayBtn{
+	background: #F2F2F2;
+	color: #666666;	
+}
+.accMgrMainBox{
+	height: 5.6rem;
+    width: 96%;
+    margin-left: 2%;
+   
+}
+.accMgrMainTit{
+	height: 0.7rem;
+	background: #F2F2F2;
+}
+.accMgrMainTit span{
+	line-height: 0.7rem;
+	display: inline-block;
+}
+.accMgrMainLi{
+	height: 0.54rem;
+	border-bottom: 1px solid #CCCCCC;
+	font-size: 0.16rem
+}
+.accMgrMainLi:last-child{
+	border: none;
+}
+.accMgrMainLi span{
+	display: inline-block;
+	line-height: 0.54rem;
+}
+.accMgrItem{
+	text-align: center;
+	display: flex;
+	width: 100%;
+}
+.accMgrMainUl{
+	height: 5.6rem;
+	border: 1px solid #e6e6e6;
+    border-top: none;
+}
+.pagination{
+	height: 0.6rem;
+}
+.flex12{
+	flex: 12;
+}
+.flex8{
+	flex: 8;
+}
+.flex6{
+	flex: 6;
+}
+.flex4{
+	flex: 4;
+}
+.flex3{
+	flex: 3;
+}
+.flex2{
+	flex: 2;
+}
+.swImg{
+	height: 0.4rem;
+    margin-top: 0.1rem;
+}
+.controlSpan span{
+	padding: 0 0.2rem;
+	text-decoration: underline;
+	color: #6490D9;
+}
+.controlSpan .redFont{
+	color: #ff6130;
+}
+
+
+.voiceListBox{
+	height: 100%;
+	background: white;
+	width: 2.28rem;
+	float: left;
+}
+.voiceListTitle{
+	text-align: center;
+    color: #333333;
+    font-size: 0.2rem;
+    line-height: 0.7rem;
+    border-bottom: 1px solid #fafafa;
+}
+.voiceListTitle i{
+	font-size: 0.22rem;
+    margin-right: 0.13rem;
+    color: #999999;
+}
+.voiceListLi{
+	height: 0.7rem;
+    text-indent: 0.1rem;
+    line-height: 0.7rem;
+    font-size: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #eee;
+    padding-right: 0.3rem;
+}
+.voiceListLi i{
+	font-size: 0.2rem;	
+    margin-right: 0.14rem;
+    margin-left: 0.1rem;
+}
+.voiceListLiCheck{
+	border-left: 4px solid #6490d9; 
+	background: #f6f7fa;
+	color: #5c8ed9;
+}
+.voiceListLiUnCheck{
+	border-left: 4px solid white;
+    background: white;
+    color: #999999;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.voiceMainBox{
+	float: right;
+    height: 100%;
+    width: 82%;
+    margin-right: 0.2rem;
+}
+.voiceContent{
+	height: 8.5rem;
+	width: 100%;
+	background: white;
+	display: none;
+	    overflow: auto;
+}
+.voiceContentUl li{
+	float: left;
+	height: 0.56rem;
+	padding: 0 0.4rem;
+	font-size: 0.22rem;
+    margin-right: 0.6rem;   
+}
+.voiceContentUl{
+	overflow: hidden;
+    height: 0.6rem;
+}
+.currTabs{
+	color: #5C8ED9;
+	border-bottom: 0.04rem solid #5C8ED9;
+}
+.othersTabs{
+	color: #888888;
+	border-bottom: 0.04rem solid #F8F8F8;
+}
+.nodeItem{
+	text-align: center;
+}
+.node{
+	border: 2px solid #6490d9;
+    margin: 0 auto;
+    border-radius: 0.08rem;
+    padding: 0.2rem;
+    position: relative;
+    font-size: 0.26rem;
+    background: #eef3fb;
+    color: #6490D9;
+    min-width: 0.8rem;
+}
+#nodes .node:hover{
+	background: #a7c4f2;
+	color: white;
+}
+.arrows{
+	color: #6490D9;
+	font-size: 0.4rem;
+}
+.inlineblock{
+	display: inline-block;
+}
+.wid185{
+	width: 1.85rem;
+	margin-top: 20px;
+}
+.voiceTable{
+	margin-top: 2%;
+	width: 97%;
+    margin-left: 1.5%;
+	text-align: center;
+	border: 1px solid #e6e6e6;
+}
+.voiceTable th{
+	height: 0.6rem;
+	min-width: 1.6rem;
+	border: 1px solid #e6e6e6;
+    font-size: 0.2rem;
+    color: #666666;
+    background: #F2F2F2;
+}
+.voiceTable td{
+	padding: 0.2rem 0.16rem;
+	/*max-width: 2rem;*/
+	font-size: 0.16rem;
+	color: #666666;
+    word-wrap: break-word;
+    border: 1px solid #e6e6e6;
+}
+.voiceTable .editKwBtn{
+	color: #547ED1;
+	text-decoration: underline;
+}
+.but1{
+	background: #ededed;
+	color: #999999;
+	font-size: 0.24rem;
+}
+.but2{
+	background: #547ed1;
+	color: white;
+	font-size: 0.24rem;
+}
+.addRowBtn{
+	height: 0.72rem;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.addRowBtn button{
+	height: 100%;
+	width: 50%;
+	border: none;
+	float: left;
+}
+.addMsgWrap{
+	background: sandybrown;
+    height: 5.13rem;
+}
+
+.voiceEleBox{
+	height: 0.26rem;
+    width: 62%;
+    background: #6490d9;
+    margin-left: 12%;
+    border-radius: 0.06rem;
+    position: relative;
+    margin-top: 4px;
+}
+.voiceEle{
+	height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    display: none;
+}
+.ajiao{
+	position: absolute;
+    right: 100%;
+    top: 0.08rem;
+    height: 0.1rem;
+}
+.noPlayGif{
+	height: 0.2rem;
+    position: absolute;
+    top: 0.03rem;
+    left: 0.1rem;
+}
+.popBoxVoice{
+	/*width: 6rem;*/
+    height: 0.7rem;
+    display: flex;
+}
+.popBoxVoice label{
+	line-height: 0.6rem;
+}
+.popWrap{
+	height: 100%;
+	width: 100%;
+}
+.pars01{
+	margin-left: 0.3rem;
+    font-size: 0.16rem;
+    line-height: 0.4rem;
+    color: #999999;
+}
+.textareaBox{
+	margin-left: 0.3rem;
+	height: 1.6rem;
+	background: #F6F6F6;
+	border-radius: 5px;
+	width: 94%;
+	line-height: 0.32rem;
+    font-size: 0.18rem;
+}
+.textareaBox textarea {
+	width: 98%;
+    height: 88%;
+    margin-left: 1%;
+    margin-top: 10px;
+    resize: none;
+    border: none;
+    font-size: 0.18rem;  
+    background: none;
+}
+.grayBg{
+	background: #F2F2F2;
+}
+#textaudio1{
+	padding-top: 0.1rem;
+}
+.wid10{
+	width: 10%;
+}
+.just01{
+	color: #666;
+    font-size: 0.14rem;
+    word-break: break-all;
+    width: 85%;
+    height: 1.2rem;
+    margin-left: 5.5%;
+    padding: 0 2%;
+    background: #F6F6F6;
+    overflow: auto;
+}
+
+.wx-audio-content .wx-audio-left .wx-audio-state {
+    width: 87%;
+    height: 100%;
+}
+.nodeName00{
+	background: url(../images/kaishi.png) no-repeat;
+	background-size: 100% 100%;
+	height: 1.4rem;
+	width: 1.4rem;
+	border: none;
+}

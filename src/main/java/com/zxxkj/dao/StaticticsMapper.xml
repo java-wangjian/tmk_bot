@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.StaticticsMapper">
+
+	<!-- 根据用户ID和日期,返回当日统计的详细信息 -->
+	<select id="selectDataByUserIDAndDate" parameterType="java.util.Map"
+		resultType="com.zxxkj.model.Statictics">
+		select 
+				duratTotal,toStaffCount,refuseCount,callCount,connCount,missCount,lt10gt5,gt30,
+				customerA,customerB,customerC,customerD,customerE,customerF,date
+		from statistics_table where userID=#{userID} and `date`=#{date} limit 0,1
+	</select>
+	
+	<!-- 根据用户ID和日期,查看数据库中有没有今天的数据 -->
+	<select id="selectInitDateDate" parameterType="java.util.Map" resultType="Integer">
+		select COUNT(*) from statistics_table where userID=#{userId} and `date`=#{date}
+	</select>
+	
+	<!-- 根据用户ID和日期及参数,选择性的更新数据统计 -->
+	<update id="updateStaticticsInfo" parameterType="java.util.Map">
+		update
+		statistics_table set callCount = callCount + 1
+		<if test="statictics.gt30!=null">,gt30 = gt30 + 1 </if>
+		<if test="statictics.duratTotal!=null">,duratTotal = duratTotal + (CEIL(#{statictics.duratTotal}/60) * 60)  </if>
+		<if test="statictics.lt10gt5!=null">,lt10gt5 = lt10gt5 + 1 </if>
+		<if test="statictics.toStaffCount==2">,toStaffCount = toStaffCount + 1 </if>
+		<choose>
+            <when test="customer==1">  
+				,customerA = customerA + 1 
+            </when>
+            <when test="customer==2">  
+				,customerB = customerB + 1 
+            </when>
+            <when test="customer==3">  
+				,customerC = customerC + 1 
+            </when>
+            <when test="customer==4">  
+				,customerD = customerD + 1 
+            </when>
+            <when test="customer==5">  
+				,customerE = customerE + 1 
+            </when>
+            <otherwise>  
+				,customerF = customerF + 1 
+            </otherwise>  
+        </choose>
+        <choose>
+            <when test="status==1">  
+				,connCount = connCount + 1 
+            </when>
+            <when test="status==2">  
+				,missCount = missCount + 1 
+            </when>
+            <otherwise>  
+				,refuseCount = refuseCount + 1 
+            </otherwise>  
+        </choose>
+		where userId=#{userId} AND date=#{date}
+	</update>
+	
+	<!-- 根据用户ID和日期,没有当日数据,初始化数据 -->
+	<insert id="initDateData" parameterType="java.util.Map">
+		INSERT  INTO `statistics_table`(`duratTotal`,`toStaffCount`,`refuseCount`,`callCount`,`connCount`,`missCount`,
+		`customerA`,`customerB`,`customerC`,`customerD`,`customerE`,`customerF`,`userId`,`date`,`lt10gt5`,`gt30`) VALUES 
+		(0,0,0,0,0,0,0,0,0,0,0,0,#{userId},#{date},0,0)
+	</insert>
+	
+	<!-- 根据用户ID和日期,直接修改数据 -->
+	<insert id="insertStatictics" parameterType="java.util.Map">
+		INSERT  INTO `statistics_table`(`duratTotal`,`toStaffCount`,`refuseCount`,`callCount`,`connCount`,`missCount`,
+		`customerA`,`customerB`,`customerC`,`customerD`,`customerE`,`customerF`,`userId`,`date`,`lt10gt5`,`gt30`) VALUES 
+		(0,0,0,0,0,0,0,0,0,0,0,0,#{userId},#{date},0,0)
+	</insert>
+	
+</mapper>

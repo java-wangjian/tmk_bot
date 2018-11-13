@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.ProjectDataMapper">
+
+    <resultMap id="defaultResultMap" type="com.zxxkj.model.ProjectData">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="named" property="named" jdbcType="VARCHAR"/>
+		<result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+		<result column="datetime" property="datetime" jdbcType="TIMESTAMP"/>
+		<result column="level" property="level" jdbcType="INTEGER"/>
+		<result column="role" property="role" jdbcType="INTEGER"/>
+		<result column="content1" property="content1" jdbcType="VARCHAR"/>
+		<result column="content2" property="content2" jdbcType="VARCHAR"/>
+		<result column="content3" property="content3" jdbcType="VARCHAR"/>
+		<result column="fileID1" property="fileID1" jdbcType="VARCHAR"/>
+		<result column="fileID2" property="fileID2" jdbcType="VARCHAR"/>
+		<result column="fileID3" property="fileID3" jdbcType="VARCHAR"/>
+		<result column="reverse" property="reverse" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- 根据一个项目数据的实体类添加数据到数据表中 -->
+	<insert id="insertProjectDataByPOJO" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="ProjectData.id">
+		<selectKey resultType="long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert  into `projectdata_table`
+		(`projectID`,`named`,`keyword`,`datetime`,`level`, 
+		`role`,`content1`,`fileID1`,`reverse`,content2,content3,fileID2,fileID3) values 
+		(#{ProjectData.projectID},#{ProjectData.named},#{ProjectData.keyword},#{ProjectData.datetime},
+		#{ProjectData.level},
+		#{ProjectData.role},#{ProjectData.content1},#{ProjectData.fileID1},1,#{ProjectData.content2},
+		#{ProjectData.content3},#{ProjectData.fileID2},#{ProjectData.fileID3});
+	</insert>
+	
+	<insert id="batchInsertProjectData" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert  into `projectdata_table`
+		(`projectID`,`named`,`keyword`,`datetime`,`level`, 
+		`role`,`content1`,`fileID1`,`reverse`,content2,content3,fileID2,fileID3) values 
+		
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.projectID}, #{item.named}, #{item.keyword}, #{item.datetime},
+			#{item.level}, #{item.role}, #{item.content1}, #{item.fileID1}, 1, #{item.content2},
+			#{item.content3}, #{item.fileID2}, #{item.fileID3})
+		</foreach>
+	</insert>
+	
+	<!-- 根据3个表的role,分别查询数据的List -->
+	<select id="selectPositionProjectDataListByProjectID" parameterType="java.util.Map" resultType="com.zxxkj.model.ProjectData">
+		select * from `projectdata_table` 
+		where `projectID` = #{ProjectID} and `role`=#{position} 
+		ORDER BY `id`,`level` DESC;
+	</select>
+	
+	<!-- 根据ID查询结点详细信息 -->
+	<select id="shotProjectDataByProjectID" parameterType="java.util.Map" resultType="com.zxxkj.model.ProjectData">
+		select * from `projectdata_table` where id=#{id} ;
+	</select>
+	
+	<!-- 根据库的Role来返回结点总数 -->
+	<select id="selectNodeCountByPOJO" parameterType="java.util.Map" resultType="Integer">
+		select COUNT(*) from `projectdata_table` where projectID=#{ProjectData.projectID} and role=#{ProjectData.role} and reverse = 1;
+	</select>
+	
+	<!-- 根据项目ID和固定名字和Role，查看数据是否存在 -->
+	<select id="selectFixedDataExist" parameterType="java.util.Map" resultType="Integer">
+		select COUNT(*) from `projectdata_table` where projectID=#{ProjectData.projectID} and named=#{ProjectData.named} 
+		and role=#{ProjectData.role} and reverse = 1;
+	</select>
+
+	<select id="shotProjectDatasByProjectID" parameterType="java.util.Map" resultType="com.zxxkj.model.ProjectData">
+		select * from `projectdata_table` where projectID=#{ProjectID} AND role=#{role} AND reverse=1 <if test="named!=null"> AND `named` LIKE CONCAT('%',#{named},'%')</if>
+	</select>
+	<select id="shotProjectDataMainByProjectID" parameterType="java.util.Map" resultType="com.zxxkj.model.ProjectData">
+		select * from `projectdata_table` where projectID=#{ProjectID} AND role=#{role} AND reverse=1 limit #{projectDatasMainCustomerPhone},1;
+	</select>
+
+	<select id="searchProjectDatadMainsNum" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(id) from `projectdata_table` where projectID=#{ProjectID} AND role=#{role} AND reverse=1
+	</select>
+	
+	<!-- (暂时废弃) 一次性查找三个库的所有数据 -->
+	<select id="selectProjectDataListByProjectID" parameterType="java.util.Map" resultType="com.zxxkj.model.ProjectData">
+		select * from `projectdata_table` ORDER BY `level` ASC;
+	</select>
+	
+	<!-- 根据一个项目的数据的ID,联合直正删除项目中的数据 -->
+	<delete id="deleteProjectDataByProjectDataID" parameterType="java.util.Map">
+		delete from `projectdata_table` where `projectID` = #{ProjectData.projectID}
+		<if test="ProjectData.role==1"> AND `level` >= #{ProjectData.level} </if>
+		<if test="ProjectData.role!=1"> AND `id` = #{ProjectData.id} </if>
+	</delete>
+	
+	<!-- 根据项目ID和固定名字和Role，更新项目数据  -->
+	<update id="updateProjectDataByProjectIDAndNamedAndRole" parameterType="java.util.Map">
+		update `projectdata_table` set `named`= #{ProjectData.named} 
+		<if test="ProjectData.keyword!=null"> , `keyword` = #{ProjectData.keyword} </if>
+		<if test="ProjectData.fileID1!=null"> , `fileID1` = #{ProjectData.fileID1} </if>
+		<if test="ProjectData.fileID2!=null"> , `fileID2` = #{ProjectData.fileID2} </if>
+		<if test="ProjectData.fileID3!=null"> , `fileID3` = #{ProjectData.fileID3} </if>
+		<if test="ProjectData.content1!=null"> , `content1` = #{ProjectData.content1} </if>
+		<if test="ProjectData.content2!=null"> , `content2` = #{ProjectData.content2} </if>
+		<if test="ProjectData.content3!=null"> , `content3` = #{ProjectData.content3} </if>
+		where `projectID` = #{ProjectData.projectID} and `named`= #{ProjectData.named} and role = 4
+	</update>
+	
+	<!-- 根据一个项目ID,假删项目全部数据 -->
+	<update id="deleteAllProjectDataByProjectDataID" parameterType="java.util.Map">
+		update `projectdata_table` set `reverse` = 0 where projectID = #{ProjectData.projectID}
+	</update>
+	
+	<!-- 根据一个项目数据的ID,来修改项目数据的详情内容 -->
+	<update id="updateProjectDataByProjectDataID" parameterType="java.util.Map">
+		update `projectdata_table` set `projectID` = #{ProjectData.projectID} ,datetime=#{ProjectData.datetime}
+		<if test="ProjectData.named!=null"> , `named` = #{ProjectData.named} </if>
+		<if test="ProjectData.keyword!=null"> , `keyword` = #{ProjectData.keyword} </if>
+		<if test="ProjectData.fileID1!=null"> , `fileID1` = #{ProjectData.fileID1} </if>
+		<if test="ProjectData.fileID2!=null"> , `fileID2` = #{ProjectData.fileID2} </if>
+		<if test="ProjectData.fileID3!=null"> , `fileID3` = #{ProjectData.fileID3} </if>
+		<if test="ProjectData.content1!=null"> , `content1` = #{ProjectData.content1} </if>
+		<if test="ProjectData.content2!=null"> , `content2` = #{ProjectData.content2} </if>
+		<if test="ProjectData.content3!=null"> , `content3` = #{ProjectData.content3} </if>
+		where `id`=#{ProjectData.id}
+	</update>
+	
+	<!--根据projectId和role查询首条话术-->
+	<select id="selectProjectDateFirstByProjectId" parameterType="java.lang.Integer" resultMap="defaultResultMap">
+		SELECT * FROM projectdata_table WHERE projectID=#{projectId} AND role=#{role} ORDER BY LEVEL ASC limit 1
+	</select>
+
+	<!--根据projectId和role查询首条话术-->
+	<select id="selectProjectDatesByProject" parameterType="java.lang.Integer" resultMap="defaultResultMap">
+		SELECT * FROM projectdata_table WHERE projectID=#{projectId} AND role=#{role} AND reverse=1 ORDER BY LEVEL ASC
+	</select>
+
+</mapper>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼代理商管理后台</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/index.css"/>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery.pagination.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery.pagination.css"/>
+		<script src="../js/lib/qiniu.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config/main.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>	
+		<!--<script src="../js/lib/share.js" type="text/javascript" charset="utf-8"></script>-->
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/index.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="navList">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<li>
+						<p class="navItemP">
+							<i class="iconfont icon-weibiaoti2"></i>
+							<span>客户管理</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div class="mainBox">
+				<div class="titBox">
+					<p class="title">客户管理</p>
+					<div class="logoutBox">
+						<!--<img class="lingdang" src="../images/lingdang.png"/>-->
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <span>▼</span></span>
+						<ul id="logoutUl" class="logoutUl">
+							<a href="login.html"><li>退出</li></a>
+						</ul>
+					</div>
+				</div>
+				<div class="main">
+					<p class="mainTit"><i class="iconfont icon-zhanghuffffffpx"></i>客户管理列表</p>
+					<div class="controlSecBox">
+						<div class="searchBox">							
+							<input type="" name="" id="keyAccount" value="" placeholder="请输入账户"/>
+							<i onclick="findUserList(1,'search')" class="iconfont icon-sousuo"></i>
+						</div>
+						<div class="createBox">
+							<!--<button onclick="getAccount()"><i class="iconfont icon-tianjia"></i> 创建账户</button>-->
+							<a href="createAccount.html"><button><i class="iconfont icon-tianjia"></i> 创建账户</button></a>
+						</div>						
+					</div>
+					<div class="contentBox">
+						<div class="contentTit">
+							<span class="tit03">编号</span>
+							<span class="tit01">账户</span>
+							<span class="tit03">公司</span>
+							<span class="tit03">状态</span>
+							<span class="tit02">使用模板</span>
+							<span class="tit01">开户时间</span>
+							<span class="tit01">到期时间</span>
+							<span class="tit03">创建人</span>
+							<span class="tit03">账号开关</span>
+							<span class="tit03">操作</span>
+						</div>
+						<div class="cusListBox">
+							<ul class="cusUl" id="cusUl">							
+								
+							</ul>
+							<div class="page_div" id="pagination"></div>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+		<script type="text/javascript">
+			init()
+		</script>
+	</body>
+</html>

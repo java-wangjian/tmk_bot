@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/audiojs/audio.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/audiojs/wx-audio.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/lib/wx-audio.css"/>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont_new.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/new.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/currPlan.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery.pagination.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery.pagination.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/currPlan.js" type="text/javascript" charset="utf-8"></script>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91621939-3"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+  			gtag('config', 'UA-91621939-3');
+		</script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+  				var hm = document.createElement("script");
+  				hm.src = "https://hm.baidu.com/hm.js?045ae5568e6fe5ccf3ba848683d68205";
+  				var s = document.getElementsByTagName("script")[0]; 
+  				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<div style="height: 104%;" class="wrap">
+			<div class="navList changeHei1100">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<li>
+						<p class="navItemP">
+							<i class="iconfont icon-data"></i>
+							<span class="parentList">数据统计</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="datas.html">
+										<i class="iconfont icon-fenxi2"></i>
+										<span>统计分析</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-dianhua"></i>
+							<span class="parentList">AI外呼</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="currList.html">
+										<i class="iconfont icon-msnui-calendar"></i>
+										<span>当前任务</span>
+									</a>
+								</p>
+							</li>
+							<li>
+								<p class="childList">
+									<a href="historyPlan.html">
+										<i class="iconfont icon-msnui-plan-time"></i>
+										<span>历史任务</span>
+									</a>
+								</p>
+							</li>	
+							<li>
+								<p class="childList">
+									<a href="simCard.html">
+										<i class="iconfont icon-zhinengkefu"></i>
+										<span>AI机器人</span>
+									</a>
+								</p>
+							</li>
+							<li>
+                            	<p class="childList">
+                                	<a href="smsSetting.html">
+                                    	<i class="iconfont icon-youjianduanxin"></i>
+                                    	<span>意向短信</span>
+                                	</a>
+                            	</p>
+                        	</li>
+                        	<li>
+								<p class="childList">
+									<a href="accMgr.html">
+										<i class="iconfont icon-guanli"></i>
+										<span>转接人工</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					
+					
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-kehuguanli"></i>
+							<span class="parentList">客户管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="index.html?tabs=0">
+										<i class="iconfont icon-customer"></i>
+										<span>客户管理</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>	
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-icon_yuyin-mian"></i>
+							<span class="parentList">话术管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="voice.html">
+										<i class="iconfont icon-huatong"></i>
+										<span>话术管理</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-zhanghuffffffpx"></i>
+							<span class="parentList">账户管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+                            	<p class="childList">
+                                	<a href="robotBill.html">
+                                    	<i class="iconfont icon-drxx66"></i>
+                                    	<span>账单管理</span>
+                                	</a>
+                            	</p>
+                        	</li>
+							<li>
+								<p class="childList">
+									<a href="changepwd.html">
+										<i class="iconfont icon-xiugaimima"></i>
+										<span>修改密码</span>
+									</a>
+								</p>
+							</li>                       	
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-shezhi"></i>
+							<span class="parentList">系统管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="feedback.html">
+										<i class="iconfont icon-drxx66"></i>
+										<span>意见反馈</span>
+									</a>
+								</p>
+							</li>
+							<!--<li>
+								<p class="childList">
+									<a href="">
+										<i class="iconfont icon-icon_help"></i>
+										<span>使用帮助</span>
+									</a>
+								</p>
+							</li>-->
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="mainBox changeHei1100">
+				<div class="titBox">
+					<p class="title"><input class="backBtn" type="button" name="Submit" onclick="javascript:history.back(-1);" value="<<返回"><span>通话详情</span></p>
+					<div class="logoutBox">
+						<a href="systemMsg.html"><img class="lingdang" src="../images/lingdang.png"/><span id="unReadCount"></span></a>
+						
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <i class="iconfont icon-xiala"></i></span>
+						<ul id="logoutUl" class="logoutUl">
+							<!--<a href="login.html"><li>退出</li></a>-->
+							<li onclick="logout()">退出</li>
+						</ul>
+					</div>
+				</div>												
+				<div style="display: block;" class="main">
+					<div class="mainTit changeHei116">	
+						<div class="dateRowItemBox">
+							<label class="left" for="">手机号码：</label>
+							<div class="searchBox">							
+								<input maxlength="11" style="width: 100%;" type="" name="" id="keywords" value="" placeholder="请输入手机号"/>
+							</div>
+						</div>						
+						<div class="dateRowItemBox">
+							<label for="">通话时长：</label>
+							<div class="selectBox">
+								<p onclick="showSelect(event,this)"><span sec="0" id="seconds" class="part06">不限时长</span><i style="color: #bbb;" class="iconfont icon-xiala"></i></p>
+								<ul class="selectBoxUl">
+									<li sec="0" onclick="getThisTxt(this)">不限时长</li>
+									<li sec="1" onclick="getThisTxt(this)">小于10s</li>
+									<li sec="2" onclick="getThisTxt(this)">10s-30s</li>
+									<li sec="3" onclick="getThisTxt(this)">大于30s</li>
+								</ul>
+							</div>
+						</div>
+						<div class="dateRowItemBox">
+							<label for="">通话日期：</label>
+							<div class="selectDateBox">								
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input readonly="readonly" type="text" id="startA" placeholder="请选择开始日期"></div>
+								<span style="line-height: 0.3rem;margin-right: 0.1rem;margin-left:0.1rem;color: #999;" class="left"> — </span>
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input readonly="readonly" type="text" id="endA" placeholder="请选择结束日期"></div>																
+							</div>
+						</div>
+						
+						
+					</div>
+					
+					<div class="mainTit changeHei116">																	
+						<div class="selRowItemBox">
+							<label for="">筛选：</label>
+							<div class="selRowItem">								
+								<span class='serviceType'><i onclick='changeService0(this)' level='1' class='iconfont icon-fangxingweixuanzhong'></i> <span>A</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='2' class='iconfont icon-fangxingweixuanzhong'></i> <span>B</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='3' class='iconfont icon-fangxingweixuanzhong'></i> <span>C</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='4' class='iconfont icon-fangxingweixuanzhong'></i> <span>D</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='5' class='iconfont icon-fangxingweixuanzhong'></i> <span>E</span></span>
+								<span class='serviceType'><i onclick='changeService0(this)' level='6' class='iconfont icon-fangxingweixuanzhong'></i> <span>F</span></span>
+							</div>
+						</div>
+						
+						<div class="dateRowItemBox">
+							<button style="margin-right: 0.2rem;width: 1.2rem;" onclick="getAccList(1,'search')" class="selectMoreBtn"><i class="iconfont icon-shaixuan justIcon00"></i> 开始筛选</button>
+							<button style="width: 1.2rem;" onclick="resetCondition()" class="selectMoreBtn"><i class="iconfont icon-tableresetpassword justIcon00"></i> 清空筛选</button>
+						</div>
+						<div style="float: right;margin-right: 0.4rem;" class="dateRowItemBox">
+							<button onclick="exportCurPlan()" class="selectMoreBtn"><i class="iconfont icon-tubiao05 justIcon00"></i> 导出</button>							
+						</div>
+						<div style="float: right;" class="dateRowItemBox">
+							<i onclick="getTable()" style="font-size: 0.3rem;color: #83a2d4;" class="iconfont icon-data left"></i>
+						</div>
+						
+					</div>
+					
+					<div style="background: white;">					 
+					  <div class="contentBox">
+						<div class="tablesTitle">
+							<span class="flex8">任务名称</span>
+							<span class="flex8">被叫电话信息</span>	
+							
+							<span class="flex3">AI意向</span>
+							<span class="flex8">模板</span>
+							<span class="flex8">通话时间</span>	
+							<span class="flex3">状态</span>
+							<!--<span class="flex8">语音记录</span>-->
+							<span class="flex8">操作</span>							
+						</div>
+						<ul id="calllogList" class="planList">
+							<!--<li class="calllogListItem">
+								<span class="flex8 lineH92">张三团队</span>
+								<span class="flex8 double"><span class="firstSpan">13333333333</span><br /><span>暂无信息</span></span>							
+								<span class="flex3">A</span>
+								<span class="flex8 lineH92">谛听金融</span>
+								<span class="flex8 double">
+									<span class="firstSpan"><span>命中关键词：</span><span>公司在哪里......</span></span>
+									<br />
+									<span><span>有效对话轮数：</span><span>6</span></span>
+								</span>			
+								<span class="flex8 lineH92"><audio src="http://p6wdw0ynq.bkt.clouddn.com/18.mp3" preload="none"></audio></span>
+								<span class="flex3 cz">操作</span>		
+							</li>-->
+						</ul>
+					  </div>
+					  <div class="bottomSecBox">
+						<div class="bottomSec">							
+							<div class="page_div" id="pagination"></div>	
+						</div>
+					  </div>
+					</div>
+				</div>												
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			$(function(){
+				loadFuncOrStyle()
+			})
+		</script>
+	</body>
+</html>

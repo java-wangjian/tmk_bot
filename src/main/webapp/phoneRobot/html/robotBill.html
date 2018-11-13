@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="../images/yingcall.ico">
+		<title>盈呼</title>
+		<script src="../js/remLayout.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/iconfont_new.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icon/new.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery-ui-1.9.2.custom.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/robotBill.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>	
+		
+		<link rel="stylesheet" type="text/css" href="../css/lib/jquery.pagination.css"/>
+		<script src="../js/lib/jquery.pagination.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/robotBill.js" type="text/javascript" charset="utf-8"></script>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91621939-3"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+  			gtag('config', 'UA-91621939-3');
+		</script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+  				var hm = document.createElement("script");
+  				hm.src = "https://hm.baidu.com/hm.js?045ae5568e6fe5ccf3ba848683d68205";
+  				var s = document.getElementsByTagName("script")[0]; 
+  				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<div style="height: 14.6rem" class="wrap">
+			<div style="height: 100%" class="navList">
+				<div class="dtlogoBox">
+					<img class="dtlogo" src="../images/dtlogo.png"/>
+				</div>
+				<ul class="nav">
+					<li>
+						<p class="navItemP">
+							<i class="iconfont icon-data"></i>
+							<span class="parentList">数据统计</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="datas.html">
+										<i class="iconfont icon-fenxi2"></i>
+										<span>统计分析</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-dianhua"></i>
+							<span class="parentList">AI外呼</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="currList.html">
+										<i class="iconfont icon-msnui-calendar"></i>
+										<span>当前任务</span>
+									</a>
+								</p>
+							</li>
+							<li>
+								<p class="childList">
+									<a href="historyPlan.html">
+										<i class="iconfont icon-msnui-plan-time"></i>
+										<span>历史任务</span>
+									</a>
+								</p>
+							</li>	
+							<li>
+								<p class="childList">
+									<a href="simCard.html">
+										<i class="iconfont icon-zhinengkefu"></i>
+										<span>AI机器人</span>
+									</a>
+								</p>
+							</li>
+							<li>
+                            	<p class="childList">
+                                	<a href="smsSetting.html">
+                                    	<i class="iconfont icon-youjianduanxin"></i>
+                                    	<span>意向短信</span>
+                                	</a>
+                            	</p>
+                        	</li>
+                        	<li>
+								<p class="childList">
+									<a href="accMgr.html">
+										<i class="iconfont icon-guanli"></i>
+										<span>转接人工</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					
+					
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-kehuguanli"></i>
+							<span class="parentList">客户管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="index.html?tabs=0">
+										<i class="iconfont icon-customer"></i>
+										<span>客户管理</span>
+									</a>
+								</p>
+							</li>							
+						</ul>
+					</li>	
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-icon_yuyin-mian"></i>
+							<span class="parentList">话术管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="voice.html">
+										<i class="iconfont icon-huatong"></i>
+										<span>话术管理</span>
+									</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+					<li class="part01">
+						<p style=" background: white;color: #3c475a;" class="navItemP">
+							<i class="iconfont icon-zhanghuffffffpx"></i>
+							<span class="parentList">账户管理</span>
+							<i class="iconfont icon-xiala transIcon90"></i>
+						</p>
+						<ul class="show">
+							<li>
+                            	<p class="childList">
+                                	<a style="color: #5dacf5;" href="robotBill.html">
+                                    	<i class="iconfont icon-drxx66"></i>
+                                    	<span>账单管理</span>
+                                	</a>
+                            	</p>
+                        	</li>
+							<li>
+								<p class="childList">
+									<a href="changepwd.html">
+										<i class="iconfont icon-xiugaimima"></i>
+										<span>修改密码</span>
+									</a>
+								</p>
+							</li>                       	
+						</ul>
+					</li>
+					<li class="part01">
+						<p class="navItemP">
+							<i class="iconfont icon-shezhi"></i>
+							<span class="parentList">系统管理</span>
+							<i class="iconfont icon-xiala transIcon0"></i>
+						</p>
+						<ul class="hidden">
+							<li>
+								<p class="childList">
+									<a href="feedback.html">
+										<i class="iconfont icon-drxx66"></i>
+										<span>意见反馈</span>
+									</a>
+								</p>
+							</li>
+							<!--<li>
+								<p class="childList">
+									<a href="">
+										<i class="iconfont icon-icon_help"></i>
+										<span>使用帮助</span>
+									</a>
+								</p>
+							</li>-->
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div style="height: 100%;" class="mainBox">
+				<div class="titBox">
+					<p class="title">账单管理</p>
+					<div class="logoutBox">
+						<a href="systemMsg.html"><img class="lingdang" src="../images/lingdang.png"/><span id="unReadCount"></span></a>
+						
+						<img class="logoutImg" src="../images/logout.png"/><span onclick="showLogout(event)"><span id="curAccount"></span> <i class="iconfont icon-xiala"></i></span>
+						<ul id="logoutUl" class="logoutUl">
+							<!--<a href="login.html"><li>退出</li></a>-->
+							<li onclick="logout()">退出</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div style="display: block;" class="main">
+				  <div class="accMgrWrap">
+					<div class="accMgrTop">
+					 	<a href="">机器人余额</a>
+					 	<!--<a href="">短信余额</a>-->
+					</div>
+					<div style="box-shadow: 0px 0px 17px #ccc;margin-left: 1%;width: 98%;background: white;">
+					  <div id="vosBox" class="vosBox">
+																		
+					  </div>
+					  <div class="accMgrMainBox">
+						<div>
+							<div onclick="changeList(event)" class="cTabBox">
+								<p tabindex="0" class="checkedTabs">充值历史</p>
+								<p tabindex="1" class="unCheckedTabs">消费明细</p>
+							</div>
+							<div class="dateBox">
+								<span style="margin-left: 0.2rem;font-size: 0.22rem;color: #999;visibility: hidden;" id="totalMoney"></span>
+								<!--<span style="margin-left: 0.2rem;font-size: 0.22rem;color: #999;" id="totalBalance"></span>-->
+								<button onclick="searchList()" class="sxBtn">开始筛选</button>
+								<div class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="end" placeholder="请选择结束时间"></div>	
+								<span style="line-height: 0.3rem;margin-right: 0.1rem;margin-left:0.1rem;color: #999;" class="right"> — </span>
+								<div style="margin-right: 0;" class="startAndEndDateBox"><i class="iconfont icon-rili"></i><input autocomplete="off" readonly="readonly" type="text" id="start" placeholder="请选择开始时间"></div>	
+								<select id="vosSelect" class="vosSelect">
+								</select>
+							</div>
+							<div style="height: 6.3rem;" id="table0">
+							  <div class="accMgrMainTit accMgrItem">
+								<span class="flex2">序号</span>
+								<span class="flex2">机器人</span>
+								<span class="flex2">单价/分钟（元）</span>
+								<span class="flex2">购买时长</span>
+								<span class="flex2">操作时间</span>
+								<span class="flex2">金额</span>
+							  </div>
+							  <ul id="simCardUl" class="accMgrMainUl"></ul>
+							</div>
+							<div style="height: 6.3rem;display: none;" id="table1">
+							  <div class="accMgrMainTit accMgrItem">
+								<span class="flex2">序号</span>
+								<span class="flex2">联系电话</span>
+								<span class="flex2">机器人</span>
+								<span class="flex2">通话时间</span>
+								<span class="flex2">单价/分钟（元）</span>
+								<span class="flex2">通话时长</span>
+								<span class="flex2">金额（元）</span>
+							  </div>
+							  <ul id="simCardUl_1" class="accMgrMainUl"></ul>
+							</div>
+						</div>						
+						<div class="page_div" id="pagination"></div>
+					  </div>
+					</div>
+				  </div>	
+				</div>
+								  
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			$(function(){
+				loadFuncOrStyle()
+			})
+		</script>
+	</body>
+</html>

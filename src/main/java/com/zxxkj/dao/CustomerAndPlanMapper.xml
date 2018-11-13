@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxxkj.dao.CustomerAndPlanMapper">
+
+	<!-- 根据计划Id查询客户列表以及对应通话记录 -->
+	<resultMap id="customerListDuringPlan" type="HashMap">
+		<result column="customerId" property="customerId" />
+		<result column="customerPhone" property="customerPhone" />
+		<result column="customerName" property="customerName" />
+		<result column="fileID" property="fileID" />
+		<result column="grade" property="grade" />
+		<result column="callrecordId" property="callrecordId" />
+		<result column="callStatus" property="status" />
+		<result column="isTransfer" property="isTransfer" />
+		<result column="customerCompany" property="customerCompany" />
+		<result column="datetime" property="datetime" />
+	</resultMap>
+	<select id="findCustomerListByPlanId" resultMap="customerListDuringPlan">
+		SELECT callrecord.id callrecordId,
+			   callrecord.status,
+			   callrecord.projectName,
+			   callrecord.datetime,
+			   callrecord.exportCount,
+			   callrecord.durationTime,
+			   callrecord.fileID,
+			   callrecord.grade,
+			   plan.planName planName,
+			   customer.note customerNote,
+			   customer.id customerId,
+			   customer.customerName,
+			   customer.customerPhone,
+			   customer.company customerCompany
+		FROM 
+			(SELECT customerId,planId from customer_plan_table WHERE customer_plan_table.planId=#{planId}) customer_plan 
+		LEFT JOIN 
+			(SELECT id,customerName,customerPhone,company,note FROM customer_table WHERE userId=#{userId}) customer 
+		ON 
+			customer_plan.customerId=customer.id 
+		LEFT JOIN 
+			(SELECT id,status,projectName,datetime,exportCount,durationTime,fileID,grade,customerID,planId
+			FROM callrecord_table WHERE userId=#{userId} and planId=#{planId}) callrecord
+		ON 
+			customer.id = callrecord.customerID and customer_plan.planId=callrecord.planId 
+		LEFT JOIN 
+			plan_table plan 
+		ON 
+			customer_plan.planId=plan.id
+		where 1=1
+			<if test="cutomerPhone!=null">
+				and customer.customerPhone like "%"#{cutomerPhone}"%"
+			</if>
+			<if test="startDuringTime!=null">
+				and callrecord.durationTime &gt;= #{startDuringTime}
+			</if>
+			<if test="endDuringTime!=null">
+				and callrecord.durationTime &lt;= #{endDuringTime}
+			</if>
+			<if test="startTimeStr!=null">
+				and callrecord.datetime &gt;= #{startTimeStr}
+			</if>
+			<if test="endTimeStr!=null">
+				and callrecord.datetime &lt;= #{endTimeStr}
+			</if>
+			<if test="gradeList!=null">
+				and callrecord.grade in
+				<foreach collection="gradeList" item="model" open="("
+					separator="," close=")">
+					#{model}
+				</foreach>
+			</if>
+		order BY callrecord.id DESC
+		LIMIT #{start},#{pageCount}
+
+	</select>
+	
+	<resultMap id="lalalalaMap" type="HashMap">
+		<result column="customerId" property="customerId" />
+		<result column="grade" property="visitGrade" />
+	</resultMap>
+	<select id="findCustomerLastVisitGrade" resultMap="lalalalaMap">
+		SELECT
+			visit1.customerId,
+			visit1.grade
+		FROM
+			visit_table visit1,
+			(
+				SELECT
+					max(visitTime) visitTime,
+					customerID
+				FROM
+					visit_table
+				WHERE
+					userId = #{userId}
+				GROUP BY
+					customerID
+			) visit2
+		WHERE
+			visit1.visitTime = visit2.visitTime
+		AND visit1.customerID = visit2.customerID	
+	</select>
+	
+	 <resultMap id="lalalaMap" type="HashMap">
+        <result column="callrecordId" property="callrecordId" />
+        <result column="datetime" property="datetime" />
+        <result column="exportCount" property="exportCount" />
+        <result column="durationTime" property="durationTime" />
+        <result column="fileID" property="fileID" />
+        <result column="customerGrade" property="customerGrade" />
+        <result column="customerNote" property="customerNote" />
+        <result column="customerId" property="customerId" />
+        <result column="customerName" property="customerName" />
+        <result column="customerPhone" property="customerPhone" />
+        <result column="customerCompany" property="customerCompany" />
+    </resultMap>
+    <select id="findCustomerListByPlanIdByExcel" resultMap="lalalaMap">
+        SELECT
+	        callrecord.id callrecordId,
+	        callrecord.datetime datetime,
+	        callrecord.exportCount exportCount,
+	        callrecord.durationTime durationTime,
+	        callrecord.fileID fileID,
+	        callrecord.grade grade,
+	        customer.note customerNote,
+	        customer.id customerId,
+	        customer.customerName customerName,
+	        customer.customerPhone customerPhone,
+	        customer.company customerCompany
+        FROM 
+			(SELECT customerId,planId from customer_plan_table WHERE customer_plan_table.planId=#{planId}) customer_plan 
+		LEFT JOIN 
+			(SELECT id,customerName,customerPhone,company,note FROM customer_table WHERE userId=#{userId}) customer 
+		ON 
+			customer_plan.customerId=customer.id 
+		LEFT JOIN 
+			(SELECT id,status,projectName,datetime,exportCount,durationTime,fileID,grade,customerID,planId
+			FROM callrecord_table WHERE userId=#{userId} and planId=#{planId}) callrecord
+		ON 
+			customer.id = callrecord.customerID and customer_plan.planId=callrecord.planId 
+		LEFT JOIN 
+			plan_table plan 
+		ON 
+			customer_plan.planId=plan.id
+		where 1=1
+			<if test="cutomerPhone!=null">
+				and customer.customerPhone like "%"#{cutomerPhone}"%"
+			</if>
+			<if test="startDuringTime!=null">
+				and callrecord.durationTime &gt;= #{startDuringTime}
+			</if>
+			<if test="endDuringTime!=null">
+				and callrecord.durationTime &lt;= #{endDuringTime}
+			</if>
+			<if test="startTimeStr!=null">
+				and callrecord.datetime &gt;= #{startTimeStr}
+			</if>
+			<if test="endTimeStr!=null">
+				and callrecord.datetime &lt;= #{endTimeStr}
+			</if>
+			<if test="gradeList!=null">
+				and callrecord.grade in
+				<foreach collection="gradeList" item="model" open="("
+					separator="," close=")">
+					#{model}
+				</foreach>
+			</if>
+    </select>
+
+	<!-- 根据计划Id查询客户列表的数量 -->
+	<select id="findCustomerListSizeByPlanId" resultType="java.lang.Integer">
+		SELECT count(customer.id)
+		FROM 
+			(SELECT customerId,planId from customer_plan_table WHERE customer_plan_table.planId=#{planId}) customer_plan 
+		LEFT JOIN 
+			(SELECT id,customerName,customerPhone,company,note FROM customer_table WHERE userId=#{userId}
+			<if test="customerIdList!=null">
+			and id in
+			<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+			</foreach>
+		</if>
+			) customer 
+		ON 
+			customer_plan.customerId=customer.id 
+		LEFT JOIN 
+			(SELECT callrecord3.id,callrecord3.status,callrecord3.projectName,callrecord3.datetime,callrecord3.exportCount,callrecord3.durationTime,callrecord3.fileID,callrecord3.grade,callrecord3.customerID,callrecord3.planId
+					FROM callrecord_table callrecord3,(SELECT max(id) callrecordId,customerID  FROM callrecord_table WHERE userId=#{userId} and reverse=1 and planId=#{planId} GROUP BY customerID) callrecord2
+			WHERE callrecord3.id=callrecord2.callrecordId
+			) callrecord 
+		ON 
+			customer.id = callrecord.customerID and customer_plan.planId=callrecord.planId 
+		where 1=1
+		<if test="startDuringTime!=null">
+				and callrecord.durationTime &gt;= #{startDuringTime}
+			</if>
+			<if test="endDuringTime!=null">
+				and callrecord.durationTime &lt;= #{endDuringTime}
+			</if>
+			<if test="startTimeStr!=null">
+				and callrecord.datetime &gt;= #{startTimeStr}
+			</if>
+			<if test="endTimeStr!=null">
+				and callrecord.datetime &lt;= #{endTimeStr}
+			</if>
+			<if test="cutomerPhone!=null">
+				and customer.customerPhone like "%"#{cutomerPhone}"%"
+			</if>
+			<if test="gradeList!=null">
+				and callrecord.grade in
+				<foreach collection="gradeList" item="model" open="("
+					separator="," close=")">
+					#{model}
+				</foreach>
+			</if>
+	</select>
+	
+	<!-- 批量添加 CustomerAndPlan -->
+	<insert id="batchAddCustomerAndPlan" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into customer_plan_table (customerId,planId,userId,addTime)
+		values
+		<!--item就是List里每一项的对象名，要用","分割每一条数据，最后要";"结尾 -->
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.customerId}, #{item.planId},#{item.userId},now())
+		</foreach>
+	</insert>
+	
+	<!-- 根据用户id和计划id查询所有客户的id列表 -->
+	<resultMap id="customerIdList" type="java.lang.Integer">
+		<result column="customerId" property="customerId" />
+	</resultMap>
+	<select id="findCustomerIdListByUserIdAndPlanId" resultMap="customerIdList">
+		SELECT customerId FROM customer_plan_table WHERE userId=#{userId} and planId=#{planId}
+	</select>
+	
+	<select id="findNoIsCallCustomerICountByUserIdAndPlanId" resultType="java.lang.Integer">
+		SELECT count(customerId) FROM customer_plan_table WHERE userId=#{userId} and planId=#{planId} and isCall=0
+	</select>
+	
+	<resultMap type="com.zxxkj.model.Customer" id="customerVector">
+		<result property="id" column="id" />
+		<result property="customerPhone" column="customerPhone" />
+	</resultMap>
+	<select id="findNoCallCustomers" resultMap="customerVector">
+		SELECT customer.id,customer.customerPhone FROM customer_table customer WHERE
+		customer.id in 
+			(SELECT customerId FROM customer_plan_table  
+				WHERE planId=#{planId} and isCall = 0) LIMIT #{num}
+	</select>
+	
+	<update id="updateIsCallByPlanIdAndCustomerVector">
+		UPDATE
+		customer_plan_table SET isCall=#{isCall} WHERE planId=#{planId} and customerId in 
+		<foreach collection="customerVector" item="model" open="("
+				separator="," close=")">
+				#{model.id}
+		</foreach>
+	</update>
+	<update id="updateIsCallByPlanIdAndCustomerId">
+		UPDATE
+		customer_plan_table SET isCall=#{isCall} WHERE planId=#{planId} and customerId in 
+		<foreach collection="customerIdList" item="model" open="("
+				separator="," close=")">
+				#{model}
+		</foreach>
+	</update>
+	
+	<select id="findCustomerCountByUserIdAndPlanIdAndIsCall" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select count(id) from customer_plan_table where userId=#{userId} and planId=#{planId} 
+		<if test="isCall==0">
+				and isCall!=1
+		</if>
+	</select>
+	
+	<select id="findIsCallByCustomerIdAndPlanId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select isCall from customer_plan_table where customerId=#{customerId} and planId=#{planId}
+	</select>
+
+    <select id="selectNotCalledCustomerInfo" resultMap="lalalaMap">
+        SELECT
+            customer.id customerId,
+            customer.note customerNote,
+            customer.customerName customerName,
+            customer.customerPhone customerPhone,
+            customer.company customerCompany
+        FROM
+            customer_table customer
+        WHERE
+            customer.id IN (
+                SELECT
+                    cp.customerId
+                FROM
+                    customer_plan_table cp
+                WHERE
+                    cp.planId = #{planId}
+                AND cp.isCall = 0
+            )
+    </select>
+
+	<select id="findCountByIsCall" resultType="java.lang.Integer">
+		select count(id) from customer_plan_table where planId=#{planId} and isCall not in (1)
+	</select>
+	
+	<select id="findHasCallCountByIsCall" resultType="java.lang.Integer">
+		select count(id) from customer_plan_table where planId=#{planId} and isCall=#{isCall}
+	</select>
+	
+	<select id="findIsCallingCustomer" resultType="com.zxxkj.model.Customer">
+		SELECT customer.id,customer.customerPhone FROM customer_table customer WHERE
+		customer.id in 
+			(SELECT customerId FROM customer_plan_table  
+				WHERE planId=#{planId} and isCall = 2) LIMIT 0,1
+	</select>
+	
+	<update id="updateIsCallByPlanId">
+		UPDATE customer_plan_table SET isCall=#{isCall} WHERE planId=#{planId}
+	</update>
+	
+	<update id="updateIsCallByIsCallAndPlanId">
+		UPDATE customer_plan_table SET isCall=#{isCall} WHERE isCall=#{searchIsCall} and planId=#{planId}
+	</update>
+	
+	<resultMap type="com.zxxkj.model.Customer" id="customerList">
+		<result property="id" column="id" />
+		<result property="customerPhone" column="customerPhone" />
+		<result property="customerName" column="customerName" />
+		<result property="company" column="company" />
+	</resultMap>
+	<select id="findCustomerByPlanId" resultMap="customerList">
+		SELECT id,customerPhone,customerName,company FROM customer_table WHERE id 
+		in (SELECT customerId FROM customer_plan_table WHERE planId=#{planId})
+		<if test="cutomerPhone!=null">
+				and customerPhone like "%"#{cutomerPhone}"%"
+			</if>
+	</select>
+	
+	<update id="updateIsCallByIsCall" parameterType="java.lang.Integer">
+		UPDATE customer_plan_table SET isCall=#{newIsCall} WHERE isCall=#{oldIsCall}
+	</update>
+</mapper>

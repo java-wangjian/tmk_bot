@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.zxxkj.dao.AdminMapper">
+
+    <!--新增用户 -->
+    <insert id="addAdmin" parameterType="com.zxxkj.model.Admin">
+	    <selectKey keyProperty="id" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+        insert into admin_table(account,password,addTime,adminId) 
+        values(#{account},#{password},now(),#{adminId});
+    </insert>
+    
+    <select id="findUserByAccountAndPassword"  resultType="com.zxxkj.model.Admin">
+	   select id,account,password from admin_table where account=#{account} and password=#{password};
+	</select>
+
+	<update id="updatePassword" parameterType="String">  
+	    UPDATE admin_table SET admin_table.password = #{password},   
+	     WHERE admin_table.id = #{adminId};   
+	</update> 
+	
+    <!--删除多个用户 -->
+   <!--  <delete id="deleteUsers" parameterType="java.util.List">
+       delete from tb_user where user_id in
+       <foreach>标签有循环的功能，可以用来生成有规律的SQL语句，主要属性有：
+        item：表示集合每一个元素进行迭代时的别名
+        index：表示在迭代过程中，每次迭代到的位置
+        open：表示该语句以什么开始
+        separator：表示每次迭代之间以什么符号作为分隔
+        close：表示该语句以什么结束
+        collection：要循环的集合
+       <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+           #{item}
+         </foreach>
+    </delete> -->
+</mapper>
